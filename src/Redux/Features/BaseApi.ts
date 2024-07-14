@@ -7,7 +7,7 @@ const baseApi = createApi({
     tagTypes: [],
     baseQuery: fetchBaseQuery({ baseUrl: apiUrl }),
     endpoints: (builder) => ({
-        createUser: builder.mutation<any, { email: string; fname: string; lname: string; userName: string, phone : string, password : string, confirmPassword : string }>({
+        createUser: builder.mutation<void, { email: string; fname: string; lname: string; userName: string, phone : string, password : string, confirmPassword : string }>({
             query: ({ email, fname, lname, userName, phone, password, confirmPassword }) => ({
                 url: `/createUser`,
                 method: 'POST',
@@ -18,6 +18,6 @@ const baseApi = createApi({
     })
 })
 
-export const {useCreateUserMutation} = baseApi;
+export const reduxApi = baseApi;
 export default baseApi;
 

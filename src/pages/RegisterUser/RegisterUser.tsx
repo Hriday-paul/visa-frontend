@@ -1,6 +1,6 @@
 import logo from '../../images/logo/btLogo.png'
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useCreateUserMutation } from '../../Redux/Features/BaseApi';
+import baseApi from '../../Redux/Features/BaseApi';
 
 type Inputs = {
     fname: string;
@@ -13,7 +13,7 @@ type Inputs = {
 };
 
 export default function RegisterUser() {
-    const [postUser, {isLoading, isError, isSuccess, error}] = useCreateUserMutation();
+    const [postUser, {isLoading, isError, isSuccess, error}] = baseApi.useCreateUserMutation();
     const {
         register,
         watch,
@@ -28,8 +28,6 @@ export default function RegisterUser() {
             console.log(res)
         })
     }
-
-    console.log(watch('password'))
 
     return (
         <div className="dark:bg-boxdark-2 dark:text-bodydark">
