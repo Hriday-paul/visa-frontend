@@ -13,10 +13,12 @@ const baseApi = createApi({
                 method: 'POST',
                 body: { email, fname, lname, userName, phone, password, confirmPassword }
             }),
-            invalidatesTags: []
+            // invalidatesTags: []
         }),
     })
 })
+
+export const {useCreateUserMutation} = baseApi;
 
 export const reduxApi = baseApi;
 export default baseApi;
