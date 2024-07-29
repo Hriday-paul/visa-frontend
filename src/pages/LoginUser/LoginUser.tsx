@@ -5,14 +5,18 @@ import { ImSpinner } from "react-icons/im";
 import logo from '../../images/logo/btLogo.png'
 import { Link, useNavigate } from "react-router-dom";
 import { MdErrorOutline, MdOutlineDoneAll } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../Redux/Store";
+import { updateUserVerified } from "../../Redux/Slices/UserSlice";
 
-type Inputs = { email: string; username: string, password: string };
+type Inputs = { email: string; password: string };
 type message = { type: 'success' | 'error', message: string };
 
 export default function LoginUser() {
     const [postLoginUser, { isLoading, isError, isSuccess, error, data }] = useLoginUserMutation();
     const [message, setMessage] = useState<message | null>(null);
     const navig = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
 
     const {
         register,
@@ -29,10 +33,10 @@ export default function LoginUser() {
     useMemo(() => {
         if (isSuccess) {
             console.log(data)
-            // toast.success("User registration successfully");
-            setMessage({ type: 'success', message: data });
+            dispatch(updateUserVerified({ isVerified: true, email: data?.email, fullName: data?.first_name + ' ' + data?.last_name, phone: data?.phone_no, userName: data?.username }));
+            setMessage({ type: 'success', message: data?.message });
             reset();
-            navig('/dashboard')
+            navig('/dashboard');
         }
         if (isError) {
             console.log(error)
@@ -70,13 +74,13 @@ export default function LoginUser() {
 
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                    User Name
+                                    Email
                                 </label>
                                 <input
-                                    type="text"
-                                    placeholder="Enter your user name"
-                                    className={`w-full rounded border-[1.5px]  bg-transparent py-3 px-5 text-black outline-none transition ${errors.username ? "border-red-500" : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'} disabled:cursor-default disabled:bg-whiter  dark:bg-form-input dark:text-white`}
-                                    {...register("username", { required: true })}
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    className={`w-full rounded border-[1.5px]  bg-transparent py-3 px-5 text-black outline-none transition ${errors.email ? "border-red-500" : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'} disabled:cursor-default disabled:bg-whiter  dark:bg-form-input dark:text-white`}
+                                    {...register("email", { required: true })}
                                 />
                             </div>
 

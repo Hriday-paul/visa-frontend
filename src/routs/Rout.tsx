@@ -6,9 +6,10 @@ import DashBoardHome from "../pages/Dashboard/DashBoardHome/DashBoardHome";
 import Users from "../pages/Dashboard/Users/Users";
 import RegisterUser from "../pages/RegisterUser/RegisterUser";
 import LoginUser from "../pages/LoginUser/LoginUser";
-import Tourist from "../pages/Dashboard/UserDashboard/Application/Tourist";
-import Business from "../pages/Dashboard/UserDashboard/Application/Business";
-import Student from "../pages/Dashboard/UserDashboard/Application/Student";
+import Verify from "../pages/Verify/Verify";
+import Application from "../pages/Dashboard/UserDashboard/Application/Application";
+import Personal_information from "../pages/Dashboard/UserDashboard/Personal_information/Personal_information";
+import Travel_information from "../pages/Dashboard/UserDashboard/Application/Travel_information";
 
 const Rout = createBrowserRouter([
     {
@@ -29,19 +30,17 @@ const Rout = createBrowserRouter([
             },
             {
                 path: '/dashboard/application',
-                element: <Tourist />
-            },
-            {
-                path: '/dashboard/application/tourist',
-                element: <Tourist />
-            },
-            {
-                path: '/dashboard/application/business',
-                element: <Business />
-            },
-            {
-                path: '/dashboard/application/student',
-                element: <Student />
+                element: <Application />,
+                children: [
+                    {
+                        path: '/dashboard/application',
+                        element: <Personal_information />
+                    },
+                    {
+                        path: '/dashboard/application/travel-information',
+                        element: <Travel_information />
+                    }
+                ]
             },
             {
                 path: '/dashboard/users',
@@ -56,6 +55,10 @@ const Rout = createBrowserRouter([
     {
         path: '/login',
         element: <LoginUser />
+    },
+    {
+        path: '/verify',
+        element: <Verify />
     },
 ]);
 

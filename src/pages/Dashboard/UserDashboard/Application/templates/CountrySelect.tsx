@@ -1,8 +1,11 @@
 import { useMemo } from 'react'
+import { Control, Controller, FieldErrors } from 'react-hook-form'
 import countryList from 'react-select-country-list'
+import { Inputs } from '../../Personal_information/Personal_information'
 
-export default function CountrySelect() {
-    const countries = useMemo(() => countryList().getData(), [])
+export default function CountrySelect({ control, errors, defaultValue }: { control: Control<Inputs>, errors: FieldErrors<Inputs>, defaultValue: string | undefined }) {
+    const countries = useMemo(() => countryList().getData(), []);
+
     return (
         <div>
             <div>
@@ -42,25 +45,35 @@ export default function CountrySelect() {
                         </svg>
                     </span>
 
-                    <select
-                        onChange={(e) => {
+                    <Controller
+                        name="nationality"
+                        control={control}
+                        rules={{ required: "nationality is required" }}
+                        render={({ field }) => (
 
-                        }}
-                        className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input
-                            }`}
-                    >
-                        <option value="" disabled className="text-body dark:text-bodydark">
-                            Select Country
-                        </option>
-                        {
-                            countries?.map(country => {
-                                return <option value={country?.label} className="text-body dark:text-bodydark">
-                                    {country?.label}
+                            <select
+                                onChange={(e) => field.onChange(e.target.value)}
+                                defaultValue={defaultValue}
+                                className={`relative z-20 w-full appearance-none rounded border  bg-transparent py-3 px-12 outline-none transition  dark:bg-form-input ${errors?.nationality ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
+                            >
+                                <option value="" disabled className="text-body dark:text-bodydark">
+                                    Select Country
                                 </option>
-                            })
-                        }
+                                {
+                                    countries?.map((country, indx) => {
+                                        return <option value={country?.label} key={indx + country?.label} className="text-body dark:text-bodydark">
+                                            {country?.label}
+                                        </option>
+                                    })
+                                }
 
-                    </select>
+                            </select>
+
+                        )}
+                    >
+                    </Controller>
+
+
 
                     <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
                         <svg
@@ -85,6 +98,6 @@ export default function CountrySelect() {
 
 
 
-        </div>
+        </div >
     )
 }

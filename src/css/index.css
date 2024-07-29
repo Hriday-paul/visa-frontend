@@ -165,6 +165,22 @@ span.flatpickr-weekday,
 .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
   box-shadow: -10px 0 0 #3c50e0;
 }
+.flatpickr-calendar.arrowBottom:after{
+  @apply !hidden
+}
+.flatpickr-calendar{
+  @apply !p-0
+}
+.flatpickr-month, .flatpickr-monthDropdown-months, .flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month{
+  @apply !bg-primary
+}
+.flatpickr-weekdays, .flatpickr-weekdaycontainer .flatpickr-weekday{
+  @apply !bg-primary !text-white
+}
+
+.flatpickr-month, .flatpickr-monthDropdown-months, .flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+  @apply !bg-primary !text-white
+}
 
 .map-btn .jvm-zoom-btn {
   @apply flex items-center justify-center w-7.5 h-7.5 rounded border border-stroke dark:border-strokedark hover:border-primary dark:hover:border-primary bg-white hover:bg-primary text-body hover:text-white dark:text-bodydark dark:hover:text-white text-2xl leading-none px-0 pt-0 pb-0.5;
@@ -212,4 +228,20 @@ span.flatpickr-weekday,
 
 [x-cloak] {
   display: none !important;
+}
+
+
+/* ---------------verification code ---------- */
+.inputStyle {
+  width: 3rem !important;
+  height: 3rem;
+  margin: 0 1rem;
+  font-size: 2rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color : black;
+  outline: 0;
+}
+.inputStyle:focus{
+  border : 1px solid #3C50E0;
 }

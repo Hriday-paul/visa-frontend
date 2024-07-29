@@ -4,15 +4,19 @@ import { useCreateUserMutation } from '../../Redux/Features/BaseApi';
 import { ImSpinner } from 'react-icons/im';
 import { useMemo, useState } from 'react';
 import { MdErrorOutline, MdOutlineDoneAll } from 'react-icons/md';
-import { Link } from 'react-router-dom';
-// import CustomToast from '../../hooks/CustomToast';
+import { Link, useNavigate } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
+// import { AppDispatch } from '../../Redux/Store';
+// import { addUserDetails } from '../../Redux/Slices/UserSlice';
 
 type Inputs = { email: string; first_name: string; last_name: string; username: string, phone_no: string, password: string, confirm_password: string };
 type message = { type: 'success' | 'error', message: string }
 
 export default function RegisterUser() {
+    const navig = useNavigate();
     const [postUser, { isLoading, isError, isSuccess, error, data }] = useCreateUserMutation();
     const [message, setMessage] = useState<message | null>(null);
+    // const dispatch = useDispatch<AppDispatch>();
     const {
         register,
         watch,
@@ -26,17 +30,22 @@ export default function RegisterUser() {
         if (watch('password') !== watch('confirm_password')) {
             return;
         }
-        postUser(data)
+        localStorage.setItem('user_email', data?.email);
+        // dispatch(addUserDetails({fullName : data?.first_name + ' ' + data?.last_name, userName : data?.username, email : data?.email, phone : data?.phone_no}))
+        postUser(data);
     }
 
     useMemo(() => {
         if (isSuccess) {
             // toast.success("User registration successfully");
+            console.log(data)
             setMessage({ type: 'success', message: 'Registration successfully, ' + data });
             reset();
+            navig('/verify')
         }
         if (isError) {
             const errType = error as { data: { error: string } }
+            console.log(error)
             setMessage({ type: 'error', message: errType?.data?.error || 'something went wrong, try again' })
             // toast.error(errType?.data?.error);
         }
