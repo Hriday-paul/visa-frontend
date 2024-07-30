@@ -53,7 +53,7 @@ export default function CountrySelect({ control, errors, defaultValue }: { contr
 
                             <select
                                 onChange={(e) => field.onChange(e.target.value)}
-                                defaultValue={defaultValue}
+                                defaultValue={defaultValue || 'bangladesh'}
                                 className={`relative z-20 w-full appearance-none rounded border  bg-transparent py-3 px-12 outline-none transition  dark:bg-form-input ${errors?.nationality ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                             >
                                 <option value="" disabled className="text-body dark:text-bodydark">

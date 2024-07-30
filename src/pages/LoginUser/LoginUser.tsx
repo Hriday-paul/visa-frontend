@@ -25,14 +25,13 @@ export default function LoginUser() {
         formState: { errors },
     } = useForm<Inputs>();
 
-    const handleRegister: SubmitHandler<Inputs> = (data) => {
-        setMessage(null)
+    const handleLogin: SubmitHandler<Inputs> = (data) => {
+        setMessage(null);
         postLoginUser(data)
     };
 
     useMemo(() => {
         if (isSuccess) {
-            console.log(data)
             dispatch(updateUserVerified({ isVerified: true, email: data?.email, fullName: data?.first_name + ' ' + data?.last_name, phone: data?.phone_no, userName: data?.username }));
             setMessage({ type: 'success', message: data?.message });
             reset();
@@ -42,7 +41,6 @@ export default function LoginUser() {
             console.log(error)
             const errType = error as { data: { error: string } }
             setMessage({ type: 'error', message: errType?.data?.error || 'something went wrong, try again' })
-            // toast.error(errType?.data?.error);
         }
     }, [isSuccess, isError, reset]);
 
@@ -61,7 +59,7 @@ export default function LoginUser() {
                     </div>
 
 
-                    <form onSubmit={handleSubmit(handleRegister)}>
+                    <form onSubmit={handleSubmit(handleLogin)}>
                         <div className="p-6.5">
 
                             {message && <div className='py-2'>

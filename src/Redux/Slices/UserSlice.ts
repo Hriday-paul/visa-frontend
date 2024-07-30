@@ -48,6 +48,7 @@ const UserSlice = createSlice({
             state.userName = payload.userName;
             state.email = payload.email;
             state.phone = payload.phone;
+            state.isAuthonicated = true;
             state.isVerified = payload.isVerified;
         }
     }

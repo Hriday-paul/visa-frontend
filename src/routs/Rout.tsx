@@ -10,6 +10,7 @@ import Verify from "../pages/Verify/Verify";
 import Application from "../pages/Dashboard/UserDashboard/Application/Application";
 import Personal_information from "../pages/Dashboard/UserDashboard/Personal_information/Personal_information";
 import Travel_information from "../pages/Dashboard/UserDashboard/Application/Travel_information";
+import Visa_information from "../pages/Dashboard/UserDashboard/Application/Visa_information";
 
 const Rout = createBrowserRouter([
     {
@@ -37,8 +38,12 @@ const Rout = createBrowserRouter([
                         element: <Personal_information />
                     },
                     {
-                        path: '/dashboard/application/travel-information',
+                        path: '/dashboard/application/2',
                         element: <Travel_information />
+                    },
+                    {
+                        path: '/dashboard/application/3',
+                        element: <Visa_information />
                     }
                 ]
             },

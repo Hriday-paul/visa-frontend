@@ -15,7 +15,7 @@ const initStep: stepType = {
             title: 'Travel Information',
         },
         {
-            title: 'Visa Information',
+            title: 'Passport Information',
         },
         {
             title: 'Documents',
