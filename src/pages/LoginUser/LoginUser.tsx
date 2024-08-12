@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLoginUserMutation } from "../../Redux/Features/BaseApi";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ImSpinner } from "react-icons/im";
@@ -8,6 +8,7 @@ import { MdErrorOutline, MdOutlineDoneAll } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../Redux/Store";
 import { updateUserVerified } from "../../Redux/Slices/UserSlice";
+import { useCookies } from "react-cookie";
 
 type Inputs = { email: string; password: string };
 type message = { type: 'success' | 'error', message: string };
@@ -17,6 +18,7 @@ export default function LoginUser() {
     const [message, setMessage] = useState<message | null>(null);
     const navig = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
+    const [, setCookie] = useCookies(['baerer-token']);
 
     const {
         register,
@@ -30,8 +32,15 @@ export default function LoginUser() {
         postLoginUser(data)
     };
 
-    useMemo(() => {
+    useEffect(() => {
         if (isSuccess) {
+            setCookie('baerer-token', data?.token, {
+                httpOnly: false,
+                maxAge: 14 * 24 * 60 * 60, // 7 days
+                path: '/',
+                sameSite: 'lax',
+                secure: import.meta.env.VITE_NODE_ENV === 'production',
+            });
             dispatch(updateUserVerified({ isVerified: true, email: data?.email, fullName: data?.first_name + ' ' + data?.last_name, phone: data?.phone_no, userName: data?.username }));
             setMessage({ type: 'success', message: data?.message });
             reset();

@@ -16,6 +16,7 @@ export type TravelInput_types = {
   emergency_contact_relationship: string;
   emergency_contact_phone: string;
   emergency_contact_email: string;
+  accommodation_details: string;
 }
 
 export default function Travel_information() {
@@ -37,6 +38,7 @@ export default function Travel_information() {
       emergency_contact_phone: draft?.emergency_contact_phone || '',
       emergency_contact_email: draft?.emergency_contact_email || '',
       planned_duration_of_stay: draft?.planned_duration_of_stay,
+      accommodation_details: draft?.accommodation_details,
     }
   });
 
@@ -205,6 +207,16 @@ export default function Travel_information() {
                 placeholder="Write why you visit"
                 rows={5}
                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.visa_type ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
+              />
+            </div>
+            <div className="w-full xl:w-1/2">
+              <label className="mb-2.5 block text-black dark:text-white">
+                Accommodation Details
+              </label>
+              <input
+                {...register("accommodation_details", { required: true })}
+                placeholder="house, road, place"
+                className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.accommodation_details ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
               />
             </div>
           </div>

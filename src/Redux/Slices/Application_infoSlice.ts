@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Inputs } from "../../pages/Dashboard/UserDashboard/Personal_information/Personal_information";
 import { TravelInput_types } from "../../pages/Dashboard/UserDashboard/Application/Travel_information";
+import { Visa_information_types } from "../../pages/Dashboard/UserDashboard/Application/Visa_information";
 
 type infoType = {
     full_name: string,
@@ -15,10 +16,10 @@ type infoType = {
     state_province: string;
     marital_status: 'Merit' | 'Unmerit' | '';
     educational_background: string;
-    health_information: string;
     gender: 'Male' | 'Female' | 'Others' | '',
     visa_type: 'Tourist' | 'Business' | 'Student' | 'Work' | 'Medical' | 'Family',
     purpose_of_visit: string;
+    accommodation_details: string;
     emergency_contact_name: string;
     emergency_contact_relationship: string;
     emergency_contact_phone: string;
@@ -28,7 +29,12 @@ type infoType = {
     passport_issue_date: string;
     passport_expiry_date: string;
     country_of_passport_issuance: string;
-}
+    user_photo: null | string | File,
+    passport_photo: null | string | File,
+    health_ensurence: null | string | File,
+    travel_insurance: null | string | File,
+    applicant_signature: null | string | File
+};
 
 const initStep: infoType = {
     full_name: '',
@@ -43,10 +49,10 @@ const initStep: infoType = {
     state_province: '',
     marital_status: '',
     educational_background: '',
-    health_information: '',
     gender: '',
     visa_type: 'Tourist',
     purpose_of_visit: '',
+    accommodation_details: '',
     emergency_contact_name: '',
     emergency_contact_relationship: '',
     planned_duration_of_stay: 0,
@@ -56,6 +62,11 @@ const initStep: infoType = {
     passport_issue_date: '',
     passport_expiry_date: '',
     country_of_passport_issuance: '',
+    user_photo: '',
+    passport_photo: '',
+    health_ensurence: '',
+    travel_insurance: '',
+    applicant_signature: ''
 };
 
 
@@ -76,9 +87,8 @@ const Application_infoSlice = createSlice({
             state.state_province = payload.state_province;
             state.marital_status = payload.marital_status;
             state.educational_background = payload.educational_background;
-            state.health_information = payload.health_information;
             state.gender = payload.gender;
-            
+
         },
         addTravelInfo: (state, { payload }: PayloadAction<TravelInput_types>) => {
             state.visa_type = payload.visa_type;
@@ -88,9 +98,43 @@ const Application_infoSlice = createSlice({
             state.emergency_contact_phone = payload.emergency_contact_phone;
             state.emergency_contact_email = payload.emergency_contact_email;
             state.planned_duration_of_stay = payload.planned_duration_of_stay;
-        }
+            state.accommodation_details = payload.accommodation_details;
+        },
+        addVisaInfo: (state, { payload }: PayloadAction<Visa_information_types>) => {
+            state.passport_no = payload.passport_no;
+            state.passport_issue_date = payload.passport_issue_date;
+            state.passport_expiry_date = payload.passport_expiry_date;
+            state.country_of_passport_issuance = payload.country_of_passport_issuance;
+        },
+        resetApplication: (state) => {
+            state.full_name = '';
+            state.email = '';
+            state.phone_number = '';
+            state.permanent_address = '';
+            state.present_address = '';
+            state.city = '';
+            state.nationality = '';
+            state.occupation = '';
+            state.date_of_birth = '';
+            state.state_province = '';
+            state.marital_status = 'Unmerit';
+            state.educational_background = '';
+            state.gender = 'Male';
+            state.visa_type = 'Student';
+            state.purpose_of_visit = '';
+            state.emergency_contact_name = '';
+            state.emergency_contact_relationship = '';
+            state.emergency_contact_phone = '';
+            state.emergency_contact_email = '';
+            state.planned_duration_of_stay = 0;
+            state.accommodation_details = '';
+            state.passport_no = '';
+            state.passport_issue_date = '';
+            state.passport_expiry_date = '';
+            state.country_of_passport_issuance = '';
+        },
     }
 });
 
-export const { addPersonalInfo, addTravelInfo } = Application_infoSlice.actions
+export const { addPersonalInfo, addTravelInfo, addVisaInfo, resetApplication } = Application_infoSlice.actions
 export default Application_infoSlice.reducer;

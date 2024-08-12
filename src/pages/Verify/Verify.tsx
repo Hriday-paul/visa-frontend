@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../Redux/Store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserVerified } from "../../Redux/Slices/UserSlice";
+import { useCookies } from "react-cookie";
 
 type message = { type: 'success' | 'error', message: string }
 
@@ -18,6 +19,7 @@ export default function Verify() {
     const navig = useNavigate();
     const userInfo = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch<AppDispatch>();
+    const [, setCookie] = useCookies(['baerer-token']);
 
     const submitOtp = useCallback(() => {
         const local_store_email = localStorage.getItem('user_email');
@@ -54,6 +56,13 @@ export default function Verify() {
 
     useMemo(() => {
         if (isSuccess) {
+            setCookie('baerer-token', data?.token, {
+                httpOnly: false,
+                maxAge: 14 * 24 * 60 * 60, // 7 days
+                path: '/',
+                sameSite: 'lax',
+                secure: import.meta.env.VITE_NODE_ENV === 'production',
+            });
             dispatch(updateUserVerified({ isVerified: true, email: data?.email, fullName: data?.first_name + ' ' + data?.last_name, phone: data?.phone_no, userName: data?.username }))
             localStorage.removeItem('user_email');
             setMessage({ type: 'success', message: data?.message });

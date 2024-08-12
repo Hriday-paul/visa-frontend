@@ -11,6 +11,9 @@ import Application from "../pages/Dashboard/UserDashboard/Application/Applicatio
 import Personal_information from "../pages/Dashboard/UserDashboard/Personal_information/Personal_information";
 import Travel_information from "../pages/Dashboard/UserDashboard/Application/Travel_information";
 import Visa_information from "../pages/Dashboard/UserDashboard/Application/Visa_information";
+import Documents from "../pages/Dashboard/UserDashboard/Application/Documents";
+import UserSupport from "../pages/Dashboard/UserSupport/UserSupport";
+import VisaStatus from "../pages/Dashboard/VisaStatus/VisaStatus";
 
 const Rout = createBrowserRouter([
     {
@@ -44,8 +47,21 @@ const Rout = createBrowserRouter([
                     {
                         path: '/dashboard/application/3',
                         element: <Visa_information />
-                    }
+                    },
+                    {
+                        path: '/dashboard/application/4',
+                        element: <Documents />
+                    },
+
                 ]
+            },
+            {
+                path: '/dashboard/support',
+                element: <UserSupport />
+            },
+            {
+                path: '/dashboard/visa-status',
+                element: <VisaStatus />
             },
             {
                 path: '/dashboard/users',
