@@ -40,7 +40,8 @@ const baseApi = createApi({
     reducerPath: 'api',
     tagTypes: [],
     baseQuery: fetchBaseQuery({
-        baseUrl: apiUrl}),
+        baseUrl: apiUrl
+    }),
     endpoints: (builder) => ({
         createUser: builder.mutation<void, { email: string; first_name: string; last_name: string; username: string, phone_no: string, password: string, confirm_password: string }>({
             query: ({ email, first_name, last_name, username, phone_no, password, confirm_password }) => ({
@@ -67,11 +68,11 @@ const baseApi = createApi({
             query: (data) => ({
                 url: `/visa/visaapplication/`,
                 method: 'POST',
-                credentials : 'include',
                 body: data,
                 headers: {
-                    Application: `Bearer ${data.get('token')}`
-                }
+                    Authorization: `Bearer ${data.get('token')}`,
+                },
+                
             }),
             // invalidatesTags: []
         }),
@@ -79,21 +80,38 @@ const baseApi = createApi({
             query: ({ formData, token }) => ({
                 url: `/support/support/`,
                 method: 'POST',
-                credentials : 'include',
+                credentials: 'include',
                 body: formData,
                 headers: {
-                    Application: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             }),
         }),
-        notification: builder.query<{ title : string ; message: string; created_at : string }[], void>({
+        visaStatus: builder.mutation<{ massage: string, visa_status: string, update_at: string }, { id: string }>({
+            query: ({ id }) => ({
+                url: `/visa/visa-status/${id}`,
+                method: 'GET',
+            }),
+        }),
+        notification: builder.query<{ title: string; message: string; created_at: string }[], void>({
             query: () => `/notification/notification/`,
             // providesTags: []
         }),
+        allApplication: builder.query<{ title: string; message: string; created_at: string }[], { token: string }>({
+            query: ({ token }) => ({
+                url: `/visa/visaapplication/`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }),
+            // providesTags: []
+        }),
+
     })
 })
 
-export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation } = baseApi;
+export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery } = baseApi;
 
 export const reduxApi = baseApi;
 export default baseApi;

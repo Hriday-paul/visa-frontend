@@ -2,8 +2,28 @@ import { Empty } from "antd";
 import { MdOutlineLocalPolice, MdPendingActions } from "react-icons/md";
 import { SiTicktick } from "react-icons/si";
 import { TbDeviceIpadMinus } from "react-icons/tb";
+import Message from "./Template/Message";
+import { useVisaStatusMutation } from "../../../Redux/Features/BaseApi";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ImSpinner8 } from "react-icons/im";
+import StatusError from "./Template/StatusError";
+
+type Inputs = { id: string; };
 
 export default function VisaStatus() {
+    const [getStatus, { isLoading, isError, isSuccess, error, data }] = useVisaStatusMutation();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<Inputs>();
+
+    const handleTracking: SubmitHandler<Inputs> = (data) => {
+        // console.log(data)
+        getStatus(data)
+    };
+
     return (
         <div className="max-w-270 w-full">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
@@ -14,72 +34,81 @@ export default function VisaStatus() {
                 </div>
 
                 <div className="p-6 5">
-                    <div className="w-full xl:w-1/2 mx-auto flex">
-                        {/* <h3 className="text-center text-lg font-medium mb-2"></h3> */}
+                    <form onSubmit={handleSubmit(handleTracking)} className="w-full md:w-2/3 xl:w-1/2 mx-auto flex">
+
                         <input
                             type="text"
+                            {...register("id", { required: true })}
                             placeholder="Enter your Tracking Id"
-                            required
-                            className="w-full rounded-md rounded-r-none border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white "
+                            className={`w-full rounded rounded-r-none border-[1.5px] border-r-0 bg-transparent py-3 px-5 text-black outline-none transition ${errors.id ? "border-red-500" : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'} disabled:cursor-default disabled:bg-whiter  dark:bg-form-input dark:text-white`}
                         />
                         <button className="bg-primary px-8 py-2 text-white">Track</button>
-                    </div>
+                    </form>
 
-
-                    <div className="bg-white dark:bg-boxdark min-h-80 flex justify-center items-center">
-                        {/* <Empty /> */}
-
-
-                        <div className="mb-8 text-center w-full relative px-12 flex flex-col my-10">
-
-                            <ul className="mx-1 before:top-18 before:absolute before:border-t before:border-dashed before:h-0 before:left-20 lg:before:left-16 xl:before:left-28 md:before:block before:w-4/5 flex flex-col gap-y-8 md:gap-y-0 md:flex-row justify-between items-center mt-5 before:hidden">
-                                <li className="z-10 ">
-                                    <span className="h-24 w-24 bg-white dark:bg-form-input  border-2 border-primary hover:bg-primary dark:hover:bg-primary hover:border-transparent group rounded-full flex justify-center items-center">
-                                        <MdPendingActions className="text-4xl text-primary group-hover:text-white dark:text-slate-100" />
-                                    </span>
+                    {
+                        isLoading ?
+                            <div className="min-h-80 flex justify-center items-center">
+                                <ImSpinner8 className="text-4xl text-primary animate-spin" />
+                            </div>
+                            :
+                            isError ?
+                                <div className="min-h-80 flex justify-center items-center">
+                                    <StatusError error={error} />
+                                </div>
+                                :
+                                isSuccess ?
                                     <div>
-                                        <p className="mt-2 text-center dark:text-slate-300">Step 1 </p>
-                                        <h3 className="text-xl font-medium text-black -mt-1 text-center dark:text-slate-100">Pending</h3>
-                                    </div>
-                                </li>
-                                <li className="z-10 ">
-                                    <div className="mx-auto flex justify-center items-center">
-                                        <div className="h-24 w-24 bg-white border-2 border-primary hover:bg-primary hover:border-white group rounded-full flex justify-center items-center">
-                                            <TbDeviceIpadMinus className="text-4xl text-primary group-hover:text-white" />
+                                        <div className="bg-white dark:bg-boxdark min-h-80 flex justify-center items-center">
+
+                                            <div className="mb-8 text-center w-full relative px-12 flex flex-col my-10">
+                                                <ul className="mx-1 before:top-18 before:absolute before:border-t before:border-dashed before:h-0 before:left-20 lg:before:left-16 xl:before:left-28 md:before:block before:w-4/5 flex flex-col gap-y-8 md:gap-y-0 md:flex-row justify-between items-center mt-5 before:hidden">
+                                                    <li className="z-10">
+                                                        <span className={`h-24 w-24 border-2 border-primary hover:bg-primary dark:hover:bg-primary hover:border-transparent group rounded-full flex justify-center items-center ${data?.visa_status === 'Panding' ? 'bg-primary dark:bg-primary' : 'bg-white dark:bg-form-input'}`}>
+                                                            <MdPendingActions className={`text-4xl ${data?.visa_status === 'Panding' ? 'text-white' : 'text-primary group-hover:text-white dark:text-slate-100'}`} />
+                                                        </span>
+                                                        <div>
+                                                            <p className="mt-2 text-center dark:text-slate-300">Step 1 </p>
+                                                            <h3 className="text-xl font-medium text-black -mt-1 text-center dark:text-slate-100">Pending</h3>
+                                                        </div>
+                                                    </li>
+                                                    <li className="z-10 ">
+                                                        <div className="mx-auto flex justify-center items-center">
+                                                            <div className={`h-24 w-24 border-2 border-primary hover:bg-primary dark:hover:bg-primary hover:border-transparent hover:border-white group rounded-full flex justify-center items-center ${data?.visa_status === 'AdminApprove' ? 'bg-primary dark:bg-primary' : 'bg-white dark:bg-form-input'}`}>
+                                                                <TbDeviceIpadMinus className={`text-4xl ${data?.visa_status === 'AdminApprove' ? 'text-white' : 'text-primary group-hover:text-white dark:text-slate-100'}`} />
+                                                            </div>
+                                                        </div>
+                                                        <p className="mt-2 text-center dark:text-slate-300">Step 2 </p>
+                                                        <h3 className="text-xl font-medium text-black -mt-1 text-center dark:text-slate-100">Admin approve</h3>
+                                                    </li>
+                                                    <li className="z-10">
+                                                        <div className="mx-auto flex justify-center items-center">
+                                                            <div className={`h-24 w-24 border-2 border-primary hover:bg-primary dark:hover:bg-primary hover:border-transparent hover:border-white group rounded-full flex justify-center items-center ${data?.visa_status === 'PoliceVerification' ? 'bg-primary dark:bg-primary' : 'bg-white dark:bg-form-input '}`}>
+                                                                <MdOutlineLocalPolice className={`text-4xl ${data?.visa_status === 'PoliceVerification' ? 'text-white' : 'text-primary group-hover:text-white dark:text-slate-100'}`} />
+                                                            </div>
+                                                        </div>
+                                                        <p className="mt-2 text-center dark:text-slate-300">Step 3 </p>
+                                                        <h3 className="text-xl font-medium text-black -mt-1 text-center dark:text-slate-100">Police verification</h3>
+                                                    </li>
+                                                    <li className="z-10 ">
+                                                        <div className={`h-24 w-24 border-2 border-primary hover:bg-primary dark:hover:bg-primary hover:border-transparent hover:border-white group rounded-full flex justify-center items-center ${data?.visa_status === 'Approved' ? 'bg-primary dark:bg-primary' : 'bg-white dark:bg-form-input '}`}>
+                                                            <SiTicktick className={`text-4xl ${data?.visa_status === 'Approved' ? 'text-white' : 'text-primary group-hover:text-white dark:text-slate-100'}`} />
+                                                        </div>
+                                                        <p className="mt-2 text-center dark:text-slate-300">Step 4 </p>
+                                                        <h3 className="text-xl font-medium text-black -mt-1 text-center dark:text-slate-100">Approved</h3>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <p className="mt-2 text-center">Step 2 </p>
-                                    <h3 className="text-xl font-medium text-black -mt-1 text-center">Admin approve</h3>
-                                </li>
-                                <li className="z-10">
-                                    <div className="mx-auto flex justify-center items-center">
-                                        <div className="h-24 w-24 bg-white border-2 border-primary hover:bg-primary hover:border-white group rounded-full flex justify-center items-center">
-                                            <MdOutlineLocalPolice className="text-4xl text-primary group-hover:text-white" />
-                                        </div>
-                                    </div>
-                                    <p className="mt-2 text-center">Step 3 </p>
-                                    <h3 className="text-xl font-medium text-black -mt-1 text-center">Police verification</h3>
-                                </li>
-                                <li className="z-10 ">
-                                    <div className="h-24 w-24 bg-white border-2 border-primary hover:bg-primary hover:border-white group rounded-full flex justify-center items-center">
-                                        <SiTicktick className="text-4xl text-primary group-hover:text-white" />
-                                    </div>
-                                    <p className="mt-2 text-center">Step 4 </p>
-                                    <h3 className="text-xl font-medium text-black -mt-1 text-center">Approved</h3>
-                                </li>
-                            </ul>
 
-
-                        </div>
-
-                    </div>
-                    <div className="px-12 py-8 border-t border-slate-200">
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet qui quasi modi fugiat aut ipsa mollitia nulla quaerat culpa omnis?</p>
-                    </div>
+                                        <Message msg={data?.massage || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure possimus aut, quia explicabo doloremque harum reiciendis reprehenderit quo ut perferendis."} />
+                                    </div>
+                                    :
+                                    <div className="min-h-80 flex justify-center items-center">
+                                        <Empty />
+                                    </div>
+                    }
 
                 </div>
-
-
             </div>
         </div>
     )
