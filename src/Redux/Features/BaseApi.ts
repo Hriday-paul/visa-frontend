@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, } from '@reduxjs/toolkit/query/react';
 import { userSupportType } from '../../pages/Dashboard/UserSupport/UserSupport';
+import { ApplicationResponseType } from './Types';
 
 const apiUrl = import.meta.env.VITE_API_URL as string;
 
@@ -38,7 +39,7 @@ export type addApplicationType = {
 
 const baseApi = createApi({
     reducerPath: 'api',
-    tagTypes: [],
+    tagTypes: ['Application'],
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl
     }),
@@ -50,14 +51,14 @@ const baseApi = createApi({
                 body: { email, first_name, last_name, username, password, password2: confirm_password, phone_no }
             }),
         }),
-        verifyUser: builder.mutation<{ token: String; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string }, { email: string; code: string; }>({
+        verifyUser: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string }, { email: string; code: string; }>({
             query: ({ email, code }) => ({
                 url: `/account/active/`,
                 method: 'POST',
                 body: { email, otp: code }
             }),
         }),
-        loginUser: builder.mutation<{ token: String; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string }, { email: string; password: string }>({
+        loginUser: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string }, { email: string; password: string }>({
             query: ({ email, password }) => ({
                 url: `/account/login/`,
                 method: 'POST',
@@ -72,7 +73,7 @@ const baseApi = createApi({
                 headers: {
                     Authorization: `Bearer ${data.get('token')}`,
                 },
-                
+
             }),
             // invalidatesTags: []
         }),
@@ -80,7 +81,6 @@ const baseApi = createApi({
             query: ({ formData, token }) => ({
                 url: `/support/support/`,
                 method: 'POST',
-                credentials: 'include',
                 body: formData,
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -97,22 +97,71 @@ const baseApi = createApi({
             query: () => `/notification/notification/`,
             // providesTags: []
         }),
-        allApplication: builder.query<{ title: string; message: string; created_at: string }[], { token: string }>({
+        allApplication: builder.query<ApplicationResponseType[], { token: string }>({
             query: ({ token }) => ({
                 url: `/visa/visaapplication/`,
                 method: 'GET',
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
                 }
             }),
             // providesTags: []
         }),
-
+        applicationDetails: builder.query<ApplicationResponseType, { token: string, id: number | string }>({
+            query: ({ token, id }) => ({
+                url: `/visa/visaapplication/${id}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+            // providesTags: (result, error, { id }): { type: string; id: string | number }[] => [
+            //     { type: 'Application', id },
+            // ],
+        }),
+        updateAccessToModifyApplication: builder.mutation<{ message: string }, { id: any, token: string, is_modified: boolean }>({
+            query: (data) => ({
+                url: `/visa/visaapplication/${data?.id}`,
+                method: 'PUT',
+                body: { is_modified: data?.is_modified },
+                headers: {
+                    Authorization: `Bearer ${data?.token}`
+                }
+            }),
+        }),
+        approveApplication: builder.mutation<{ message: string }, { id: any, token: string, is_approved: boolean }>({
+            query: (data) => ({
+                url: `/visa/visaapplication/${data?.id}`,
+                method: 'PUT',
+                body: { is_approved: data?.is_approved },
+                headers: {
+                    Authorization: `Bearer ${data?.token}`
+                }
+            }),
+        }),
+        rejectApplication: builder.mutation<{ message: string }, { id: any, token: string, rejected: boolean }>({
+            query: (data) => ({
+                url: `/visa/visaapplication/${data?.id}`,
+                method: 'PUT',
+                body: { rejected: data?.rejected },
+                headers: {
+                    Authorization: `Bearer ${data?.token}`
+                }
+            }),
+            invalidatesTags: (result, error, { id }) => [id],
+        }),
     })
 })
 
-export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery } = baseApi;
+export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation } = baseApi;
 
 export const reduxApi = baseApi;
+
+
+
+
+
+
+
 export default baseApi;
 

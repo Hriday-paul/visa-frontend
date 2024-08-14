@@ -56,7 +56,8 @@ export default function Verify() {
 
     useMemo(() => {
         if (isSuccess) {
-            setCookie('baerer-token', data?.token, {
+            
+            setCookie('baerer-token', data?.token?.access, {
                 httpOnly: false,
                 maxAge: 14 * 24 * 60 * 60, // 7 days
                 path: '/',

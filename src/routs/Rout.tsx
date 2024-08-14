@@ -16,6 +16,7 @@ import UserSupport from "../pages/Dashboard/UserSupport/UserSupport";
 import VisaStatus from "../pages/Dashboard/VisaStatus/VisaStatus";
 import AdminRoot from "../pages/Admin/AdminRoot/AdminRoot";
 import AllAppplicatons from "../pages/Admin/AllAppplicatons/AllAppplicatons";
+import ApplicationDetails from "../pages/Admin/ApplicationDetails/ApplicationDetails";
 
 const Rout = createBrowserRouter([
     {
@@ -78,6 +79,10 @@ const Rout = createBrowserRouter([
             {
                 path: '/admin/applications',
                 element: <AllAppplicatons />
+            },
+            {
+                path: '/admin/applications/:id',
+                element: <ApplicationDetails />
             },
         ]
     },
