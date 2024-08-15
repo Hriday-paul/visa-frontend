@@ -17,6 +17,7 @@ import VisaStatus from "../pages/Dashboard/VisaStatus/VisaStatus";
 import AdminRoot from "../pages/Admin/AdminRoot/AdminRoot";
 import AllAppplicatons from "../pages/Admin/AllAppplicatons/AllAppplicatons";
 import ApplicationDetails from "../pages/Admin/ApplicationDetails/ApplicationDetails";
+import Private from "../components/Shared/Private";
 
 const Rout = createBrowserRouter([
     {
@@ -33,27 +34,27 @@ const Rout = createBrowserRouter([
         children: [
             {
                 path: '/dashboard',
-                element: <DashBoardHome />
+                element: <Private><DashBoardHome /></Private>
             },
             {
                 path: '/dashboard/application',
-                element: <Application />,
+                element: <Private><Application /></Private>,
                 children: [
                     {
                         path: '/dashboard/application',
-                        element: <Personal_information />
+                        element: <Private><Personal_information /></Private>
                     },
                     {
                         path: '/dashboard/application/2',
-                        element: <Travel_information />
+                        element: <Private><Travel_information /></Private>
                     },
                     {
                         path: '/dashboard/application/3',
-                        element: <Visa_information />
+                        element: <Private><Visa_information /></Private>
                     },
                     {
                         path: '/dashboard/application/4',
-                        element: <Documents />
+                        element: <Private><Documents /></Private>
                     },
 
                 ]
@@ -74,15 +75,15 @@ const Rout = createBrowserRouter([
     },
     {
         path: '/admin',
-        element: <AdminRoot />,
+        element: <Private><AdminRoot /></Private>,
         children: [
             {
                 path: '/admin/applications',
-                element: <AllAppplicatons />
+                element: <Private><AllAppplicatons /></Private>
             },
             {
                 path: '/admin/applications/:id',
-                element: <ApplicationDetails />
+                element: <Private><ApplicationDetails /></Private>
             },
         ]
     },

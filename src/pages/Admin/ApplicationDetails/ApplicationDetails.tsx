@@ -11,11 +11,12 @@ import { ImSpinner8 } from "react-icons/im";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-
 export default function ApplicationDetails() {
+
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
     const params = useParams();
+    
     const { isLoading, isError, isSuccess, data: applicationDetails } = useApplicationDetailsQuery({ id: params?.id || 0, token });
     const [postAccessModify, { isError: accessModifyIsError, isSuccess: accessModifySuccess, error: accessModifyError, data: accessModifyData, isLoading: accessModifyLoding }] = useUpdateAccessToModifyApplicationMutation();
     const [postApproveApplication, { isError: approveApplicationIsError, isSuccess: approveApplicationSuccess, error: approveApplicationError, data: approveApplicationData, isLoading: approveApplicationLoding }] = useApproveApplicationMutation();
@@ -41,6 +42,9 @@ export default function ApplicationDetails() {
             const errType = accessModifyError as { data: { error: string } }
             toast.error(errType?.data?.error || "Access to modify update failed")
         }
+    }, [accessModifySuccess, accessModifyIsError, accessModifyError]);
+
+    useEffect(() => {
         if (approveApplicationSuccess) {
             toast.success(approveApplicationData?.message || "Approve application successfully")
         }
@@ -48,6 +52,9 @@ export default function ApplicationDetails() {
             const errType = approveApplicationError as { data: { error: string } }
             toast.error(errType?.data?.error || "Approve application failed")
         }
+    }, [approveApplicationSuccess, approveApplicationIsError, approveApplicationError])
+
+    useEffect(() => {
         if (rejectApplicationSuccess) {
             toast.success(rejectApplicationData?.message || "Application reject successfully")
         }
@@ -55,9 +62,7 @@ export default function ApplicationDetails() {
             const errType = rejectApplicationError as { data: { error: string } }
             toast.error(errType?.data?.error || "Application reject failed")
         }
-    }, [accessModifySuccess, accessModifyIsError, accessModifyError, approveApplicationSuccess, approveApplicationIsError, approveApplicationError, rejectApplicationSuccess, rejectApplicationIsError, rejectApplicationError]);
-
-
+    }, [rejectApplicationSuccess, rejectApplicationIsError, rejectApplicationError])
 
     return (
         <Spin spinning={accessModifyLoding || approveApplicationLoding || rejectApplicationLoding} size="large" indicator={<ImSpinner8 className="text-4xl animate-spin" />}>
@@ -66,8 +71,8 @@ export default function ApplicationDetails() {
                     {
                         isLoading ? <AdminLoading /> : isError ? <AdminError /> : !isSuccess ? <></> : <div>
                             <div>
-                                <div className="flex flex-row justify-between gap-x-3">
-                                    <div className="flex flex-row gap-x-5 items-center">
+                                <div className="flex flex-col md:flex-row justify-between gap-x-0 md:gap-x-5  gap-y-5 md:gap-y-0">
+                                    <div className="flex flex-row gap-x-5 md:gap-x-3 lg:gap-x-5 items-center">
                                         <div>
                                             <h2 className="text-xl font-medium text-black dark:text-white">{applicationDetails?.full_name}</h2>
                                             <ul className="my-3">
@@ -81,24 +86,35 @@ export default function ApplicationDetails() {
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div className="border-l border-stroke dark:border-strokedark pl-3">
+                                        <div className="border-l border-stroke dark:border-strokedark pl-0 lg:pl-3">
                                             <img src={applicationDetails?.user_photo} loading="lazy" alt="user photo" className="h-24 w-auto" />
                                         </div>
                                     </div>
-                                    <div>
-                                        <div className="dropdown dropdown-end">
+                                    <div className="flex flex-row gap-y-3 md:gap-y-0 gap-x-5 md:gap-x-3 lg:gap-x-10 items-center flex-wrap">
+                                        <div className="flex flex-row gap-x-3 items-center">
+                                            {
+                                                applicationDetails?.is_approved && < p className={`dark:text-white  inline-flex rounded-full bg-opacity-10 py-1 px-3 text-xs lg:text-sm font-medium bg-success text-success`}>Approved</p>
+                                            }
+                                            {
+                                                applicationDetails?.is_modified && < p className={`dark:text-white  inline-flex rounded-full bg-opacity-10 py-1 px-3 text-xs lg:text-sm font-medium bg-success text-success`}>Modify access</p>
+                                            }
+                                            {
+                                                applicationDetails?.rejected && < p className={`dark:text-white  inline-flex rounded-full bg-opacity-10 py-1 px-3 text-xs lg:text-sm font-medium bg-danger text-danger`}>Rejected</p>
+                                            }
+                                        </div>
+                                        <div className="dropdown dropdown-end ">
                                             <div tabIndex={0} role="button" className="inline-flex items-center justify-center gap-x-1 rounded bg-primary py-2 px-3 text-center font-medium text-white hover:bg-opacity-90 lg:px-5 m-1">
                                                 Edit
                                                 <HiOutlineDotsVertical />
                                             </div>
-                                            <ul tabIndex={0} className="dropdown-content z-[1] w-52 p-2 shadow-6 bg-white rounded">
-                                                <li onClick={handleAccessToModify} className="p-2 pl-4 hover:bg-slate-100 duration-200 rounded cursor-pointer">
+                                            <ul tabIndex={0} className="dropdown-content z-[1] w-52 p-2 shadow-6 bg-white dark:bg-boxdark-2 rounded">
+                                                <li onClick={handleAccessToModify} className="p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer">
                                                     <p>Access to modify</p>
                                                 </li>
-                                                <li onClick={handleAproveApplication} className="p-2 pl-4 hover:bg-slate-100 duration-200 rounded cursor-pointer">
+                                                <li onClick={handleAproveApplication} className="p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer">
                                                     <p>Approve</p>
                                                 </li>
-                                                <li onClick={handleRejectApplication} className="p-2 pl-4 hover:bg-slate-100 duration-200 rounded cursor-pointer">
+                                                <li onClick={handleRejectApplication} className="p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer">
                                                     <p>Reject</p>
                                                 </li>
                                             </ul>
@@ -253,6 +269,6 @@ export default function ApplicationDetails() {
                 </div>
 
             </div>
-        </Spin>
+        </Spin >
     )
 }

@@ -39,7 +39,7 @@ export type addApplicationType = {
 
 const baseApi = createApi({
     reducerPath: 'api',
-    tagTypes: ['Application'],
+    tagTypes: ['Application', 'allApplication'],
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl
     }),
@@ -105,9 +105,9 @@ const baseApi = createApi({
                     Authorization: `Bearer ${token}`,
                 }
             }),
-            // providesTags: []
+            providesTags: ['allApplication']
         }),
-        applicationDetails: builder.query<ApplicationResponseType, { token: string, id: number | string }>({
+        applicationDetails: builder.query<ApplicationResponseType, { token: string, id: any }>({
             query: ({ token, id }) => ({
                 url: `/visa/visaapplication/${id}`,
                 method: 'GET',
@@ -115,9 +115,9 @@ const baseApi = createApi({
                     Authorization: `Bearer ${token}`,
                 },
             }),
-            // providesTags: (result, error, { id }): { type: string; id: string | number }[] => [
-            //     { type: 'Application', id },
-            // ],
+            providesTags: (result, error, { id }) => [
+                { type: 'Application', id }
+            ],
         }),
         updateAccessToModifyApplication: builder.mutation<{ message: string }, { id: any, token: string, is_modified: boolean }>({
             query: (data) => ({
@@ -128,6 +128,7 @@ const baseApi = createApi({
                     Authorization: `Bearer ${data?.token}`
                 }
             }),
+            invalidatesTags: (result, error, { id }) => [{ type: 'Application', id }],
         }),
         approveApplication: builder.mutation<{ message: string }, { id: any, token: string, is_approved: boolean }>({
             query: (data) => ({
@@ -138,6 +139,7 @@ const baseApi = createApi({
                     Authorization: `Bearer ${data?.token}`
                 }
             }),
+            invalidatesTags: (result, error, { id }) => [{ type: 'Application', id }],
         }),
         rejectApplication: builder.mutation<{ message: string }, { id: any, token: string, rejected: boolean }>({
             query: (data) => ({
@@ -148,12 +150,22 @@ const baseApi = createApi({
                     Authorization: `Bearer ${data?.token}`
                 }
             }),
-            invalidatesTags: (result, error, { id }) => [id],
+            invalidatesTags: (result, error, { id }) => [{ type: 'Application', id }],
+        }),
+        deleteOneApplication: builder.mutation<{ message: string }, { id: number, token: string }>({
+            query: (data) => ({
+                url: `/visa/visaapplication/${data?.id}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${data?.token}`
+                }
+            }),
+            invalidatesTags: ['allApplication'],
         }),
     })
 })
 
-export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation } = baseApi;
+export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation } = baseApi;
 
 export const reduxApi = baseApi;
 

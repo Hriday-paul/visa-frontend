@@ -50,10 +50,18 @@ const UserSlice = createSlice({
             state.phone = payload.phone;
             state.isAuthonicated = true;
             state.isVerified = payload.isVerified;
+        },
+        resetUser : (state)=>{
+            state.fullName = '';
+            state.userName = '';
+            state.email = "";
+            state.phone = "";
+            state.isAuthonicated = false;
+            state.isVerified = false;
         }
     }
 });
 
-export const { addUserDetails, updateUserVerified } = UserSlice.actions
+export const { addUserDetails, updateUserVerified, resetUser } = UserSlice.actions
 export default UserSlice.reducer;
 

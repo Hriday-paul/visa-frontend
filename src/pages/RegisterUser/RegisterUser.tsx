@@ -43,7 +43,7 @@ export default function RegisterUser() {
             setMessage({ type: 'error', message: errType?.data?.error || 'something went wrong, try again' })
             // toast.error(errType?.data?.error);
         }
-    }, [isSuccess, isError, reset]);
+    }, [isSuccess, isError, reset, error]);
 
     return (
         <div className="dark:bg-boxdark-2 dark:text-bodydark">

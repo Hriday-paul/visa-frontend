@@ -245,3 +245,25 @@ span.flatpickr-weekday,
 .inputStyle:focus{
   border : 1px solid #3C50E0;
 }
+
+.ant-popover-inner{
+  @apply dark:bg-boxdark
+}
+
+.ant-popconfirm-title{
+  @apply dark:!text-white
+}
+
+.ant-popconfirm-description{
+  @apply dark:!text-slate-200
+}
+.ant-popover-arrow::before{
+  @apply dark:!bg-boxdark
+}
+.ant-popconfirm-buttons .ant-btn-default{
+  @apply dark:bg-boxdark-2 dark:border-strokedark dark:text-white py-3 
+}
+
+.ant-popconfirm-buttons .ant-btn-default:hover{
+  @apply dark:bg-boxdark dark:border-strokedark dark:text-white
+}
