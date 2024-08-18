@@ -190,10 +190,21 @@ const baseApi = createApi({
             }),
             invalidatesTags: ['allApplication'],
         }),
+        editVisaStep : builder.mutation<{ message: string }, { id: number, token: string, message : string; visa_status : string, tracking_id : string }>({
+            query: (data) => ({
+                url: `/visa/visa-status/${data?.tracking_id}/`,
+                method: 'PATCH',
+                body : {message : data?.message, visa_status : data?.visa_status},
+                headers: {
+                    Authorization: `Bearer ${data?.token}`
+                }
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: 'Application', id }],
+        }),
     })
 })
 
-export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery } = baseApi;
+export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation } = baseApi;
 
 export const reduxApi = baseApi;
 

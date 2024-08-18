@@ -1,9 +1,13 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { MdOutlineCategory, MdOutlineEdit } from "react-icons/md";
+import { useEditVisaStepMutation } from "../../../Redux/Features/BaseApi";
+import { useCookies } from "react-cookie";
+import { ImSpinner2 } from "react-icons/im";
+import toast from "react-hot-toast";
 
 type proptype = {
-    id: number, traking_id: string; visa_status: string; message: string
+    id: number, traking_id: string; visa_status: string; message: string;
 }
 
 type formType = {
@@ -11,7 +15,12 @@ type formType = {
     message: string;
 }
 
-const EditVisaStep = React.memo(({ visaStatus }: { visaStatus: proptype }) => {
+const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: proptype, applicationId : number }) => {
+    const [cookies] = useCookies(['baerer-token']);
+    const token = cookies["baerer-token"];
+
+    const [postEdit, { isLoading, isError, isSuccess, data }] = useEditVisaStepMutation();
+
     const modalRef = useRef<HTMLDialogElement | null>(null);
     const {
         register,
@@ -26,11 +35,24 @@ const EditVisaStep = React.memo(({ visaStatus }: { visaStatus: proptype }) => {
 
     const handleEdit: SubmitHandler<formType> = (data) => {
         console.log(data)
+        postEdit({...data, token, tracking_id : visaStatus?.traking_id, id : applicationId})
     }
 
     const openModal = () => {
         modalRef?.current?.showModal()
     }
+
+    useEffect(()=>{
+        if(isSuccess){
+            console.log(data)
+            toast.success('Edit successfully')
+        }
+        if(isError){
+            toast.error('Something went wrong, try again')
+        }
+    },[isSuccess, isError])
+
+
     return (
         <span className="w-1/2 line-clamp-2">
             <div className="flex items-center space-x-3.5">
@@ -40,7 +62,7 @@ const EditVisaStep = React.memo(({ visaStatus }: { visaStatus: proptype }) => {
                 <dialog ref={modalRef} id="my_modal_2" className="modal">
                     <div className="modal-box">
                         <h3 className="text-lg mb-5">Edit Visa step</h3>
-                        <form  onSubmit={handleSubmit(handleEdit)}>
+                        <form onSubmit={handleSubmit(handleEdit)}>
                             <div className="w-full">
                                 <label className="mb-3 block text-black dark:text-white">
                                     Select visa step
@@ -101,8 +123,9 @@ const EditVisaStep = React.memo(({ visaStatus }: { visaStatus: proptype }) => {
                                 />
                             </div>
                             <div className="w-full mt-3 flex justify-end">
-                                <button className="bg-primary text-white p-3 hover:opacity-80 cursor-pointer border-none outline-0 rounded text-sm">
-                                    Update
+                                <button className="bg-primary text-white p-3 hover:opacity-80 cursor-pointer border-none outline-0 rounded text-sm flex gap-x-2 items-center">
+                                    {isLoading && < ImSpinner2 className="text-lg text-white animate-spin"/>}
+                                    <span>Update</span>
                                 </button>
 
                             </div>
