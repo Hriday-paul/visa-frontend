@@ -18,6 +18,7 @@ import AdminRoot from "../pages/Admin/AdminRoot/AdminRoot";
 import AllAppplicatons from "../pages/Admin/AllAppplicatons/AllAppplicatons";
 import ApplicationDetails from "../pages/Admin/ApplicationDetails/ApplicationDetails";
 import Private from "../components/Shared/Private";
+import AdminHome from "../pages/Admin/AdminHome/AdminHome";
 
 const Rout = createBrowserRouter([
     {
@@ -77,6 +78,10 @@ const Rout = createBrowserRouter([
         path: '/admin',
         element: <Private><AdminRoot /></Private>,
         children: [
+            {
+                path: '/admin',
+                element: <Private><AdminHome /></Private>
+            },
             {
                 path: '/admin/applications',
                 element: <Private><AllAppplicatons /></Private>

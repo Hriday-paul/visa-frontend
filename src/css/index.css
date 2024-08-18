@@ -267,3 +267,8 @@ span.flatpickr-weekday,
 .ant-popconfirm-buttons .ant-btn-default:hover{
   @apply dark:bg-boxdark dark:border-strokedark dark:text-white
 }
+
+/* daisy ui modal */
+.modal-box{
+  @apply !rounded-md dark:!bg-boxdark
+}

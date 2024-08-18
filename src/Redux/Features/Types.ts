@@ -1,12 +1,13 @@
 
 export type ApplicationResponseType = {
-    id : number;
+    id: number;
     full_name: string,
     email: string;
     phone_number: string;
     permanent_address: string;
     present_address: string;
     city: string;
+    visa_statuses: { id: number, traking_id: string; visa_status: string; message: string }[]
     nationality: string;
     occupation: string;
     date_of_birth: string;
@@ -31,8 +32,21 @@ export type ApplicationResponseType = {
     health_ensurence: string;
     travel_insurance: string;
     applicant_signature: string;
-    submission_date  : string;
-    is_approved   : boolean;
-    is_modified : boolean;
-    rejected : boolean
+    submission_date: string;
+    is_approved: boolean;
+    is_modified: boolean;
+    rejected: boolean
+}
+
+export type adminDashboardCountType = {
+    total_approve: number;
+    total_reject: number;
+    total_application: number
+}
+
+export type adminDashboardChartType = {
+    [key: string]: number,
+}
+export type adminDashboardVisaPaiChartType = {
+    [key: string]: number,
 }

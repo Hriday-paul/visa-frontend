@@ -100,7 +100,7 @@ export default function VisaStatus() {
                                             </div>
                                         </div>
 
-                                        <Message msg={data?.massage || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure possimus aut, quia explicabo doloremque harum reiciendis reprehenderit quo ut perferendis."} />
+                                        <Message msg={data?.message} />
                                     </div>
                                     :
                                     <div className="min-h-80 flex justify-center items-center">

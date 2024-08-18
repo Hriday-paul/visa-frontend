@@ -10,13 +10,15 @@ import { Spin } from "antd";
 import { ImSpinner8 } from "react-icons/im";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import EditVisaStep from "./EditVisaStep";
+import CopyTrackId from "./Template/CopyTrackId";
 
 export default function ApplicationDetails() {
 
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
     const params = useParams();
-    
+
     const { isLoading, isError, isSuccess, data: applicationDetails } = useApplicationDetailsQuery({ id: params?.id || 0, token });
     const [postAccessModify, { isError: accessModifyIsError, isSuccess: accessModifySuccess, error: accessModifyError, data: accessModifyData, isLoading: accessModifyLoding }] = useUpdateAccessToModifyApplicationMutation();
     const [postApproveApplication, { isError: approveApplicationIsError, isSuccess: approveApplicationSuccess, error: approveApplicationError, data: approveApplicationData, isLoading: approveApplicationLoding }] = useApproveApplicationMutation();
@@ -27,11 +29,20 @@ export default function ApplicationDetails() {
     }
 
     const handleAproveApplication = () => {
-        postApproveApplication({ token, id: params?.id, is_approved: !applicationDetails?.is_approved })
+        if (applicationDetails?.is_approved) {
+            postApproveApplication({ token, id: params?.id, is_approved: !applicationDetails?.is_approved, rejected: applicationDetails?.rejected })
+        }
+        else {
+            postApproveApplication({ token, id: params?.id, is_approved: !applicationDetails?.is_approved, rejected: false })
+        }
     }
 
     const handleRejectApplication = () => {
-        postRejectApplication({ token, id: params?.id, rejected: !applicationDetails?.rejected })
+        if (applicationDetails?.rejected) {
+            postRejectApplication({ token, id: params?.id, rejected: !applicationDetails?.rejected, is_approved: applicationDetails?.is_approved })
+        } else {
+            postRejectApplication({ token, id: params?.id, rejected: !applicationDetails?.rejected, is_approved: false })
+        }
     }
 
     useEffect(() => {
@@ -108,20 +119,36 @@ export default function ApplicationDetails() {
                                                 <HiOutlineDotsVertical />
                                             </div>
                                             <ul tabIndex={0} className="dropdown-content z-[1] w-52 p-2 shadow-6 bg-white dark:bg-boxdark-2 rounded">
-                                                <li onClick={handleAccessToModify} className="p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer">
-                                                    <p>Access to modify</p>
-                                                </li>
-                                                <li onClick={handleAproveApplication} className="p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer">
-                                                    <p>Approve</p>
-                                                </li>
-                                                <li onClick={handleRejectApplication} className="p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer">
-                                                    <p>Reject</p>
-                                                </li>
+                                                {
+                                                    !applicationDetails?.is_modified ? <li onClick={handleAccessToModify} className={`p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer`}>
+                                                        <p>Access to modify</p>
+                                                    </li> :
+                                                        <li onClick={handleAccessToModify} className={`p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer`}>
+                                                            <p>Remove modify access</p>
+                                                        </li>
+                                                }
+                                                {
+                                                    !applicationDetails?.is_approved ? <li onClick={handleAproveApplication} className={`p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer`}>
+                                                        <p>Approve</p>
+                                                    </li> :
+                                                        <li onClick={handleAproveApplication} className={`p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer`}>
+                                                            <p>Remove Approve</p>
+                                                        </li>
+                                                }
+
+                                                {
+                                                    !applicationDetails?.rejected ? <li onClick={handleRejectApplication} className="p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer">
+                                                        <p>Reject</p>
+                                                    </li> :
+                                                        <li onClick={handleRejectApplication} className="p-2 pl-4 hover:bg-slate-100 dark:hover:bg-boxdark duration-200 rounded cursor-pointer">
+                                                            <p>Remove Reject</p>
+                                                        </li>
+                                                }
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-0 lg:gap-x-8">
+                                <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-0 lg:gap-x-8">
                                     <div>
                                         <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4">
                                             <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
@@ -194,7 +221,35 @@ export default function ApplicationDetails() {
                                                         <span className="w-1/2">Purpose of visit</span>
                                                         <span className="w-1/2">{applicationDetails?.purpose_of_visit}</span>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="w-full mt-8">
+                                            <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4">
+                                                <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
+                                                    <p className="text-base text-graydark dark:text-slate-200 font-medium">Visa Status</p>
+                                                </div>
+                                                <div className="p-3 md:p-4 lg:p-5">
+                                                    <div className=" flex flex-row items-center justify-between mb-3.5">
+                                                        <span className="w-1/2">Visa Step</span>
+                                                        <span className="w-1/2 ">
+                                                            <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-xs lg:text-sm font-medium bg-success text-success">{applicationDetails?.visa_statuses[0]?.visa_status}</p>
+                                                        </span>
+                                                    </div>
 
+                                                    {/* // copy traxking id */}
+                                                    <CopyTrackId id={applicationDetails?.visa_statuses[0]?.traking_id}/>
+
+                                                    <div className=" flex flex-row items-center justify-between mb-3.5">
+                                                        <span className="w-1/2">Message</span>
+                                                        <span className="w-1/2 line-clamp-2">
+                                                            {applicationDetails?.visa_statuses[0]?.message}
+                                                        </span>
+                                                    </div>
+                                                    <div className=" flex flex-row items-center justify-between mb-3.5">
+                                                        <span className="w-1/2">Edit</span>
+                                                        <EditVisaStep visaStatus={applicationDetails?.visa_statuses[0]} />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
