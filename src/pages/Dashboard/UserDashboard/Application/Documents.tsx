@@ -46,7 +46,6 @@ export default function Documents() {
 
     useEffect(() => {
         if (isSuccess) {
-            console.log(data);
             toast.success('Your application successfully');
             dispatch(resetApplication());
             dispatch(updateStep(0))
@@ -125,7 +124,7 @@ export default function Documents() {
     }
 
     return (
-        <Spin spinning={isLoading} indicator={<ImSpinner8 className="text-xl text-primary"/>}>
+        <Spin spinning={isLoading} size="large" indicator={<ImSpinner8 className="text-xl text-primary animate-spin"/>}>
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
                 <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                     <h3 className="font-medium text-black dark:text-white">

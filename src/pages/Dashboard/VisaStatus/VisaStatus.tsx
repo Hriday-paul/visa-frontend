@@ -66,8 +66,8 @@ export default function VisaStatus() {
                                             <div className="mb-8 text-center w-full relative px-12 flex flex-col my-10">
                                                 <ul className="mx-1 before:top-18 before:absolute before:border-t before:border-dashed before:h-0 before:left-20 lg:before:left-16 xl:before:left-28 md:before:block before:w-4/5 flex flex-col gap-y-8 md:gap-y-0 md:flex-row justify-between items-center mt-5 before:hidden">
                                                     <li className="z-10">
-                                                        <span className={`h-24 w-24 border-2 border-primary hover:bg-primary dark:hover:bg-primary hover:border-transparent group rounded-full flex justify-center items-center ${data?.visa_status === 'Panding' ? 'bg-primary dark:bg-primary' : 'bg-white dark:bg-form-input'}`}>
-                                                            <MdPendingActions className={`text-4xl ${data?.visa_status === 'Panding' ? 'text-white' : 'text-primary group-hover:text-white dark:text-slate-100'}`} />
+                                                        <span className={`h-24 w-24 border-2 border-primary hover:bg-primary dark:hover:bg-primary hover:border-transparent group rounded-full flex justify-center items-center ${data?.visa_status === 'Pending' ? 'bg-primary dark:bg-primary' : 'bg-white dark:bg-form-input'}`}>
+                                                            <MdPendingActions className={`text-4xl ${data?.visa_status === 'Pending' ? 'text-white' : 'text-primary group-hover:text-white dark:text-slate-100'}`} />
                                                         </span>
                                                         <div>
                                                             <p className="mt-2 text-center dark:text-slate-300">Step 1 </p>

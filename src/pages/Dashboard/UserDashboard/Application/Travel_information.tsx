@@ -42,7 +42,7 @@ export default function Travel_information() {
     }
   });
 
-  const handleAddPersonalInfo: SubmitHandler<TravelInput_types> = (data) => {
+  const handleAddTravelInfo: SubmitHandler<TravelInput_types> = (data) => {
     dispatch(addTravelInfo(data))
     dispatch(updateStep(step + 1));
   }
@@ -69,7 +69,7 @@ export default function Travel_information() {
           {stepList[step]?.title}
         </h3>
       </div>
-      <form onSubmit={handleSubmit(handleAddPersonalInfo)}>
+      <form onSubmit={handleSubmit(handleAddTravelInfo)}>
         <div className="p-6.5">
 
           <div className="flex flex-col gap-6 xl:flex-row">

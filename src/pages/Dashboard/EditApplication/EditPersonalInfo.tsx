@@ -1,33 +1,19 @@
 import React from 'react'
 import { GrFormNextLink } from "react-icons/gr";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { IoTransgenderOutline } from "react-icons/io5";
 import CountrySelect from '../UserDashboard/Application/templates/CountrySelect';
 // import DatePicker from '../UserDashboard/Application/templates/DatePicker';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../Redux/Store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../../Redux/Store';
 import "flatpickr/dist/themes/material_green.css";
-import Flatpickr from "react-flatpickr";
+import { editPersonalInfoApplication } from '../../../Redux/Slices/EditApplicationSlice';
+import { Inputs } from '../UserDashboard/Personal_information/Personal_information';
 
-type Inputs = {
-    full_name: string,
-    email: string;
-    phone_number: string;
-    permanent_address: string;
-    present_address: string;
-    city: string;
-    nationality: string;
-    occupation: string;
-    date_of_birth: string;
-    state_province: string;
-    marital_status: 'Merit' | 'Unmerit';
-    educational_background: string;
-    gender: 'Male' | 'Female' | 'Others'
-}
 
-const EditPersonalInfo = React.memo(() => {
+const EditPersonalInfo = React.memo(({setEditApplicationStep} : {setEditApplicationStep : React.Dispatch<React.SetStateAction<number>>}) => {
     const draft = useSelector((state: RootState) => state.editApplication);
-
+    const dispatch = useDispatch<AppDispatch>();
     const {
         register,
         handleSubmit,
@@ -52,7 +38,8 @@ const EditPersonalInfo = React.memo(() => {
     });
 
     const handleEditPersonalInfo: SubmitHandler<Inputs> = (data) => {
-        console.log(data)
+        dispatch(editPersonalInfoApplication(data))
+        setEditApplicationStep(1)
     }
 
     return (
