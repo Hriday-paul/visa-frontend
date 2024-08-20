@@ -39,7 +39,7 @@ export type addApplicationType = {
 
 const baseApi = createApi({
     reducerPath: 'api',
-    tagTypes: ['Application', 'allApplication'],
+    tagTypes: ['Application', 'allApplication', 'myApplicaions'],
     baseQuery: fetchBaseQuery({
         baseUrl: apiUrl
     }),
@@ -51,14 +51,14 @@ const baseApi = createApi({
                 body: { email, first_name, last_name, username, password, password2: confirm_password, phone_no }
             }),
         }),
-        verifyUser: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string }, { email: string; code: string; }>({
+        verifyUser: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string, user_id : number }, { email: string; code: string; }>({
             query: ({ email, code }) => ({
                 url: `/account/active/`,
                 method: 'POST',
                 body: { email, otp: code }
             }),
         }),
-        loginUser: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string }, { email: string; password: string }>({
+        loginUser: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string, user_id : number }, { email: string; password: string }>({
             query: ({ email, password }) => ({
                 url: `/account/login/`,
                 method: 'POST',
@@ -75,7 +75,7 @@ const baseApi = createApi({
                 },
 
             }),
-            // invalidatesTags: []
+            invalidatesTags: ['myApplicaions']
         }),
         sendSupportMessage: builder.mutation<void, { formData: userSupportType, token: string }>({
             query: ({ formData, token }) => ({
@@ -87,16 +87,31 @@ const baseApi = createApi({
                 }
             }),
         }),
-        visaStatus: builder.mutation<{ message: string, visa_status: string, update_at: string }, { id: string }>({
-            query: ({ id }) => ({
+        visaStatus: builder.mutation<{ message: string, visa_status: string, update_at: string }, { id: string, token: string }>({
+            query: ({ id, token }) => ({
                 url: `/visa/visa-status/${id}`,
                 method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             }),
         }),
         notification: builder.query<{ title: string; message: string; created_at: string }[], void>({
             query: () => `/notification/notification/`,
             // providesTags: []
         }),
+        myallApplications: builder.query<ApplicationResponseType[], { token: string, userId: any }>({
+            query: ({ token, userId }) => ({
+                url: `/visa/application-count/${userId}/`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+            providesTags:  ['myApplicaions'],
+        }),
+
+        // admin api request
         allApplication: builder.query<ApplicationResponseType[], { token: string }>({
             query: ({ token }) => ({
                 url: `/visa/visaapplication/`,
@@ -115,14 +130,10 @@ const baseApi = createApi({
                     Authorization: `Bearer ${token}`,
                 },
             }),
-            providesTags: (result, error, { id }) => [
+            providesTags: (_, __, { id }) => [
                 { type: 'Application', id }
             ],
         }),
-
-
-        // admin api request
-
         adminDashboardCount: builder.query<adminDashboardCountType, { token: string }>({
             query: ({ token }) => ({
                 url: `/report/ar-report/`,
@@ -156,7 +167,7 @@ const baseApi = createApi({
                     Authorization: `Bearer ${data?.token}`
                 }
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: 'Application', id }],
+            invalidatesTags: (_, __, { id }) => [{ type: 'Application', id }],
         }),
         approveApplication: builder.mutation<{ message: string }, { id: any, token: string, is_approved: boolean, rejected: boolean }>({
             query: (data) => ({
@@ -167,7 +178,7 @@ const baseApi = createApi({
                     Authorization: `Bearer ${data?.token}`
                 }
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: 'Application', id }],
+            invalidatesTags: (_, __, { id }) => [{ type: 'Application', id }],
         }),
         rejectApplication: builder.mutation<{ message: string }, { id: any, token: string, rejected: boolean, is_approved: boolean }>({
             query: (data) => ({
@@ -178,7 +189,7 @@ const baseApi = createApi({
                     Authorization: `Bearer ${data?.token}`
                 }
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: 'Application', id }],
+            invalidatesTags: (_, __, { id }) => [{ type: 'Application', id }],
         }),
         deleteOneApplication: builder.mutation<{ message: string }, { id: number, token: string }>({
             query: (data) => ({
@@ -190,21 +201,21 @@ const baseApi = createApi({
             }),
             invalidatesTags: ['allApplication'],
         }),
-        editVisaStep : builder.mutation<{ message: string }, { id: number, token: string, message : string; visa_status : string, tracking_id : string }>({
+        editVisaStep: builder.mutation<{ message: string }, { id: number, token: string, message: string; visa_status: string, tracking_id: string }>({
             query: (data) => ({
                 url: `/visa/visa-status/${data?.tracking_id}/`,
                 method: 'PATCH',
-                body : {message : data?.message, visa_status : data?.visa_status},
+                body: { message: data?.message, visa_status: data?.visa_status },
                 headers: {
                     Authorization: `Bearer ${data?.token}`
                 }
             }),
-            invalidatesTags: (result, error, { id }) => [{ type: 'Application', id }],
+            invalidatesTags: (_, __, { id }) => [{ type: 'Application', id }],
         }),
     })
 })
 
-export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation } = baseApi;
+export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation, useMyallApplicationsQuery } = baseApi;
 
 export const reduxApi = baseApi;
 

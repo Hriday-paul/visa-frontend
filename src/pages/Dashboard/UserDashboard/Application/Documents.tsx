@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { Spin } from "antd";
 import { resetApplication } from "../../../../Redux/Slices/Application_infoSlice";
 import { useCookies } from "react-cookie";
+import { ImSpinner8 } from "react-icons/im";
 
 
 export default function Documents() {
@@ -124,7 +125,7 @@ export default function Documents() {
     }
 
     return (
-        <Spin spinning={isLoading}>
+        <Spin spinning={isLoading} indicator={<ImSpinner8 className="text-xl text-primary"/>}>
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
                 <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                     <h3 className="font-medium text-black dark:text-white">

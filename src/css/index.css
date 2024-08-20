@@ -270,5 +270,5 @@ span.flatpickr-weekday,
 
 /* daisy ui modal */
 .modal-box{
-  @apply !rounded-md dark:!bg-boxdark
+  @apply !rounded-md dark:!bg-boxdark !z-20
 }

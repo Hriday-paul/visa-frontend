@@ -7,10 +7,13 @@ import { useVisaStatusMutation } from "../../../Redux/Features/BaseApi";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ImSpinner8 } from "react-icons/im";
 import StatusError from "./Template/StatusError";
+import { useCookies } from "react-cookie";
 
 type Inputs = { id: string; };
 
 export default function VisaStatus() {
+    const [cookies] = useCookies(['baerer-token']);
+    const token = cookies["baerer-token"];
     const [getStatus, { isLoading, isError, isSuccess, error, data }] = useVisaStatusMutation();
 
     const {
@@ -21,7 +24,7 @@ export default function VisaStatus() {
 
     const handleTracking: SubmitHandler<Inputs> = (data) => {
         // console.log(data)
-        getStatus(data)
+        getStatus({...data, token})
     };
 
     return (

@@ -37,8 +37,8 @@ export default function Travel_information() {
       emergency_contact_relationship: draft?.emergency_contact_relationship || "",
       emergency_contact_phone: draft?.emergency_contact_phone || '',
       emergency_contact_email: draft?.emergency_contact_email || '',
-      planned_duration_of_stay: draft?.planned_duration_of_stay,
-      accommodation_details: draft?.accommodation_details,
+      planned_duration_of_stay: draft?.planned_duration_of_stay || 0,
+      accommodation_details: draft?.accommodation_details || '',
     }
   });
 
@@ -124,19 +124,17 @@ export default function Travel_information() {
                   </div>
                 </div>
 
-
-
               </div >
 
             </div>
 
             <div className="w-full xl:w-1/2">
               <label className="mb-2.5 block text-black dark:text-white">
-                Planed Duration of stay
+                Planed Duration of stay - min ( 7 days )
               </label>
               <input
                 type="number"
-                {...register("planned_duration_of_stay", { required: true })}
+                {...register("planned_duration_of_stay", { required: true, min: 7 })}
                 placeholder="planned duration of stay / day format"
                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.planned_duration_of_stay ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
               />
@@ -206,7 +204,7 @@ export default function Travel_information() {
                 {...register("purpose_of_visit", { required: true })}
                 placeholder="Write why you visit"
                 rows={5}
-                className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.visa_type ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
+                className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.purpose_of_visit ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
               />
             </div>
             <div className="w-full xl:w-1/2">

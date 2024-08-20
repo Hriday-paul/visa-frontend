@@ -56,7 +56,6 @@ export default function Verify() {
 
     useMemo(() => {
         if (isSuccess) {
-            
             setCookie('baerer-token', data?.token?.access, {
                 httpOnly: false,
                 maxAge: 14 * 24 * 60 * 60, // 7 days
@@ -64,10 +63,10 @@ export default function Verify() {
                 sameSite: 'lax',
                 secure: import.meta.env.VITE_NODE_ENV === 'production',
             });
-            dispatch(updateUserVerified({ isVerified: true, email: data?.email, fullName: data?.first_name + ' ' + data?.last_name, phone: data?.phone_no, userName: data?.username }))
+            dispatch(updateUserVerified({ isVerified: true, email: data?.email, fullName: data?.first_name + ' ' + data?.last_name, phone: data?.phone_no, userName: data?.username, id : data?.user_id }))
             localStorage.removeItem('user_email');
             setMessage({ type: 'success', message: data?.message });
-            navig('/dashboard');
+            navig('/dashboard/application');
         }
         if (isError) {
             const errType = error as { data: { message: string } }

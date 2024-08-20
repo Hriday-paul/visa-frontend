@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from '../pages/Home/Home'
 import Root from "../pages/Root/Root";
 import RootDashboard from "../pages/Dashboard/RootDashboard/RootDashboard";
-import DashBoardHome from "../pages/Dashboard/DashBoardHome/DashBoardHome";
 import Users from "../pages/Dashboard/Users/Users";
 import RegisterUser from "../pages/RegisterUser/RegisterUser";
 import LoginUser from "../pages/LoginUser/LoginUser";
@@ -19,6 +18,8 @@ import AllAppplicatons from "../pages/Admin/AllAppplicatons/AllAppplicatons";
 import ApplicationDetails from "../pages/Admin/ApplicationDetails/ApplicationDetails";
 import Private from "../components/Shared/Private";
 import AdminHome from "../pages/Admin/AdminHome/AdminHome";
+import MyApplications from "../pages/Dashboard/MyApplications/MyApplications";
+import MyApplicationDetails from "../pages/Dashboard/MyApplicationDetails/MyApplicationDetails";
 
 const Rout = createBrowserRouter([
     {
@@ -31,12 +32,8 @@ const Rout = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <RootDashboard />,
+        element: <Private><RootDashboard /></Private>,
         children: [
-            {
-                path: '/dashboard',
-                element: <Private><DashBoardHome /></Private>
-            },
             {
                 path: '/dashboard/application',
                 element: <Private><Application /></Private>,
@@ -57,20 +54,27 @@ const Rout = createBrowserRouter([
                         path: '/dashboard/application/4',
                         element: <Private><Documents /></Private>
                     },
-
                 ]
             },
             {
                 path: '/dashboard/support',
-                element: <UserSupport />
+                element: <Private><UserSupport /></Private>
             },
             {
                 path: '/dashboard/visa-status',
-                element: <VisaStatus />
+                element: <Private><VisaStatus /></Private>
             },
             {
                 path: '/dashboard/users',
-                element: <Users />
+                element: <Private><Users /></Private>
+            },
+            {
+                path: '/dashboard/my-applications',
+                element: <Private><MyApplications /></Private>
+            },
+            {
+                path: '/dashboard/my-applications/:id',
+                element: <Private><MyApplicationDetails /></Private>
             },
         ]
     },

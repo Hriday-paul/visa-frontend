@@ -15,9 +15,8 @@ const DatePicker: React.FC<{ title: string; control: Control<Inputs>, errors: Fi
         <Flatpickr
           placeholder='YYYY-MM-DD'
           defaultValue={dfvalue || ''}
-          onChange={(date, str) => {
+          onChange={(_, str) => {
             field.onChange(str)
-            console.log(date);
           }}
           render={
             ({ defaultValue }, ref) => {

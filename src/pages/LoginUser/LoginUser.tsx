@@ -41,10 +41,10 @@ export default function LoginUser() {
                 sameSite: 'lax',
                 secure: import.meta.env.VITE_NODE_ENV === 'production',
             });
-            dispatch(updateUserVerified({ isVerified: true, email: data?.email, fullName: data?.first_name + ' ' + data?.last_name, phone: data?.phone_no, userName: data?.username }));
+            dispatch(updateUserVerified({ isVerified: true, email: data?.email, fullName: data?.first_name + ' ' + data?.last_name, phone: data?.phone_no, userName: data?.username, id : data?.user_id }));
             setMessage({ type: 'success', message: data?.message });
             reset();
-            navig('/dashboard');
+            navig('/dashboard/application');
         }
         if (isError) {
             console.log(error)
@@ -52,7 +52,6 @@ export default function LoginUser() {
             setMessage({ type: 'error', message: errType?.data?.error || 'something went wrong, try again' })
         }
     }, [isSuccess, isError, reset]);
-
 
     return (
         <div className="dark:bg-boxdark-2 dark:text-bodydark">

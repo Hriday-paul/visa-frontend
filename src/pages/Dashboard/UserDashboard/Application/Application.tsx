@@ -16,7 +16,7 @@ export default function Application() {
                     size="small"
                     items={stepList}
                 />
-
+                
                 <Outlet />
 
             </div>

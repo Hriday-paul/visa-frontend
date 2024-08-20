@@ -5,6 +5,7 @@ type userType = {
     userName: string,
     email: string,
     phone: string,
+    id : number | null,
     isAuthonicated: boolean,
     isVerified: boolean
 }
@@ -14,6 +15,7 @@ const initState: userType = {
     userName: '',
     email: '',
     phone: '',
+    id : null,
     isAuthonicated: false,
     isVerified: false
 }
@@ -23,6 +25,7 @@ type addUserDetailsPayload = {
     userName: string,
     email: string,
     phone: string,
+    id : number
 }
 
 type updateVerified = {
@@ -30,6 +33,7 @@ type updateVerified = {
     userName: string,
     email: string,
     phone: string,
+    id : number,
     isVerified: boolean,
 }
 
@@ -42,12 +46,14 @@ const UserSlice = createSlice({
             state.userName = payload.userName;
             state.email = payload.email;
             state.phone = payload.phone;
+            state.id = payload.id
         },
         updateUserVerified: (state, { payload }: PayloadAction<updateVerified>) => {
             state.fullName = payload.fullName;
             state.userName = payload.userName;
             state.email = payload.email;
             state.phone = payload.phone;
+            state.id = payload.id
             state.isAuthonicated = true;
             state.isVerified = payload.isVerified;
         },
@@ -56,6 +62,7 @@ const UserSlice = createSlice({
             state.userName = '';
             state.email = "";
             state.phone = "";
+            state.id = null
             state.isAuthonicated = false;
             state.isVerified = false;
         }

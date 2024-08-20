@@ -19,11 +19,11 @@ const CopyTrackId = React.memo(({ id }: { id: string }) => {
                 <p ref={textRef} className="inline-flex rounded-full bg-opacity-10 py-1 px-1 text-xs lg:text-sm font-medium w-full truncate">
                     {id}
                 </p>
-                {!isCopy ?
+                {id ? !isCopy ?
                     <span onClick={copyText}>
                         <LuCopy className='text-base cursor-pointer' />
                     </span>
-                    : <LuCopyCheck className='text-base text-green-500' />}
+                    : <LuCopyCheck className='text-base text-green-500' /> : <></>}
             </span>
         </div>
     )

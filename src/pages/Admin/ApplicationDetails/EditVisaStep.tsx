@@ -7,7 +7,7 @@ import { ImSpinner2 } from "react-icons/im";
 import toast from "react-hot-toast";
 
 type proptype = {
-    id: number, traking_id: string; visa_status: string; message: string;
+    id: number, tracking_id: string; visa_status: string; message: string;
 }
 
 type formType = {
@@ -19,7 +19,7 @@ const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: pr
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
 
-    const [postEdit, { isLoading, isError, isSuccess, data }] = useEditVisaStepMutation();
+    const [postEdit, { isLoading, isError, isSuccess }] = useEditVisaStepMutation();
 
     const modalRef = useRef<HTMLDialogElement | null>(null);
     const {
@@ -34,8 +34,7 @@ const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: pr
     });
 
     const handleEdit: SubmitHandler<formType> = (data) => {
-        console.log(data)
-        postEdit({...data, token, tracking_id : visaStatus?.traking_id, id : applicationId})
+        postEdit({...data, token, tracking_id : visaStatus?.tracking_id, id : applicationId})
     }
 
     const openModal = () => {
@@ -44,7 +43,7 @@ const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: pr
 
     useEffect(()=>{
         if(isSuccess){
-            console.log(data)
+            modalRef?.current?.close();
             toast.success('Edit successfully')
         }
         if(isError){

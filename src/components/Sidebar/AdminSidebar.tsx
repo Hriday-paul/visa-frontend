@@ -5,7 +5,6 @@ import Logo from '../../images/logo/logo.svg';
 import { FiUsers } from 'react-icons/fi';
 import { FaWpforms } from 'react-icons/fa';
 import { BiSupport } from 'react-icons/bi';
-import { PiStepsDuotone } from 'react-icons/pi';
 import { LuLayoutDashboard } from 'react-icons/lu';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';

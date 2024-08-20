@@ -82,6 +82,7 @@ export default function ApplicationDetails() {
                     {
                         isLoading ? <AdminLoading /> : isError ? <AdminError /> : !isSuccess ? <></> : <div>
                             <div>
+                                {/* // top section */}
                                 <div className="flex flex-col md:flex-row justify-between gap-x-0 md:gap-x-5  gap-y-5 md:gap-y-0">
                                     <div className="flex flex-row gap-x-5 md:gap-x-3 lg:gap-x-5 items-center">
                                         <div>
@@ -148,8 +149,12 @@ export default function ApplicationDetails() {
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* // start list section  */}
                                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-0 lg:gap-x-8">
+                                    {/* // left side section  */}
                                     <div>
+                                        {/* //personal details */}
                                         <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4">
                                             <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
                                                 <p className="text-base text-graydark dark:text-slate-200 font-medium">Personal Details</p>
@@ -199,6 +204,7 @@ export default function ApplicationDetails() {
 
                                             </div>
                                         </div>
+                                        {/* // visa details  */}
                                         <div className="w-full mt-8">
                                             <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4">
                                                 <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
@@ -224,6 +230,7 @@ export default function ApplicationDetails() {
                                                 </div>
                                             </div>
                                         </div>
+                                        {/* // visa status  */}
                                         <div className="w-full mt-8">
                                             <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4">
                                                 <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
@@ -238,7 +245,7 @@ export default function ApplicationDetails() {
                                                     </div>
 
                                                     {/* // copy traxking id */}
-                                                    <CopyTrackId id={applicationDetails?.visa_statuses[0]?.traking_id}/>
+                                                    <CopyTrackId id={applicationDetails?.visa_statuses[0]?.tracking_id}/>
 
                                                     <div className=" flex flex-row items-center justify-between mb-3.5">
                                                         <span className="w-1/2">Message</span>
@@ -254,7 +261,10 @@ export default function ApplicationDetails() {
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    {/* // right side section */}
                                     <div>
+                                        {/* // passport information  */}
                                         <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4">
                                             <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
                                                 <p className="text-base text-graydark dark:text-slate-200 font-medium">Passport Information</p>
@@ -278,6 +288,7 @@ export default function ApplicationDetails() {
                                                 </div>
                                             </div>
                                         </div>
+                                        {/* // imargency contact  */}
                                         <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4 mt-8">
                                             <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
                                                 <p className="text-base text-graydark dark:text-slate-200 font-medium">Emergency Contact</p>
@@ -302,6 +313,7 @@ export default function ApplicationDetails() {
 
                                             </div>
                                         </div>
+                                        {/* files  */}
                                         <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4 mt-8">
                                             <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
                                                 <p className="text-base text-graydark dark:text-slate-200 font-medium">Files</p>

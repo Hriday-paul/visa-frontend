@@ -14,19 +14,21 @@ import {
     PURGE,
     REGISTER,
 } from 'redux-persist'
+import EditApplicationSlice from './Slices/EditApplicationSlice';
 
 
 const persistConfig = {
     key: 'root',
     storage,
     version: 1,
-    whitelist: ['user', 'application_infoSlice', 'applicationStep'],
+    whitelist: ['user', 'application_infoSlice', 'applicationStep', 'editApplication'],
 }
 
 const reducer = combineReducers({
     user: UserSlice,
     applicationStep: ApplicationStepSlice,
     application_infoSlice: Application_infoSlice,
+    editApplication : EditApplicationSlice,
     [baseApi.reducerPath]: baseApi.reducer,
 });
 
