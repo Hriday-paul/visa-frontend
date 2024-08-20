@@ -26,7 +26,7 @@ export default function Documents() {
     });
     const [cookies] = useCookies(['baerer-token']);
 
-    const [postApplication, { isLoading, isError, isSuccess, data }] = useAddvisaApplicationMutation();
+    const [postApplication, { isLoading, isError, isSuccess }] = useAddvisaApplicationMutation();
 
     useEffect(() => {
         if (step !== 3) {

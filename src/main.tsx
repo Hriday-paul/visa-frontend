@@ -11,7 +11,7 @@ import Store, { Persistor } from './Redux/Store.ts';
 import 'flatpickr/dist/flatpickr.min.css';
 import { Toaster } from 'react-hot-toast';
 import { PersistGate } from 'redux-persist/integration/react';
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.layer.css';
 import 'mantine-datatable/styles.layer.css';
 

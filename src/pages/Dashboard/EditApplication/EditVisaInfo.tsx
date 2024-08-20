@@ -6,7 +6,6 @@ import { Visa_information_types } from '../UserDashboard/Application/Visa_inform
 import { GrFormNextLink } from 'react-icons/gr';
 import countryList from 'react-select-country-list';
 import "flatpickr/dist/themes/material_green.css";
-import Flatpickr from "react-flatpickr";
 import { editVisaInfoApplication } from '../../../Redux/Slices/EditApplicationSlice';
 
 const EditVisaInfo = React.memo(({ setEditApplicationStep }: { setEditApplicationStep: React.Dispatch<React.SetStateAction<number>> }) => {

@@ -270,7 +270,25 @@ span.flatpickr-weekday,
   @apply dark:bg-boxdark dark:border-strokedark dark:text-white
 }
 
-/* daisy ui modal */
 .modal-box{
   @apply !rounded-md dark:!bg-boxdark !z-20
+}
+
+.mantine-datatable-table{
+  @apply bg-white text-black dark:!bg-boxdark dark:text-white
+}
+
+.mantine-datatable-table[data-striped] tbody tr:nth-of-type(odd){
+  @apply bg-gray-2 text-black dark:!bg-boxdark-2 dark:text-white
+}
+
+.mantine-datatable{
+  @apply bg-white text-black dark:!bg-boxdark dark:text-white
+}
+.mantine-datatable-empty-state{
+  @apply text-white
+}
+
+.mantine-datatable-header-cell-sortable:hover{
+  @apply bg-gray-2 dark:bg-boxdark-2
 }
