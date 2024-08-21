@@ -1,8 +1,10 @@
-@tailwind base;
+@layer tailwind {
+  @tailwind base;
+}
 @tailwind components;
 @tailwind utilities;
 
-@layer mantine, mantine-datatable;
+/* @layer mantine, mantine-datatable; */
 
 @layer base {
   body {
@@ -274,8 +276,12 @@ span.flatpickr-weekday,
   @apply !rounded-md dark:!bg-boxdark !z-20
 }
 
+
+/* // mantine-datatable */
+
+
 .mantine-datatable-table{
-  @apply bg-white text-black dark:!bg-boxdark dark:text-white
+  @apply bg-white text-black dark:!bg-boxdark dark:text-white;
 }
 
 .mantine-datatable-table[data-striped] tbody tr:nth-of-type(odd){

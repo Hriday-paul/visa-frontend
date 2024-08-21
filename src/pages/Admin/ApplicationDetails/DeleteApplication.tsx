@@ -1,13 +1,13 @@
 import { Popconfirm, Spin } from 'antd'
 import React, { useEffect } from 'react'
 import { useDeleteOneApplicationMutation } from '../../../Redux/Features/BaseApi'
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { ImSpinner8 } from 'react-icons/im';
 import { useCookies } from 'react-cookie';
 
 export const DeleteApplication = React.memo(({ id }: { id: number }) => {
 
-    const [postDelete, { isLoading, isError, isSuccess, error, data }] = useDeleteOneApplicationMutation();
+    const [postDelete, { isLoading, isError, isSuccess, error }] = useDeleteOneApplicationMutation();
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
 
@@ -17,7 +17,7 @@ export const DeleteApplication = React.memo(({ id }: { id: number }) => {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success(data?.message || "Aplication delete successfully");
+            toast.success("Aplication delete successfully");
         }
         if (isError) {
             const errType = error as { data: { error: string } }
@@ -63,6 +63,10 @@ export const DeleteApplication = React.memo(({ id }: { id: number }) => {
                 </button>
 
             </Popconfirm>
+            <Toaster
+                position="top-center"
+                reverseOrder={false}
+            />
         </Spin>
     )
 })

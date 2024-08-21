@@ -23,7 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     />
     <Provider store={Store}>
       <PersistGate loading={<h3 className='text-7xl'>Loading......</h3>} persistor={Persistor}>
-        <MantineProvider defaultColorScheme="auto">
+        <MantineProvider defaultColorScheme="light">
           <RouterProvider router={Rout} />
         </MantineProvider>
       </PersistGate>

@@ -5,8 +5,7 @@ import { useAllApplicationQuery } from "../../../Redux/Features/BaseApi"
 import { ApplicationResponseType } from "../../../Redux/Features/Types";
 import { DataTable, DataTableSortStatus } from "mantine-datatable"; // Import the correct type from mantine-datatable
 import { useMemo, useState } from "react";
-import { ActionIcon, Button, Checkbox, MultiSelect, Stack, TextInput } from '@mantine/core';
-import { IoSearchOutline } from "react-icons/io5";
+import { ActionIcon, TextInput } from '@mantine/core';
 import { RxCross2 } from "react-icons/rx";
 import { DeleteApplication } from "../ApplicationDetails/DeleteApplication";
 import { Link } from "react-router-dom";
@@ -15,6 +14,7 @@ export default function AllAppplicatons() {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
     const { isError, isLoading, isSuccess, data: applications } = useAllApplicationQuery({ token });
+    const [selectedRecords, setSelectedRecords] = useState<ApplicationResponseType[]>([]);
 
     // Use the imported DataTableSortStatus type from mantine-datatable
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus<ApplicationResponseType>>({
@@ -73,12 +73,13 @@ export default function AllAppplicatons() {
                                 <DataTable
                                     columns={[
                                         {
-                                            accessor: 'full_name', sortable: true, filter: (
+                                            accessor: 'full_name',
+                                            sortable: true, filter: (
                                                 <TextInput
-                                                    label="Employees"
-                                                    description="Show employees whose names include the specified text"
+                                                    label="Name"
+                                                    description="Show applications whose names include the specified text"
                                                     placeholder="Search employees..."
-                                                    leftSection={<IoSearchOutline size={16} />}
+
                                                     rightSection={
                                                         <ActionIcon size="sm" variant="transparent" c="dimmed" onClick={() => setQuery('')}>
                                                             <RxCross2 size={14} />
@@ -88,15 +89,17 @@ export default function AllAppplicatons() {
                                                     onChange={(e) => setQuery(e.currentTarget.value)}
                                                 />
                                             ),
-                                            filtering: query !== ''
+                                            filtering: query !== '',
+                                            resizable: true
                                         },
-                                        { accessor: 'email' },
-                                        { accessor: 'phone_number' },
-                                        { accessor: 'submission_date', sortable: true },
-                                        { accessor: 'visa_type' },
+                                        { accessor: 'email', resizable: true },
+                                        { accessor: 'phone_number', resizable: true },
+                                        { accessor: 'submission_date', sortable: true, resizable: true },
+                                        { accessor: 'visa_type', resizable: true },
                                         {
                                             accessor: 'is_approved', render: (record) => record?.is_approved ? <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success">Approved</p> : <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-danger text-danger">Not Approved</p>,
-                                            title: 'Approved'
+                                            title: 'Approved',
+                                            resizable: true
                                         },
                                         {
                                             accessor: 'actions',
@@ -125,9 +128,13 @@ export default function AllAppplicatons() {
                                                     <DeleteApplication id={application?.id} />
                                                 </div>
                                             ),
+                                            resizable: true
                                         },
                                     ]}
-
+                                    classNames={{
+                                        table: "border border-red-300 dark:border-green-700",
+                                    }}
+                                    fetching={isLoading}
                                     records={sortedApplications}
                                     withTableBorder
                                     borderRadius="sm"
@@ -140,6 +147,15 @@ export default function AllAppplicatons() {
                                     sortStatus={sortStatus}
                                     onSortStatusChange={handleSortStatusChange}
                                     pinLastColumn={true}
+
+                                    selectedRecords={selectedRecords}
+                                    onSelectedRecordsChange={setSelectedRecords}
+
+                                    totalRecords={10}
+                                    recordsPerPage={5}
+                                    page={1}
+                                    onPageChange={(p) => console.log(p)}
+                                    paginationActiveBackgroundColor="#3C50E0"
                                 />
                             </div>
                     }
