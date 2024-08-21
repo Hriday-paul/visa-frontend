@@ -7,7 +7,8 @@ type userType = {
     phone: string,
     id : number | null,
     isAuthonicated: boolean,
-    isVerified: boolean
+    isVerified: boolean,
+    local : string
 }
 
 const initState: userType = {
@@ -17,7 +18,8 @@ const initState: userType = {
     phone: '',
     id : null,
     isAuthonicated: false,
-    isVerified: false
+    isVerified: false,
+    local : 'zh-cn'
 }
 
 type addUserDetailsPayload = {

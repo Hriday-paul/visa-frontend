@@ -9,14 +9,15 @@ import { ActionIcon, TextInput } from '@mantine/core';
 import { RxCross2 } from "react-icons/rx";
 import { DeleteApplication } from "../ApplicationDetails/DeleteApplication";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 export default function AllAppplicatons() {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
+    const [page, setPage] = useState<number>(1)
     const { isError, isLoading, isSuccess, data: applications } = useAllApplicationQuery({ token });
     const [selectedRecords, setSelectedRecords] = useState<ApplicationResponseType[]>([]);
 
-    // Use the imported DataTableSortStatus type from mantine-datatable
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus<ApplicationResponseType>>({
         columnAccessor: 'full_name',
         direction: 'asc',
@@ -58,6 +59,9 @@ export default function AllAppplicatons() {
 
     const [query, setQuery] = useState('');
 
+    const currentLocale = moment.locale();
+    console.log(currentLocale)
+
     return (
         <div>
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
@@ -94,7 +98,9 @@ export default function AllAppplicatons() {
                                         },
                                         { accessor: 'email', resizable: true },
                                         { accessor: 'phone_number', resizable: true },
-                                        { accessor: 'submission_date', sortable: true, resizable: true },
+                                        { accessor: 'submission_date', sortable: true, resizable: true, render: (record) =>{ 
+                                            return moment(record?.submission_date).format('L');
+                                        } },
                                         { accessor: 'visa_type', resizable: true },
                                         {
                                             accessor: 'is_approved', render: (record) => record?.is_approved ? <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success">Approved</p> : <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-danger text-danger">Not Approved</p>,
@@ -106,7 +112,7 @@ export default function AllAppplicatons() {
                                             title: 'Actions',
                                             render: (application) => (
                                                 <div className="flex items-center space-x-3.5">
-                                                    <Link to={`/admin/applications/${application?.id}`} className=" bg-primary text-white p-3 hover:opacity-80">
+                                                    <Link to={`/admin/applications/${application?.encoded_id}`} className=" bg-primary text-white p-3 hover:opacity-80">
                                                         <svg
                                                             className="fill-current"
                                                             width="18"
@@ -153,8 +159,8 @@ export default function AllAppplicatons() {
 
                                     totalRecords={10}
                                     recordsPerPage={5}
-                                    page={1}
-                                    onPageChange={(p) => console.log(p)}
+                                    page={page}
+                                    onPageChange={(p) => setPage(p)}
                                     paginationActiveBackgroundColor="#3C50E0"
                                 />
                             </div>
