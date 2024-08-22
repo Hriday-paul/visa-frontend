@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi, fetchBaseQuery, } from '@reduxjs/toolkit/query/react';
 import { userSupportType } from '../../pages/Dashboard/UserSupport/UserSupport';
 import { adminDashboardChartType, adminDashboardCountType, adminDashboardVisaPaiChartType, ApplicationResponseType } from './Types';
@@ -51,14 +52,14 @@ const baseApi = createApi({
                 body: { email, first_name, last_name, username, password, password2: confirm_password, phone_no }
             }),
         }),
-        verifyUser: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string, user_id : number }, { email: string; code: string; }>({
+        verifyUser: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string, user_id: number }, { email: string; code: string; }>({
             query: ({ email, code }) => ({
                 url: `/account/active/`,
                 method: 'POST',
                 body: { email, otp: code }
             }),
         }),
-        loginUser: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string, user_id : number }, { email: string; password: string }>({
+        loginUser: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string, user_id: number }, { email: string; password: string }>({
             query: ({ email, password }) => ({
                 url: `/account/login/`,
                 method: 'POST',
@@ -100,7 +101,7 @@ const baseApi = createApi({
             query: () => `/notification/notification/`,
             // providesTags: []
         }),
-        myallApplications: builder.query<ApplicationResponseType[], { token: string, userId: any }>({
+        myallApplications: builder.query<{ results: ApplicationResponseType[], count : number }, { token: string, userId: any }>({
             query: ({ token, userId }) => ({
                 url: `/visa/application-count/${userId}/`,
                 method: 'GET',
@@ -108,13 +109,13 @@ const baseApi = createApi({
                     Authorization: `Bearer ${token}`,
                 },
             }),
-            providesTags:  ['myApplicaions'],
+            providesTags: ['myApplicaions'],
         }),
 
         // admin api request
-        allApplication: builder.query<ApplicationResponseType[], { token: string }>({
-            query: ({ token }) => ({
-                url: `/visa/visaapplication/`,
+        allApplication: builder.query<{ results: ApplicationResponseType[], count : number }, { token: string, limit : number, currentPage : number }>({
+            query: ({ token, currentPage, limit }) => ({
+                url: `/visa/visaapplication/?page=${currentPage}&page_size=${limit}`,
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,

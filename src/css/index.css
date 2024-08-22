@@ -1,6 +1,5 @@
-@layer tailwind {
-  @tailwind base;
-}
+
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -10,9 +9,6 @@
   body {
     @apply font-satoshi font-normal text-base text-body bg-whiten relative z-1;
   }
-}
-
-@layer components {
 }
 
 @layer utilities {
@@ -297,4 +293,33 @@ span.flatpickr-weekday,
 
 .mantine-datatable-header-cell-sortable:hover{
   @apply bg-gray-2 dark:bg-boxdark-2
+}
+
+.mantine-Table-tr, th, td{
+  @apply border-r border-stroke dark:border-graydark
+}
+.mantine-Table-tr td{
+  @apply border-b border-stroke dark:border-graydark
+}
+
+.m_26063560{
+  @apply border border-stroke dark:border-graydark dark:bg-boxdark-2
+}
+.m_26063560:checked, .m_26063560[data-indeterminate]{
+  @apply  bg-primary
+}
+
+.mantine-datatable-pagination-pages-control{
+  @apply border border-stroke dark:border-graydark
+}
+.mantine-active[data-active]{
+  @apply bg-primary text-white
+}
+
+/* .mantine-datatable-header-resizable-handle{
+  @apply border-r-2 border-dotted border-stroke
+} */
+
+.m_8fb7ebe7 .mantine-Input-input{
+  @apply border border-stroke dark:border-graydark
 }

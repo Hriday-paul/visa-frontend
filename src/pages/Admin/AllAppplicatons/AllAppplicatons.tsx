@@ -15,7 +15,8 @@ export default function AllAppplicatons() {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
     const [page, setPage] = useState<number>(1)
-    const { isError, isLoading, isSuccess, data: applications } = useAllApplicationQuery({ token });
+    const limit = 5;
+    const { isError, isLoading, isSuccess, data: applications } = useAllApplicationQuery({ token, currentPage : page, limit });
     const [selectedRecords, setSelectedRecords] = useState<ApplicationResponseType[]>([]);
 
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus<ApplicationResponseType>>({
@@ -30,7 +31,7 @@ export default function AllAppplicatons() {
     const sortedApplications = useMemo(() => {
         if (!applications) return [];
 
-        const sortedData = [...applications];
+        const sortedData = [...applications.results];
         sortedData.sort((a, b) => {
             const columnAccessor = sortStatus.columnAccessor as keyof ApplicationResponseType;
 
@@ -112,7 +113,7 @@ export default function AllAppplicatons() {
                                             title: 'Actions',
                                             render: (application) => (
                                                 <div className="flex items-center space-x-3.5">
-                                                    <Link to={`/admin/applications/${application?.encoded_id}`} className=" bg-primary text-white p-3 hover:opacity-80">
+                                                    <Link to={`/admin/applications/${application?.id}`} className=" bg-primary text-white p-3 hover:opacity-80">
                                                         <svg
                                                             className="fill-current"
                                                             width="18"
@@ -138,7 +139,10 @@ export default function AllAppplicatons() {
                                         },
                                     ]}
                                     classNames={{
-                                        table: "border border-red-300 dark:border-green-700",
+                                        table: "border border-stroke dark:border-graydark",
+                                        header: "border-b border-stroke dark:border-graydark",
+                                        footer: "border-t border-stroke dark:border-graydark",
+                                        pagination: "border border-t-0 border-stroke dark:border-graydark",
                                     }}
                                     fetching={isLoading}
                                     records={sortedApplications}
@@ -157,11 +161,12 @@ export default function AllAppplicatons() {
                                     selectedRecords={selectedRecords}
                                     onSelectedRecordsChange={setSelectedRecords}
 
-                                    totalRecords={10}
+                                    totalRecords={applications?.count}
                                     recordsPerPage={5}
                                     page={page}
                                     onPageChange={(p) => setPage(p)}
-                                    paginationActiveBackgroundColor="#3C50E0"
+                                    paginationSize="md"
+                                    paginationActiveBackgroundColor="blue"
                                 />
                             </div>
                     }

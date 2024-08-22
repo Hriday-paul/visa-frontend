@@ -32,6 +32,7 @@ export type ApplicationResponseType = {
     passport_photo: string;
     health_ensurence: string;
     travel_insurance: string;
+    health_ensurence_url : string;
     applicant_signature: string;
     submission_date: string;
     is_approved: boolean;

@@ -35,7 +35,7 @@ export default function MyApplications() {
 
     useEffect(() => {
         if (isSuccess && applications) {
-            setApplicationList(applications)
+            setApplicationList(applications?.results)
         }
     }, [applications, isSuccess])
 

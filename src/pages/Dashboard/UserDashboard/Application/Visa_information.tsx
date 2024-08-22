@@ -46,7 +46,7 @@ export default function Visa_information() {
 
     const clickPrev = useCallback(() => {
         dispatch(updateStep(1))
-    }, []);
+    }, [dispatch]);
 
 
     useEffect(() => {
@@ -58,7 +58,7 @@ export default function Visa_information() {
                 navig(`/dashboard/application/${step + 1}`)
             }
         }
-    }, [step])
+    }, [step, navig])
 
 
     return (
@@ -124,7 +124,6 @@ export default function Visa_information() {
                             <Flatpickr
                                 placeholder='YYYY-MM-DD'
                                 defaultValue={draft?.passport_expiry_date || ''}
-                                value={draft?.passport_expiry_date || new Date()}
                                 onChange={(date, str) => {
                                     field.onChange(str)
                                     console.log(date);

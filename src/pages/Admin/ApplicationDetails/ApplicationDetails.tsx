@@ -53,7 +53,7 @@ export default function ApplicationDetails() {
             const errType = accessModifyError as { data: { error: string } }
             toast.error(errType?.data?.error || "Access to modify update failed")
         }
-    }, [accessModifySuccess, accessModifyIsError, accessModifyError]);
+    }, [accessModifySuccess, accessModifyIsError, accessModifyError, accessModifyData?.message]);
 
     useEffect(() => {
         if (approveApplicationSuccess) {
@@ -63,7 +63,7 @@ export default function ApplicationDetails() {
             const errType = approveApplicationError as { data: { error: string } }
             toast.error(errType?.data?.error || "Approve application failed")
         }
-    }, [approveApplicationSuccess, approveApplicationIsError, approveApplicationError])
+    }, [approveApplicationSuccess, approveApplicationIsError, approveApplicationError, approveApplicationData?.message])
 
     useEffect(() => {
         if (rejectApplicationSuccess) {
@@ -73,7 +73,7 @@ export default function ApplicationDetails() {
             const errType = rejectApplicationError as { data: { error: string } }
             toast.error(errType?.data?.error || "Application reject failed")
         }
-    }, [rejectApplicationSuccess, rejectApplicationIsError, rejectApplicationError])
+    }, [rejectApplicationSuccess, rejectApplicationIsError, rejectApplicationError, rejectApplicationData?.message])
 
     return (
         <Spin spinning={accessModifyLoding || approveApplicationLoding || rejectApplicationLoding} size="large" indicator={<ImSpinner8 className="text-4xl animate-spin" />}>
@@ -320,7 +320,7 @@ export default function ApplicationDetails() {
                                             </div>
                                             <div className="p-3 md:p-4 lg:p-5 flex flex-row items-center gap-5 flex-wrap">
                                                 <FileCard name={'Passport'} url={applicationDetails?.passport_photo} />
-                                                <FileCard name={'Health ensurence'} url={applicationDetails?.health_ensurence} />
+                                                <FileCard name={'Health ensurence'} url={applicationDetails?.health_ensurence_url} />
                                                 <FileCard name={'Travel ensurence'} url={applicationDetails?.travel_insurance} />
                                                 <FileCard name={'Signature'} url={applicationDetails?.applicant_signature} />
 
