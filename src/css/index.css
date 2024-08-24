@@ -323,3 +323,25 @@ span.flatpickr-weekday,
 .m_8fb7ebe7 .mantine-Input-input{
   @apply border border-stroke dark:border-graydark
 }
+
+.m_38a85659{
+  @apply dark:bg-boxdark-2 dark:text-white
+}
+.m_fe47ce59{
+  @apply dark:text-slate-200
+}
+.m_8fb7ebe7{
+  @apply dark:bg-boxdark-2 border border-stroke dark:border-strokedark pl-3 dark:text-gray-2
+}
+
+.m_44da308b{
+  @apply dark:bg-graydark dark:text-white
+}
+
+.m_18a3eca, .m_8f457cd5 {
+  @apply border-none
+}
+
+.m_f6645d97:hover, .m_2351eeb0:hover{
+  @apply bg-boxdark-2
+}

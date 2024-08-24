@@ -101,7 +101,7 @@ const baseApi = createApi({
             query: () => `/notification/notification/`,
             // providesTags: []
         }),
-        myallApplications: builder.query<{ results: ApplicationResponseType[], count : number }, { token: string, userId: any }>({
+        myallApplications: builder.query<ApplicationResponseType[], { token: string, userId: any }>({
             query: ({ token, userId }) => ({
                 url: `/visa/application-count/${userId}/`,
                 method: 'GET',
@@ -113,7 +113,7 @@ const baseApi = createApi({
         }),
 
         // admin api request
-        allApplication: builder.query<{ results: ApplicationResponseType[], count : number }, { token: string, limit : number, currentPage : number }>({
+        allApplication: builder.query<{ results: ApplicationResponseType[], count: number }, { token: string, limit: number, currentPage: number }>({
             query: ({ token, currentPage, limit }) => ({
                 url: `/visa/visaapplication/?page=${currentPage}&page_size=${limit}`,
                 method: 'GET',
@@ -202,7 +202,7 @@ const baseApi = createApi({
             }),
             invalidatesTags: ['allApplication'],
         }),
-        editVisaStep: builder.mutation<{ message: string }, { id: number, token: string, message: string; visa_status: string, tracking_id: string }>({
+        editVisaStep: builder.mutation<{ message: string }, { id: string, token: string, message: string; visa_status: string, tracking_id: string }>({
             query: (data) => ({
                 url: `/visa/visa-status/${data?.tracking_id}/`,
                 method: 'PATCH',

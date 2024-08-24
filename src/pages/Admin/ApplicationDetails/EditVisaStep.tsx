@@ -15,7 +15,7 @@ type formType = {
     message: string;
 }
 
-const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: proptype, applicationId : number }) => {
+const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: proptype, applicationId : string }) => {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
 

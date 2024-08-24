@@ -5,24 +5,30 @@ import { useAllApplicationQuery } from "../../../Redux/Features/BaseApi"
 import { ApplicationResponseType } from "../../../Redux/Features/Types";
 import { DataTable, DataTableSortStatus } from "mantine-datatable"; // Import the correct type from mantine-datatable
 import { useMemo, useState } from "react";
-import { ActionIcon, TextInput } from '@mantine/core';
+import { ActionIcon, MultiSelect, TextInput } from '@mantine/core';
 import { RxCross2 } from "react-icons/rx";
 import { DeleteApplication } from "../ApplicationDetails/DeleteApplication";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { DatePicker, type DatesRangeValue } from '@mantine/dates';
+import '@mantine/dates/styles.css';
 
 export default function AllAppplicatons() {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
     const [page, setPage] = useState<number>(1)
     const limit = 5;
-    const { isError, isLoading, isSuccess, data: applications } = useAllApplicationQuery({ token, currentPage : page, limit });
+    const { isError, isLoading, isSuccess, data: applications } = useAllApplicationQuery({ token, currentPage: page, limit });
     const [selectedRecords, setSelectedRecords] = useState<ApplicationResponseType[]>([]);
 
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus<ApplicationResponseType>>({
         columnAccessor: 'full_name',
         direction: 'asc',
     });
+    
+    const [query, setQuery] = useState<{ full_name: string, email: string, phone_number: string }>({ full_name: '', email: '', phone_number: '' });
+    const [birthdaySearchRange, setBirthdaySearchRange] = useState<DatesRangeValue>();
+    const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
 
     const handleSortStatusChange = (newSortStatus: DataTableSortStatus<ApplicationResponseType>) => {
         setSortStatus(newSortStatus);
@@ -58,10 +64,6 @@ export default function AllAppplicatons() {
         return sortedData;
     }, [applications, sortStatus]);
 
-    const [query, setQuery] = useState('');
-
-    const currentLocale = moment.locale();
-    console.log(currentLocale)
 
     return (
         <div>
@@ -79,41 +81,105 @@ export default function AllAppplicatons() {
                                     columns={[
                                         {
                                             accessor: 'full_name',
-                                            sortable: true, filter: (
+                                            sortable: true,
+                                            filter: (
                                                 <TextInput
                                                     label="Name"
                                                     description="Show applications whose names include the specified text"
-                                                    placeholder="Search employees..."
+                                                    placeholder="Search by name..."
 
                                                     rightSection={
-                                                        <ActionIcon size="sm" variant="transparent" c="dimmed" onClick={() => setQuery('')}>
+                                                        <ActionIcon size="sm" variant="transparent" c="dimmed" onClick={() => setQuery({ ...query, full_name: '' })}>
                                                             <RxCross2 size={14} />
                                                         </ActionIcon>
                                                     }
-                                                    value={query}
-                                                    onChange={(e) => setQuery(e.currentTarget.value)}
+                                                    value={query?.full_name}
+                                                    onChange={(e) => setQuery({ ...query, full_name: e.currentTarget.value })}
                                                 />
                                             ),
-                                            filtering: query !== '',
+                                            filtering: query?.full_name !== '',
                                             resizable: true
                                         },
-                                        { accessor: 'email', resizable: true },
-                                        { accessor: 'phone_number', resizable: true },
-                                        { accessor: 'submission_date', sortable: true, resizable: true, render: (record) =>{ 
-                                            return moment(record?.submission_date).format('L');
-                                        } },
-                                        { accessor: 'visa_type', resizable: true },
+                                        {
+                                            accessor: 'email', resizable: true,
+                                            filter: (
+                                                <TextInput
+                                                    label="Email"
+                                                    description="Show applications whose email include the specified text"
+                                                    placeholder="Search by email..."
+
+                                                    rightSection={
+                                                        <ActionIcon size="sm" variant="transparent" c="dimmed" onClick={() => setQuery({ ...query, email: '' })}>
+                                                            <RxCross2 size={14} />
+                                                        </ActionIcon>
+                                                    }
+                                                    value={query?.email}
+                                                    onChange={(e) => setQuery({ ...query, email: e.currentTarget.value })}
+                                                />
+                                            ),
+                                            filtering: query?.email !== '',
+                                        },
+                                        {
+                                            accessor: 'phone_number', resizable: true,
+                                            filter: (
+                                                <TextInput
+                                                    label="Phone number"
+                                                    description="Show applications whose phone number include the specified text"
+                                                    placeholder="Search by phone..."
+
+                                                    rightSection={
+                                                        <ActionIcon size="sm" variant="transparent" c="dimmed" onClick={() => setQuery({ ...query, email: '' })}>
+                                                            <RxCross2 size={14} />
+                                                        </ActionIcon>
+                                                    }
+                                                    value={query?.email}
+                                                    onChange={(e) => setQuery({ ...query, phone_number: e.currentTarget.value })}
+                                                />
+                                            ),
+                                            filtering: query?.phone_number !== '',
+                                        },
+                                        {
+                                            accessor: 'submission_date', sortable: true, resizable: true, render: (record) => {
+                                                return moment(record?.submission_date).format('L');
+                                            },
+                                            filter: ({}) => (
+
+                                                <DatePicker
+                                                    maxDate={new Date()}
+                                                    type="range"
+                                                    value={birthdaySearchRange}
+                                                    onChange={setBirthdaySearchRange}
+                                                />
+                                            )
+                                        },
+                                        {
+                                            accessor: 'visa_type', resizable: true,
+                                            filter: (
+                                                <MultiSelect
+                                                    label="Departments"
+                                                    description="Show all employees working at the selected departments"
+                                                    data={['student', 'Work', 'Family']}
+                                                    value={selectedDepartments}
+                                                    placeholder="Search departments…"
+                                                    onChange={setSelectedDepartments}
+
+                                                    clearable
+                                                    searchable
+                                                />
+                                            ),
+                                            filtering: selectedDepartments.length > 0,
+                                        },
                                         {
                                             accessor: 'is_approved', render: (record) => record?.is_approved ? <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success">Approved</p> : <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-danger text-danger">Not Approved</p>,
                                             title: 'Approved',
-                                            resizable: true
+                                            resizable: true,
                                         },
                                         {
                                             accessor: 'actions',
                                             title: 'Actions',
                                             render: (application) => (
                                                 <div className="flex items-center space-x-3.5">
-                                                    <Link to={`/admin/applications/${application?.id}`} className=" bg-primary text-white p-3 hover:opacity-80">
+                                                    <Link to={`/admin/applications/${application?.encoded_id}`} className=" bg-primary text-white p-3 hover:opacity-80">
                                                         <svg
                                                             className="fill-current"
                                                             width="18"

@@ -255,7 +255,7 @@ export default function ApplicationDetails() {
                                                     </div>
                                                     <div className=" flex flex-row items-center justify-between mb-3.5">
                                                         <span className="w-1/2">Edit</span>
-                                                        <EditVisaStep visaStatus={applicationDetails?.visa_statuses[0]} applicationId={applicationDetails?.id}/>
+                                                        <EditVisaStep visaStatus={applicationDetails?.visa_statuses[0]} applicationId={applicationDetails?.encoded_id}/>
                                                     </div>
                                                 </div>
                                             </div>

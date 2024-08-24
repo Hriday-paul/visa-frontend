@@ -5,10 +5,8 @@ import { AppDispatch, RootState } from "../../../Redux/Store";
 import { Link } from "react-router-dom";
 import AdminLoading from "../../../components/Shared/AdminLoading";
 import AdminError from "../../../components/Shared/AdminError";
-import { RiArrowDropDownLine } from "react-icons/ri";
-import { BiSortAlt2 } from "react-icons/bi";
-import { useCallback, useEffect, useState } from "react";
-import { ApplicationResponseType } from "../../../Redux/Features/Types";
+import { DataTable } from "mantine-datatable";
+import moment from "moment";
 import { addAllInfo } from "../../../Redux/Slices/EditApplicationSlice";
 
 
@@ -16,130 +14,53 @@ export default function MyApplications() {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
     const user = useSelector((state: RootState) => state?.user);
-    const {isLoading, isError, isSuccess, data:applications} = useMyallApplicationsQuery({token, userId : user?.id})
-    const [applicationList, setApplicationList] = useState<ApplicationResponseType[]>([])
-    const [sortApproved, setSortApproved] = useState<boolean>(false);
+    const { isLoading, isError, isSuccess, data: applications } = useMyallApplicationsQuery({ token, userId: user?.id })
     const dispatch = useDispatch<AppDispatch>();
 
-    const acendingSort = () => {
-        const result = [...applicationList]?.sort((prev, next) => {
-            return prev?.submission_date.localeCompare(next?.submission_date)
-        });
-        setApplicationList(result)
-    }
-
-    const decendingSort = () => {
-        const result = [...applicationList]?.sort((prev, next) => next?.submission_date.localeCompare(prev?.submission_date));
-        setApplicationList(result)
-    }
-
-    useEffect(() => {
-        if (isSuccess && applications) {
-            setApplicationList(applications?.results)
-        }
-    }, [applications, isSuccess])
-
-    const sortByApproved = useCallback(() => {
-        
-        if (sortApproved) {
-            console.log('called')
-            const result = [...applicationList]?.sort((prev, next) => {
-                return Number(prev?.is_approved) - Number(next?.is_approved)
-            })
-            setApplicationList(result)
-        }
-        else {
-            const result = [...applicationList]?.sort((prev, next) => {
-                return Number(next?.is_approved) - Number(prev?.is_approved)
-            })
-            setApplicationList(result)
-        }
-        setSortApproved(prev => !prev)
-    }, [applicationList, sortApproved])
-
-    
-
-  return (
-    <div>
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
-        <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-            <h3 className="font-medium text-black dark:text-white">
-                My All Aplication's
-            </h3>
-        </div>
-        <div className="px-6.5 mt-5">
-            {
-                isLoading ? <AdminLoading /> : isError ? <AdminError /> : !isSuccess ? <></> :
-                    <div>
-                        
-                        <div className="max-w-full overflow-x-auto pb-6.5">
-                            <table className="w-full table-auto">
-                                <thead>
-                                    <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                                        <th className="min-w-[100px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                                            Full name
-                                        </th>
-                                        <th className="min-w-[100px] py-4 px-4 font-medium text-black dark:text-white">
-                                            Email
-                                        </th>
-                                        <th className="min-w-[100px] py-4 px-4 font-medium text-black dark:text-white">
-                                            Phone
-                                        </th>
-                                        <th className="py-4 px-4 font-medium text-black dark:text-white flex flex-row gap-x-0.5 items-center">
-                                            <p>Submission Date</p>
-                                            <span>
-                                                <RiArrowDropDownLine onClick={acendingSort} className="text-xl rotate-180 mt-1 hover:text-slate-700 cursor-pointer" />
-                                                <RiArrowDropDownLine onClick={decendingSort} className="text-xl -mt-2.5 hover:text-slate-700 cursor-pointer" />
-                                            </span>
-                                        </th>
-                                        <th className="py-4 px-4 font-medium text-black dark:text-white">
-                                            Visa Type
-                                        </th>
-                                        <th className="py-4 px-4 font-medium text-black dark:text-white flex flex-row gap-x-0.5 items-center">
-                                            <p>Approved</p>
-                                            <span onClick={sortByApproved}><BiSortAlt2 className="text-lg hover:text-slate-700 cursor-pointer" /></span>
-                                        </th>
-                                        <th className="py-4 px-4 font-medium text-black dark:text-white">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {applicationList?.map((application) => (
-                                        <tr key={application?.id}>
-                                            <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                                                <h5 className="font-medium text-black dark:text-white">
-                                                    {application?.full_name}
-                                                </h5>
-                                            </td>
-                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                                <p className="text-black dark:text-white">
-                                                    {application?.email}
-                                                </p>
-                                            </td>
-                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                                <p className="text-black dark:text-white">
-                                                    {application?.phone_number}
-                                                </p>
-                                            </td>
-                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                                <p className="text-black dark:text-white">
-                                                    {application?.submission_date}
-                                                </p>
-                                            </td>
-                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                                <p className={`text-black dark:text-white`}>
-                                                    {application?.visa_type}
-                                                </p>
-                                            </td>
-                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                                <p className={`text-black dark:text-white  inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${application?.is_approved ? "bg-success text-success" : "bg-danger text-danger"}`}>
-                                                    {application?.is_approved ? 'Approved' : application?.rejected ? 'Rejected' : 'Not approved'}
-                                                </p>
-                                            </td>
-                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+    return (
+        <div>
+            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
+                <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+                    <h3 className="font-medium text-black dark:text-white">
+                        My All Aplication's
+                    </h3>
+                </div>
+                <div className="px-6.5 mt-5">
+                    {
+                        isLoading ? <AdminLoading /> : isError ? <AdminError /> : !isSuccess ? <></> :
+                            <div className="py-6">
+                                <DataTable
+                                    columns={[
+                                        {
+                                            accessor: 'full_name',
+                                            resizable: true
+                                        },
+                                        {
+                                            accessor: 'email', resizable: true,
+                                        },
+                                        {
+                                            accessor: 'phone_number', resizable: true,
+                                            
+                                        },
+                                        {
+                                            accessor: 'submission_date', sortable: true, resizable: true, render: (record) => {
+                                                return moment(record?.submission_date).format('L');
+                                            },
+                                        },
+                                        {
+                                            accessor: 'visa_type', resizable: true,
+                                        },
+                                        {
+                                            accessor: 'is_approved', render: (record) => record?.is_approved ? <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success">Approved</p> : <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-danger text-danger">Not Approved</p>,
+                                            title: 'Approved',
+                                            resizable: true,
+                                        },
+                                        {
+                                            accessor: 'actions',
+                                            title: 'Actions',
+                                            render: (application) => (
                                                 <div className="flex items-center space-x-3.5">
-                                                    <Link onClick={()=>dispatch(addAllInfo(application))} to={`/dashboard/my-applications/${application?.id}`} className=" bg-primary text-white p-3 hover:opacity-80">
+                                                    <Link onClick={()=>dispatch(addAllInfo(application))} to={`/dashboard/my-applications/${application?.encoded_id}`} className=" bg-primary text-white p-3 hover:opacity-80">
                                                         <svg
                                                             className="fill-current"
                                                             width="18"
@@ -158,18 +79,43 @@ export default function MyApplications() {
                                                             />
                                                         </svg>
                                                     </Link>
+                                                    {/* <DeleteApplication id={application?.id} /> */}
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-            }
+                                            ),
+                                            resizable: true
+                                        },
+                                    ]}
+                                    classNames={{
+                                        table: "border border-stroke dark:border-graydark",
+                                        header: "border-b border-stroke dark:border-graydark",
+                                        footer: "border-t border-stroke dark:border-graydark",
+                                        pagination: "border border-t-0 border-stroke dark:border-graydark",
+                                    }}
+                                    fetching={isLoading}
+                                    records={applications}
+                                    withTableBorder
+                                    borderRadius="sm"
+                                    withColumnBorders
+                                    striped
+                                    verticalSpacing="md"
+                                    fz="md"
+                                    minHeight={150}
+                                    verticalAlign="center"
+                                    
+                                    pinLastColumn={true}
 
+                                    totalRecords={20}
+                                    recordsPerPage={5}
+                                    page={1}
+                                    onPageChange={(p) => console.log(p)}
+                                    paginationSize="md"
+                                    paginationActiveBackgroundColor="blue"
+                                />
+                            </div>
+                    }
+
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-  )
+    )
 }
