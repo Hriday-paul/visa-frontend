@@ -4,7 +4,7 @@ import AdminLoading from "../../../components/Shared/AdminLoading";
 import { useAllApplicationQuery } from "../../../Redux/Features/BaseApi"
 import { ApplicationResponseType } from "../../../Redux/Features/Types";
 import { DataTable, DataTableSortStatus } from "mantine-datatable"; // Import the correct type from mantine-datatable
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ActionIcon, MultiSelect, TextInput } from '@mantine/core';
 import { RxCross2 } from "react-icons/rx";
 import { DeleteApplication } from "../ApplicationDetails/DeleteApplication";
@@ -25,7 +25,7 @@ export default function AllAppplicatons() {
         columnAccessor: 'full_name',
         direction: 'asc',
     });
-    
+
     const [query, setQuery] = useState<{ full_name: string, email: string, phone_number: string }>({ full_name: '', email: '', phone_number: '' });
     const [birthdaySearchRange, setBirthdaySearchRange] = useState<DatesRangeValue>();
     const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
@@ -64,6 +64,21 @@ export default function AllAppplicatons() {
         return sortedData;
     }, [applications, sortStatus]);
 
+    let timer: ReturnType<typeof setTimeout> | undefined = undefined;
+
+    const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>, type: string) => {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => {
+            const target = e.target as HTMLInputElement;
+            // console.log(target.value)
+            setQuery({ ...query, [type]: target.value })
+        }, 500);
+    }
+
+    const handleKeyPress = () => {
+        window.clearTimeout(timer);
+    }
+
 
     return (
         <div>
@@ -73,10 +88,49 @@ export default function AllAppplicatons() {
                         All Applications
                     </h3>
                 </div>
+                <div className=" py-2 px-6.5 dark:border-strokedark">
+                    <div className="grid grid-cols-6 gap-x-3">
+                        <input
+                            type="text"
+                            placeholder="search by name"
+                            className={`w-full rounded border-[1.5px] bg-transparent py-1 px-3 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary`}
+                        />
+                        <input
+                            type="text"
+                            placeholder="search by email"
+                            className={`w-full rounded border-[1.5px] bg-transparent py-1 px-3 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary`}
+                        />
+                        <input
+                            type="number"
+                            placeholder="search by phone"
+                            className={`w-full rounded border-[1.5px] bg-transparent py-1 px-3 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary`}
+                        />
+                        <input
+                            type="text"
+                            placeholder="search by phone"
+                            className={`w-full rounded border-[1.5px] bg-transparent py-1 px-3 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary`}
+                        />
+                        <MultiSelect
+                            data={['student', 'Work', 'Family']}
+                            value={selectedDepartments}
+                            placeholder="Search departments…"
+                            onChange={setSelectedDepartments}
+
+                            clearable
+                            searchable
+                        />
+                        <input
+                            type="text"
+                            placeholder="search by name"
+                            className={`w-full rounded border-[1.5px] bg-transparent py-1 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary`}
+                        />
+                    </div>
+
+                </div>
                 <div className="px-6.5">
                     {
                         isLoading ? <AdminLoading /> : isError ? <AdminError /> : !isSuccess ? <></> :
-                            <div className="py-6">
+                            <div className="pb-6">
                                 <DataTable
                                     columns={[
                                         {
@@ -89,12 +143,17 @@ export default function AllAppplicatons() {
                                                     placeholder="Search by name..."
 
                                                     rightSection={
-                                                        <ActionIcon size="sm" variant="transparent" c="dimmed" onClick={() => setQuery({ ...query, full_name: '' })}>
+                                                        <ActionIcon size="sm" variant="transparent" c="dimmed" onClick={() => {
+                                                            console.log(query?.full_name)
+                                                            setQuery({ ...query, full_name: '' })
+                                                        }}>
                                                             <RxCross2 size={14} />
                                                         </ActionIcon>
                                                     }
                                                     value={query?.full_name}
-                                                    onChange={(e) => setQuery({ ...query, full_name: e.currentTarget.value })}
+                                                    onKeyDown={handleKeyPress}
+                                                    onKeyUp={(e) => handleKeyUp(e, 'full_name')}
+                                                // onChange={(e) => setQuery({ ...query, full_name: e.currentTarget.value })}
                                                 />
                                             ),
                                             filtering: query?.full_name !== '',
@@ -128,11 +187,11 @@ export default function AllAppplicatons() {
                                                     placeholder="Search by phone..."
 
                                                     rightSection={
-                                                        <ActionIcon size="sm" variant="transparent" c="dimmed" onClick={() => setQuery({ ...query, email: '' })}>
+                                                        <ActionIcon size="sm" variant="transparent" c="dimmed" onClick={() => setQuery({ ...query, phone_number: '' })}>
                                                             <RxCross2 size={14} />
                                                         </ActionIcon>
                                                     }
-                                                    value={query?.email}
+                                                    value={query?.phone_number}
                                                     onChange={(e) => setQuery({ ...query, phone_number: e.currentTarget.value })}
                                                 />
                                             ),
@@ -142,7 +201,7 @@ export default function AllAppplicatons() {
                                             accessor: 'submission_date', sortable: true, resizable: true, render: (record) => {
                                                 return moment(record?.submission_date).format('L');
                                             },
-                                            filter: ({}) => (
+                                            filter: ({ }) => (
 
                                                 <DatePicker
                                                     maxDate={new Date()}

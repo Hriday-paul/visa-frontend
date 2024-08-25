@@ -345,3 +345,23 @@ span.flatpickr-weekday,
 .m_f6645d97:hover, .m_2351eeb0:hover{
   @apply bg-boxdark-2
 }
+
+.m_396ce5cb:hover{
+  @apply dark:!bg-boxdark 
+}
+.m_396ce5cb, .m_dc6a3c71{
+  @apply dark:text-gray
+}
+.m_396ce5cb[data-weekend]{
+  @apply dark:text-red-500
+}
+
+.m_396ce5cb[data-selected]{
+  @apply bg-primary
+}
+.m_396ce5cb[data-selected]:hover{
+  @apply bg-primary
+}
+.m_2351eeb0:hover, .m_f6645d97:hover, .m_dc6a3c71:hover{
+  @apply dark:!bg-boxdark
+}
