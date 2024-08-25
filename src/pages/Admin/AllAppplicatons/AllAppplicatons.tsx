@@ -64,22 +64,6 @@ export default function AllAppplicatons() {
         return sortedData;
     }, [applications, sortStatus]);
 
-    let timer: ReturnType<typeof setTimeout> | undefined = undefined;
-
-    const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>, type: string) => {
-        window.clearTimeout(timer);
-        timer = window.setTimeout(() => {
-            const target = e.target as HTMLInputElement;
-            // console.log(target.value)
-            setQuery({ ...query, [type]: target.value })
-        }, 500);
-    }
-
-    const handleKeyPress = () => {
-        window.clearTimeout(timer);
-    }
-
-
     return (
         <div>
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
@@ -88,49 +72,10 @@ export default function AllAppplicatons() {
                         All Applications
                     </h3>
                 </div>
-                <div className=" py-2 px-6.5 dark:border-strokedark">
-                    <div className="grid grid-cols-6 gap-x-3">
-                        <input
-                            type="text"
-                            placeholder="search by name"
-                            className={`w-full rounded border-[1.5px] bg-transparent py-1 px-3 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary`}
-                        />
-                        <input
-                            type="text"
-                            placeholder="search by email"
-                            className={`w-full rounded border-[1.5px] bg-transparent py-1 px-3 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary`}
-                        />
-                        <input
-                            type="number"
-                            placeholder="search by phone"
-                            className={`w-full rounded border-[1.5px] bg-transparent py-1 px-3 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary`}
-                        />
-                        <input
-                            type="text"
-                            placeholder="search by phone"
-                            className={`w-full rounded border-[1.5px] bg-transparent py-1 px-3 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary`}
-                        />
-                        <MultiSelect
-                            data={['student', 'Work', 'Family']}
-                            value={selectedDepartments}
-                            placeholder="Search departments…"
-                            onChange={setSelectedDepartments}
-
-                            clearable
-                            searchable
-                        />
-                        <input
-                            type="text"
-                            placeholder="search by name"
-                            className={`w-full rounded border-[1.5px] bg-transparent py-1 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary`}
-                        />
-                    </div>
-
-                </div>
                 <div className="px-6.5">
                     {
                         isLoading ? <AdminLoading /> : isError ? <AdminError /> : !isSuccess ? <></> :
-                            <div className="pb-6">
+                            <div className="py-6">
                                 <DataTable
                                     columns={[
                                         {
@@ -144,16 +89,13 @@ export default function AllAppplicatons() {
 
                                                     rightSection={
                                                         <ActionIcon size="sm" variant="transparent" c="dimmed" onClick={() => {
-                                                            console.log(query?.full_name)
                                                             setQuery({ ...query, full_name: '' })
                                                         }}>
                                                             <RxCross2 size={14} />
                                                         </ActionIcon>
                                                     }
                                                     value={query?.full_name}
-                                                    onKeyDown={handleKeyPress}
-                                                    onKeyUp={(e) => handleKeyUp(e, 'full_name')}
-                                                // onChange={(e) => setQuery({ ...query, full_name: e.currentTarget.value })}
+                                                    onChange={(e) => {setQuery({ ...query, full_name: e.currentTarget.value })}}
                                                 />
                                             ),
                                             filtering: query?.full_name !== '',

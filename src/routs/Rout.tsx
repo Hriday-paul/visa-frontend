@@ -20,6 +20,8 @@ import Private from "../components/Shared/Private";
 import AdminHome from "../pages/Admin/AdminHome/AdminHome";
 import MyApplications from "../pages/Dashboard/MyApplications/MyApplications";
 import MyApplicationDetails from "../pages/Dashboard/MyApplicationDetails/MyApplicationDetails";
+import Settings from "../pages/Admin/Settings/Settings";
+import TimeZone from "../pages/Admin/Settings/TimeZone/TimeZone";
 
 const Rout = createBrowserRouter([
     {
@@ -93,6 +95,17 @@ const Rout = createBrowserRouter([
             {
                 path: '/admin/applications/:id',
                 element: <Private><ApplicationDetails /></Private>
+            },
+            {
+                path: '/admin/settings',
+                element: <Private><Settings /></Private>,
+                children:
+                    [
+                        {
+                            path: '/admin/settings/timezone',
+                            element: <Private><TimeZone /></Private>
+                        }
+                    ]
             },
         ]
     },

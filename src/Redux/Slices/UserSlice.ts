@@ -67,10 +67,13 @@ const UserSlice = createSlice({
             state.id = null
             state.isAuthonicated = false;
             state.isVerified = false;
+        },
+        editLocal : (state, { payload }: PayloadAction<{local : string}>)=>{
+            state.local = payload?.local;
         }
     }
 });
 
-export const { addUserDetails, updateUserVerified, resetUser } = UserSlice.actions
+export const { addUserDetails, updateUserVerified, resetUser, editLocal } = UserSlice.actions
 export default UserSlice.reducer;
 

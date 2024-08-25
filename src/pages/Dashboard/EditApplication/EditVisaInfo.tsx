@@ -29,12 +29,12 @@ const EditVisaInfo = React.memo(({ setEditApplicationStep }: { setEditApplicatio
 
     const handleEditVisaInfo: SubmitHandler<Visa_information_types> = (data) => {
         dispatch(editVisaInfoApplication(data))
-        // dispatch(updateStep(step + 1));
+        setEditApplicationStep(3)
         console.log(data)
     }
 
     const clickPrev = useCallback(() => {
-        setEditApplicationStep(1)
+        setEditApplicationStep(2)
     }, []);
 
     return (
