@@ -4,7 +4,7 @@ import AdminLoading from "../../../components/Shared/AdminLoading";
 import { useAllApplicationQuery } from "../../../Redux/Features/BaseApi"
 import { ApplicationResponseType } from "../../../Redux/Features/Types";
 import { DataTable, DataTableSortStatus } from "mantine-datatable"; // Import the correct type from mantine-datatable
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ActionIcon, MultiSelect, TextInput } from '@mantine/core';
 import { RxCross2 } from "react-icons/rx";
 import { DeleteApplication } from "../ApplicationDetails/DeleteApplication";

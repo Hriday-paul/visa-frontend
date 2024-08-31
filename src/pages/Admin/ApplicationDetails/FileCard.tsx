@@ -14,7 +14,7 @@ import { Image, Space } from 'antd';
 const FileCard = React.memo(({ name, url }: { name: string, url: string }) => {
     const [visible, setVisible] = useState<boolean>(false);
 
-    const onDownload = (imgUrl: string) => {
+    const onDownload = (imgUrl: string) => { 
         fetch(imgUrl, {
             method: 'GET',
         })

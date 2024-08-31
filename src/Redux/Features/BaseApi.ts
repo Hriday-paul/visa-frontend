@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi, fetchBaseQuery, } from '@reduxjs/toolkit/query/react';
 import { userSupportType } from '../../pages/Dashboard/UserSupport/UserSupport';
-import { adminDashboardChartType, adminDashboardCountType, adminDashboardVisaPaiChartType, ApplicationResponseType } from './Types';
+import { adminDashboardChartType, adminDashboardCountType, adminDashboardVisaPaiChartType, ApplicationResponseType, EditApplicationResponseType } from './Types';
 
 const apiUrl = import.meta.env.VITE_API_URL as string;
 
@@ -111,6 +111,17 @@ const baseApi = createApi({
             }),
             providesTags: ['myApplicaions'],
         }),
+        editApplication: builder.mutation<EditApplicationResponseType, { id: string | number, token: string, data: any }>({
+            query: ({ id, token, data }) => ({
+                url: `/visa/visaapplication/${id}/`,
+                method: 'PATCH',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: data
+            }),
+            invalidatesTags: (_, __, { id }) => [{ type: 'Application', id }],
+        }),
 
         // admin api request
         allApplication: builder.query<{ results: ApplicationResponseType[], count: number }, { token: string, limit: number, currentPage: number }>({
@@ -216,7 +227,7 @@ const baseApi = createApi({
     })
 })
 
-export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation, useMyallApplicationsQuery } = baseApi;
+export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation, useMyallApplicationsQuery, useEditApplicationMutation } = baseApi;
 
 export const reduxApi = baseApi;
 

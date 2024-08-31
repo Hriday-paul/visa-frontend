@@ -1,18 +1,49 @@
 import React from 'react'
-import { CiFileOn } from 'react-icons/ci';
 import { MdOutlineEdit } from 'react-icons/md';
 
-const ChangeDocumentCard = React.memo(({image, name}:{image : string, name : string})=> {
+type setFileType = { user_photo: File | null, passport_photo: File | null, health_ensurence: File | null, travel_insurance: File | null, applicant_signature: File | null }
+
+const ChangeDocumentCard = React.memo(({ image, name, setFiles,  }: { image: string | File, name: string, setFiles: React.Dispatch<React.SetStateAction<setFileType>>}) => {
+    
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const fileList = e.target.files as File[] | null;
+        if (name == 'My photo' && fileList) {
+            setFiles(prev => {
+                return { ...prev, user_photo: fileList[0] }
+            })
+        }
+        if (name == 'Passport' && fileList) {
+            setFiles(prev => {
+                return { ...prev, passport_photo: fileList[0] }
+            })
+        }
+        if (name == 'Health ensurence' && fileList) {
+            setFiles(prev => {
+                return { ...prev, health_ensurence: fileList[0] }
+            })
+        }
+        if (name == 'Travel insurance' && fileList) {
+            setFiles(prev => {
+                return { ...prev, travel_insurance: fileList[0] }
+            })
+        }
+        if (name == 'Signature' && fileList) {
+            setFiles(prev => {
+                return { ...prev, applicant_signature: fileList[0] }
+            })
+        }
+    }
+
     return (
         <div>
-            <div className="bg-slate-50 dark:bg-boxdark border border-stroke dark:border-strokedark h-28 w-28 p-4 shadow-2 rounded-sm flex flex-col justify-center items-center group relative cursor-pointer">
-                <CiFileOn className="text-4xl text-success" />
-                <p className="text-sm text-center my-1.5 text-graydark dark:text-slate-200">Passport</p>
-                <div className="absolute top-0 left-0 w-full h-full group-hover:flex justify-center items-center hidden bg-slate-50 dark:bg-boxdark duration-200 flex-col">
-                    <MdOutlineEdit className="text-xl text-graydark dark:text-slate-200 group-hover:translate-y-0 duration-200" />
-                    <p className="text-center">Change</p>
+            <label htmlFor={name} className="relative group cursor-pointer">
+                <img className="max-w-xs w-32 h-32 object-cover items-center border" src={image instanceof File ? URL.createObjectURL(image) : image} alt="profile photo" />
+                <div className="bg-blue-100 size-6 p-[3px] flex justify-center items-center absolute top-0 right-0 group-hover:w-full group-hover:h-full group-hover:top-0 group-hover:right-0 group-hover:bg-blue-100/60 duration-500 transition-all">
+                    <MdOutlineEdit className=" text-blue-500 group-hover:block text-xl cursor-pointer"></MdOutlineEdit>
                 </div>
-            </div>
+            </label>
+            <input type="file" accept="image/*" name={name} id={name} className='hidden' onChange={handleOnChange} />
+            <p className='text-center text-black dark:text-gray mt-1'>{name}</p>
         </div>
     )
 })

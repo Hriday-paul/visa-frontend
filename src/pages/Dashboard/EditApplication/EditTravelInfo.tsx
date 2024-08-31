@@ -48,7 +48,7 @@ const EditTravelInfo = React.memo(({ setEditApplicationStep }: { setEditApplicat
     return (
 
         <form onSubmit={handleSubmit(handleEditTravelInfo)}>
-            <div className="p-6.5">
+            <div className="p-3 md:p-4 xl:p-6.5 ">
 
                 <div className="flex flex-col gap-6 xl:flex-row">
                     <div className="w-full xl:w-1/2">

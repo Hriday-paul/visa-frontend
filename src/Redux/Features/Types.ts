@@ -46,8 +46,16 @@ export type adminDashboardCountType = {
     total_application: number
 }
 
+type chart_type = {
+    visa_type : string;
+    count : number
+};
+
 export type adminDashboardChartType = {
-    [key: string]: number,
+    total : chart_type[],
+    last_week : chart_type[],
+    last_month : chart_type[],
+    last_year : chart_type[],
 }
 export type adminDashboardVisaPaiChartType = {
     [key: string]: number,
@@ -80,9 +88,9 @@ export type EditApplicationResponseType = {
     passport_issue_date: string;
     passport_expiry_date: string;
     country_of_passport_issuance: string;
-    user_photo: string;
-    passport_photo: string;
-    health_ensurence: string;
-    travel_insurance: string;
-    applicant_signature: string;
+    user_photo: string | File;
+    passport_photo: string| File;
+    health_ensurence: string| File;
+    travel_insurance: string| File;
+    applicant_signature: string| File;
 }

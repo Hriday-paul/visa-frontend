@@ -30,16 +30,15 @@ const EditVisaInfo = React.memo(({ setEditApplicationStep }: { setEditApplicatio
     const handleEditVisaInfo: SubmitHandler<Visa_information_types> = (data) => {
         dispatch(editVisaInfoApplication(data))
         setEditApplicationStep(3)
-        console.log(data)
     }
 
     const clickPrev = useCallback(() => {
-        setEditApplicationStep(2)
+        setEditApplicationStep(1)
     }, []);
 
     return (
         <div>
-            <form className="p-6.5" onSubmit={handleSubmit(handleEditVisaInfo)}>
+            <form className="p-3 md:p-4 xl:p-6.5 " onSubmit={handleSubmit(handleEditVisaInfo)}>
 
                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                     <div className="w-full xl:w-1/2">

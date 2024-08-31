@@ -45,7 +45,7 @@ const EditPersonalInfo = React.memo(({setEditApplicationStep} : {setEditApplicat
     return (
         <div>
             <form onSubmit={handleSubmit(handleEditPersonalInfo)}>
-                <div className="p-6.5 z-1">
+                <div className="p-3 md:p-4 xl:p-6.5 z-1">
 
                     <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                         <div className="w-full xl:w-1/2">
@@ -54,7 +54,6 @@ const EditPersonalInfo = React.memo(({setEditApplicationStep} : {setEditApplicat
                             </label>
                             <input
                                 type="text"
-
                                 {...register("full_name", { required: true })}
                                 placeholder="Enter your name"
                                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.full_name ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
@@ -269,10 +268,6 @@ const EditPersonalInfo = React.memo(({setEditApplicationStep} : {setEditApplicat
                         </div>
                     </div>
 
-
-                    {/* <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                                Next
-                            </button> */}
                     <div className="flex justify-end">
                         <button
                             className="inline-flex items-center justify-center gap-2.5 bg-primary py-3 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10 "
@@ -282,6 +277,7 @@ const EditPersonalInfo = React.memo(({setEditApplicationStep} : {setEditApplicat
                             <GrFormNextLink className="text-xl text-white" />
                         </button>
                     </div>
+
                 </div>
             </form>
         </div>
