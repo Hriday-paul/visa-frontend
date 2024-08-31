@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../../images/logo/logo.svg';
 import { FiUsers } from 'react-icons/fi';
@@ -21,9 +21,8 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     const sidebar = useRef<any>(null);
 
     const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
-    const [sidebarExpanded, setSidebarExpanded] = useState(
-        storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
-    );
+
+    const sidebarExpanded = storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true';
 
     // close on click outside
     useEffect(() => {
@@ -59,8 +58,6 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             document.querySelector('body')?.classList.remove('sidebar-expanded');
         }
     }, [sidebarExpanded]);
-
-    
 
     return (
         <aside
