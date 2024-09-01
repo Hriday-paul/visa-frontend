@@ -12,6 +12,8 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import EditVisaStep from "./EditVisaStep";
 import CopyTrackId from "./Template/CopyTrackId";
+import { IoCalendarNumberSharp } from "react-icons/io5";
+import moment from "moment";
 
 export default function ApplicationDetails() {
 
@@ -96,6 +98,12 @@ export default function ApplicationDetails() {
                                                     <MdPhoneInTalk className="text-lg text-graydark  dark:text-slate-200" />
                                                     <p className="text-base text-graydark dark:text-slate-200">{applicationDetails?.phone_number}</p>
                                                 </li>
+                                                {
+                                                    applicationDetails?.appointment.length > 0 && <li className="flex items-center gap-x-2 mt-1">
+                                                        <IoCalendarNumberSharp className="text-lg text-graydark  dark:text-slate-200" />
+                                                        <p className="text-base text-graydark dark:text-slate-200">{moment(applicationDetails?.appointment[0]?.interview_date).format('L')}</p>
+                                                    </li>
+                                                }
                                             </ul>
                                         </div>
                                         <div className="border-l border-stroke dark:border-strokedark pl-0 lg:pl-3">
@@ -245,7 +253,7 @@ export default function ApplicationDetails() {
                                                     </div>
 
                                                     {/* // copy traxking id */}
-                                                    <CopyTrackId id={applicationDetails?.visa_statuses[0]?.tracking_id}/>
+                                                    <CopyTrackId id={applicationDetails?.visa_statuses[0]?.tracking_id} />
 
                                                     <div className=" flex flex-row items-center justify-between mb-3.5">
                                                         <span className="w-1/2">Message</span>
@@ -255,13 +263,13 @@ export default function ApplicationDetails() {
                                                     </div>
                                                     <div className=" flex flex-row items-center justify-between mb-3.5">
                                                         <span className="w-1/2">Edit</span>
-                                                        <EditVisaStep visaStatus={applicationDetails?.visa_statuses[0]} applicationId={applicationDetails?.encoded_id}/>
+                                                        <EditVisaStep visaStatus={applicationDetails?.visa_statuses[0]} applicationId={applicationDetails?.encoded_id} />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     {/* // right side section */}
                                     <div>
                                         {/* // passport information  */}
@@ -320,10 +328,9 @@ export default function ApplicationDetails() {
                                             </div>
                                             <div className="p-3 md:p-4 lg:p-5 flex flex-row items-center gap-5 flex-wrap">
                                                 <FileCard name={'Passport'} url={applicationDetails?.passport_photo} />
-                                                <FileCard name={'Health ensurence'} url={applicationDetails?.health_ensurence_url} />
+                                                <FileCard name={'Health ensurence'} url={applicationDetails?.health_ensurence} />
                                                 <FileCard name={'Travel ensurence'} url={applicationDetails?.travel_insurance} />
                                                 <FileCard name={'Signature'} url={applicationDetails?.applicant_signature} />
-
                                             </div>
                                         </div>
                                     </div>

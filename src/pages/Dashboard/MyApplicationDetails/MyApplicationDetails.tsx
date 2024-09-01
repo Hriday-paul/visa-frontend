@@ -8,6 +8,9 @@ import FileCard from "../../Admin/ApplicationDetails/FileCard";
 import { CiEdit } from "react-icons/ci";
 import { useRef } from "react";
 import EditApplication from "../EditApplication/EditApplication";
+import { IoCalendarNumberSharp } from "react-icons/io5";
+import InterviewDatePicker from "./Template/InterviewDatePicker";
+import moment from "moment";
 
 export default function MyApplicationDetails() {
     const [cookies] = useCookies(['baerer-token']);
@@ -15,9 +18,14 @@ export default function MyApplicationDetails() {
     const params = useParams();
     const { isLoading, isError, isSuccess, data: applicationDetails } = useApplicationDetailsQuery({ id: params?.id || 0, token });
     const modalRef = useRef<HTMLDialogElement | null>(null);
+    const interviewModalRef = useRef<HTMLDialogElement | null>(null);
 
     const openModal = () => {
         modalRef?.current?.showModal()
+    }
+
+    const openInterviewModal = () => {
+        interviewModalRef?.current?.showModal()
     }
 
     return (
@@ -41,6 +49,12 @@ export default function MyApplicationDetails() {
                                                 <MdPhoneInTalk className="text-lg text-graydark  dark:text-slate-200" />
                                                 <p className="text-base text-graydark dark:text-slate-200">{applicationDetails?.phone_number}</p>
                                             </li>
+                                            {
+                                                applicationDetails?.appointment.length > 0 && <li className="flex items-center gap-x-2 mt-1">
+                                                    <IoCalendarNumberSharp className="text-lg text-graydark  dark:text-slate-200" />
+                                                    <p className="text-base text-graydark dark:text-slate-200">{moment(applicationDetails?.appointment[0]?.interview_date).format('L')}</p>
+                                                </li>
+                                            }
                                         </ul>
                                     </div>
                                     <div className="border-l border-stroke dark:border-strokedark pl-0 lg:pl-3">
@@ -49,6 +63,24 @@ export default function MyApplicationDetails() {
                                 </div>
                                 <div className="flex flex-row gap-y-3 md:gap-y-0 gap-x-5 md:gap-x-3 lg:gap-x-10 items-center flex-wrap">
                                     <div className="flex flex-row gap-x-3 items-center">
+                                        {
+                                            applicationDetails?.appointment.length <= 0 &&
+                                            <button onClick={openInterviewModal} className="inline-flex items-center justify-center gap-x-1 rounded bg-primary py-2 px-3 text-center font-medium text-white hover:bg-opacity-90 lg:px-5 m-1 cursor-pointer border-0 outline-none">
+                                                <IoCalendarNumberSharp className="mr-1" />
+                                                Interview Date
+                                            </button>
+                                        }
+
+                                        <dialog ref={interviewModalRef} className="modal z-10">
+                                            <div className="modal-box w-[380px] max-w-4xl">
+                                                <h3 className="text-lg text-black dark:text-gray font-medium">Select Interview date</h3>
+                                                <InterviewDatePicker applicationId={applicationDetails?.id} applicationEncodedId={applicationDetails?.encoded_id} interviewModalRef={interviewModalRef} />
+                                            </div>
+                                            <form method="dialog" className="modal-backdrop">
+                                                <button>close</button>
+                                            </form>
+                                        </dialog>
+
                                         {
                                             applicationDetails?.is_approved && < p className={`dark:text-white  inline-flex rounded-full bg-opacity-10 py-1 px-3 text-xs lg:text-sm font-medium bg-success text-success`}>Approved</p>
                                         }
@@ -64,11 +96,11 @@ export default function MyApplicationDetails() {
                                             Edit
                                             <CiEdit />
                                         </button>
-                                        
+
                                         <dialog ref={modalRef} id="my_modal_2" className="modal z-10">
                                             <div className="modal-box w-11/12 lg:w-8/12 xl:w-11/12 max-w-4xl">
                                                 <h3 className="text-lg mb-5">Edit application</h3>
-                                                <EditApplication/>
+                                                <EditApplication />
                                             </div>
                                             <form method="dialog" className="modal-backdrop">
                                                 <button>close</button>

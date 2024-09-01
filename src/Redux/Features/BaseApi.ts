@@ -122,6 +122,26 @@ const baseApi = createApi({
             }),
             invalidatesTags: (_, __, { id }) => [{ type: 'Application', id }],
         }),
+        bookedDateList: builder.query<{ fully_booked_dates: string[] }, { token: string }>({
+            query: ({ token }) => ({
+                url: `/interview/booked_dates/`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+        }),
+        setInterviewDate: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date: string; id: string | number}, encodedId : string }>({
+            query: ({ token, data }) => ({
+                url: `/interview/appointment/`,
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: {visa_application : data?.id, interview_date : data?.interview_date}
+            }),
+            invalidatesTags: (_, __, { encodedId }) => [{ type: 'Application', encodedId }],
+        }),
 
         // admin api request
         allApplication: builder.query<{ results: ApplicationResponseType[], count: number }, { token: string, limit: number, currentPage: number }>({
@@ -227,7 +247,7 @@ const baseApi = createApi({
     })
 })
 
-export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation, useMyallApplicationsQuery, useEditApplicationMutation } = baseApi;
+export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation, useMyallApplicationsQuery, useEditApplicationMutation, useBookedDateListQuery, useSetInterviewDateMutation } = baseApi;
 
 export const reduxApi = baseApi;
 

@@ -1,14 +1,15 @@
 
 export type ApplicationResponseType = {
     id: number;
-    encoded_id : string,
+    encoded_id: string,
     full_name: string,
     email: string;
     phone_number: string;
     permanent_address: string;
     present_address: string;
     city: string;
-    visa_statuses: { id: number, tracking_id: string; visa_status: string; message: string }[]
+    visa_statuses: { id: number, tracking_id: string; visa_status: string; message: string }[];
+    appointment: { visa_application: number; interview_date: string; booked_at: string }[];
     nationality: string;
     occupation: string;
     date_of_birth: string;
@@ -32,7 +33,7 @@ export type ApplicationResponseType = {
     passport_photo: string;
     health_ensurence: string;
     travel_insurance: string;
-    health_ensurence_url : string;
+    health_ensurence_url: string;
     applicant_signature: string;
     submission_date: string;
     is_approved: boolean;
@@ -47,15 +48,15 @@ export type adminDashboardCountType = {
 }
 
 type chart_type = {
-    visa_type : string;
-    count : number
+    visa_type: string;
+    count: number
 };
 
 export type adminDashboardChartType = {
-    total : chart_type[],
-    last_week : chart_type[],
-    last_month : chart_type[],
-    last_year : chart_type[],
+    total: chart_type[],
+    last_week: chart_type[],
+    last_month: chart_type[],
+    last_year: chart_type[],
 }
 export type adminDashboardVisaPaiChartType = {
     [key: string]: number,
@@ -89,8 +90,8 @@ export type EditApplicationResponseType = {
     passport_expiry_date: string;
     country_of_passport_issuance: string;
     user_photo: string | File;
-    passport_photo: string| File;
-    health_ensurence: string| File;
-    travel_insurance: string| File;
-    applicant_signature: string| File;
+    passport_photo: string | File;
+    health_ensurence: string | File;
+    travel_insurance: string | File;
+    applicant_signature: string | File;
 }
