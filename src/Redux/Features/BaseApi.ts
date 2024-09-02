@@ -2,6 +2,9 @@
 import { createApi, fetchBaseQuery, } from '@reduxjs/toolkit/query/react';
 import { userSupportType } from '../../pages/Dashboard/UserSupport/UserSupport';
 import { adminDashboardChartType, adminDashboardCountType, adminDashboardVisaPaiChartType, ApplicationResponseType, EditApplicationResponseType } from './Types';
+import { type DatesRangeValue } from '@mantine/dates';
+import moment from 'moment'
+import { useNavigate } from 'react-router-dom';
 
 const apiUrl = import.meta.env.VITE_API_URL as string;
 
@@ -40,10 +43,22 @@ export type addApplicationType = {
 
 const baseApi = createApi({
     reducerPath: 'api',
-    tagTypes: ['Application', 'allApplication', 'myApplicaions'],
-    baseQuery: fetchBaseQuery({
-        baseUrl: apiUrl
-    }),
+    tagTypes: ['Application', 'allApplication', 'myApplicaions', 'booked_date'],
+    baseQuery: async (args, api, extraOptions) => {
+        // Fetch base query with interceptors
+        const baseQueryWithInterceptors = fetchBaseQuery({
+            baseUrl: apiUrl,
+        });
+
+        // Make the request
+        const result = await baseQueryWithInterceptors(args, api, extraOptions);
+
+        if (result.error && result.error.status === 401) {
+            const navig = useNavigate();
+            navig('/login')
+        }
+        return result;
+    },
     endpoints: (builder) => ({
         createUser: builder.mutation<void, { email: string; first_name: string; last_name: string; username: string, phone_no: string, password: string, confirm_password: string }>({
             query: ({ email, first_name, last_name, username, phone_no, password, confirm_password }) => ({
@@ -130,23 +145,26 @@ const baseApi = createApi({
                     Authorization: `Bearer ${token}`,
                 },
             }),
+            providesTags: ['booked_date'],
         }),
-        setInterviewDate: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date: string; id: string | number}, encodedId : string }>({
+        setInterviewDate: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date: string; id: string | number }, encodedId: string }>({
             query: ({ token, data }) => ({
                 url: `/interview/appointment/`,
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
-                body: {visa_application : data?.id, interview_date : data?.interview_date}
+                body: { visa_application: data?.id, interview_date: data?.interview_date }
             }),
-            invalidatesTags: (_, __, { encodedId }) => [{ type: 'Application', encodedId }],
+            invalidatesTags: (_, __, { encodedId }) => [{ type: 'Application', encodedId }, 'booked_date'],
         }),
 
         // admin api request
-        allApplication: builder.query<{ results: ApplicationResponseType[], count: number }, { token: string, limit: number, currentPage: number }>({
-            query: ({ token, currentPage, limit }) => ({
-                url: `/visa/visaapplication/?page=${currentPage}&page_size=${limit}`,
+        allApplication: builder.query<{ results: ApplicationResponseType[], count: number }, { token: string, limit: number, currentPage: number, full_name: string, email: string, phone_number: string, visaTypes: string[], submission_date: DatesRangeValue | undefined }>({
+            query: ({ token, currentPage, limit, full_name, email, phone_number, visaTypes, submission_date }) => ({
+
+                url: `/visa/visaapplication/?page=${currentPage}&page_size=${limit}${visaTypes?.map(item => '&visa_type=' + item).join('')}&gender=&is_approved=&rejected=&is_modified=&submission_date=${(typeof submission_date != 'undefined' && submission_date && submission_date[0] != null) ? moment(submission_date[0]).format('YYYY-MM-DD') : ''}&search=${full_name || phone_number || email}`,
+
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,

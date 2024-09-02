@@ -30,17 +30,17 @@ export default function MyApplicationDetails() {
 
     return (
 
-        <div className="rounded-xl border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
+        <div className="rounded-xl border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke p-5 md:p-6.5 xl:p-10 dark:border-strokedark">
                 {
                     isLoading ? <AdminLoading /> : isError ? <AdminError /> : !isSuccess ? <></> : <div>
                         <div>
                             {/* // top section */}
-                            <div className="flex flex-col md:flex-row justify-between gap-x-0 md:gap-x-5  gap-y-5 md:gap-y-0">
-                                <div className="flex flex-row gap-x-5 md:gap-x-3 lg:gap-x-5 items-center">
+                            <div className="flex flex-col md:flex-row justify-between gap-x-0 md:gap-x-5  gap-y-3 md:gap-y-0">
+                                <div className="flex flex-col-reverse md:flex-row gap-x-5 md:gap-x-3 lg:gap-x-5 md:items-center">
                                     <div>
                                         <h2 className="text-xl font-medium text-black dark:text-white">{applicationDetails?.full_name}</h2>
-                                        <ul className="my-3">
+                                        <ul className="mt-1.5 md:mt-3 mb-3">
                                             <li className="flex items-center gap-x-2 mb-2">
                                                 <MdEmail className="text-lg text-graydark dark:text-slate-200" />
                                                 <p className="text-base text-graydark dark:text-slate-200">{applicationDetails?.email}</p>
@@ -57,7 +57,7 @@ export default function MyApplicationDetails() {
                                             }
                                         </ul>
                                     </div>
-                                    <div className="border-l border-stroke dark:border-strokedark pl-0 lg:pl-3">
+                                    <div className="border-l border-stroke dark:border-strokedark pl-0 lg:pl-3 mb-3 md:mb-0">
                                         <img src={applicationDetails?.user_photo} loading="lazy" alt="user photo" className="h-24 w-auto" />
                                     </div>
                                 </div>

@@ -47,6 +47,7 @@ const InterviewDatePicker = React.memo(({ applicationId, applicationEncodedId, i
                                     }}
                                     options={{
                                         disable: data?.fully_booked_dates,
+                                        minDate: "today",
                                         inline: true,
                                         altInput: true,
                                         dateFormat: 'Y-m-d',

@@ -19,7 +19,7 @@ export default function MyApplications() {
 
     return (
         <div>
-            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
+            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                 <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                     <h3 className="font-medium text-black dark:text-white">
                         My All Aplication's
@@ -101,19 +101,10 @@ export default function MyApplications() {
                                     fz="md"
                                     minHeight={150}
                                     verticalAlign="center"
-                                    
                                     pinLastColumn={true}
-
-                                    totalRecords={20}
-                                    recordsPerPage={5}
-                                    page={1}
-                                    onPageChange={(p) => console.log(p)}
-                                    paginationSize="md"
-                                    paginationActiveBackgroundColor="blue"
                                 />
                             </div>
                     }
-
                 </div>
             </div>
         </div>

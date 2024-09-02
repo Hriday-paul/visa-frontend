@@ -79,7 +79,7 @@ export default function ApplicationDetails() {
 
     return (
         <Spin spinning={accessModifyLoding || approveApplicationLoding || rejectApplicationLoding} size="large" indicator={<ImSpinner8 className="text-4xl animate-spin" />}>
-            <div className="rounded-xl border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
+            <div className="rounded-xl border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                 <div className="border-b border-stroke p-5 md:p-6.5 xl:p-10 dark:border-strokedark">
                     {
                         isLoading ? <AdminLoading /> : isError ? <AdminError /> : !isSuccess ? <></> : <div>

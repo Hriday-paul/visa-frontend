@@ -12,24 +12,40 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { DatePicker, type DatesRangeValue } from '@mantine/dates';
 import '@mantine/dates/styles.css';
+import { useDebouncedValue } from '@mantine/hooks';
 
 export default function AllAppplicatons() {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
     const [page, setPage] = useState<number>(1)
     const limit = 5;
-    const { isError, isLoading, isSuccess, data: applications } = useAllApplicationQuery({ token, currentPage: page, limit });
+
+    const [query, setQuery] = useState<{ full_name: string, email: string, phone_number: string }>({ full_name: '', email: '', phone_number: '' });
+    const [debouncedFullName] = useDebouncedValue(query.full_name, 500);
+    const [debouncedEmail] = useDebouncedValue(query.email, 500);
+    const [debouncedPhoneNumber] = useDebouncedValue(query.phone_number, 500);
+
+    const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
+    const [birthdaySearchRange, setBirthdaySearchRange] = useState<DatesRangeValue>();
+
+    const { isError, isLoading, isSuccess, data: applications } = useAllApplicationQuery({
+        token,
+        currentPage: page,
+        limit,
+        full_name: debouncedFullName,
+        email: debouncedEmail,
+        phone_number: debouncedPhoneNumber,
+        visaTypes: selectedDepartments,
+        submission_date : birthdaySearchRange
+    });
+
     const [selectedRecords, setSelectedRecords] = useState<ApplicationResponseType[]>([]);
 
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus<ApplicationResponseType>>({
         columnAccessor: 'full_name',
         direction: 'asc',
     });
-
-    const [query, setQuery] = useState<{ full_name: string, email: string, phone_number: string }>({ full_name: '', email: '', phone_number: '' });
-    const [birthdaySearchRange, setBirthdaySearchRange] = useState<DatesRangeValue>();
-    const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
-
+    
     const handleSortStatusChange = (newSortStatus: DataTableSortStatus<ApplicationResponseType>) => {
         setSortStatus(newSortStatus);
     };
@@ -66,7 +82,7 @@ export default function AllAppplicatons() {
 
     return (
         <div>
-            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8">
+            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-0">
                 <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                     <h3 className="font-medium text-black dark:text-white">
                         All Applications
@@ -157,9 +173,9 @@ export default function AllAppplicatons() {
                                             accessor: 'visa_type', resizable: true,
                                             filter: (
                                                 <MultiSelect
-                                                    label="Departments"
-                                                    description="Show all employees working at the selected departments"
-                                                    data={['student', 'Work', 'Family']}
+                                                    label="Visa types"
+                                                    
+                                                    data={['Student', 'Work', 'Family', "Tourist", "Business", 'Medical']}
                                                     value={selectedDepartments}
                                                     placeholder="Search departments…"
                                                     onChange={setSelectedDepartments}

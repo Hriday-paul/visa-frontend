@@ -1,6 +1,6 @@
 import { useCookies } from "react-cookie";
 import CardDataStats from "./Template/CardDataStats";
-import { MdDoneAll, MdListAlt, MdOutlineRemoveDone } from "react-icons/md";
+import { MdDoneAll, MdListAlt, MdMovieEdit, MdOutlineRemoveDone } from "react-icons/md";
 import BarChart from "./Template/BarChart";
 import Paichart from "./Template/Paichart";
 import AdminLoading from "../../../components/Shared/AdminLoading";
@@ -29,6 +29,9 @@ export default function AdminHome() {
                             </CardDataStats>
                             <CardDataStats title="Total Reject" total={countData?.total_reject}>
                                 <MdOutlineRemoveDone className="h-5 w-5 fill-primary dark:fill-white" />
+                            </CardDataStats>
+                            <CardDataStats title="Modified Access" total={countData?.under_modified}>
+                                <MdMovieEdit className="h-5 w-5 fill-primary dark:fill-white" />
                             </CardDataStats>
                         </div>
                         <div className="mt-4 grid grid-cols-1 xl:grid-cols-2 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">

@@ -44,7 +44,8 @@ export type ApplicationResponseType = {
 export type adminDashboardCountType = {
     total_approve: number;
     total_reject: number;
-    total_application: number
+    total_application: number;
+    under_modified : number
 }
 
 type chart_type = {

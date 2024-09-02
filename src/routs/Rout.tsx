@@ -78,6 +78,17 @@ const Rout = createBrowserRouter([
                 path: '/dashboard/my-applications/:id',
                 element: <Private><MyApplicationDetails /></Private>
             },
+            {
+                path: '/dashboard/settings',
+                element: <Private><Settings /></Private>,
+                children:
+                    [
+                        {
+                            path: '/dashboard/settings/timezone',
+                            element: <Private><TimeZone /></Private>
+                        }
+                    ]
+            },
         ]
     },
     {
