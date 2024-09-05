@@ -1,7 +1,7 @@
 import React from 'react'
 import { MdOutlineEdit } from 'react-icons/md';
 
-type setFileType = { user_photo: File | null, passport_photo: File | null, health_ensurence: File | null, travel_insurance: File | null, applicant_signature: File | null }
+type setFileType = { user_photo: File | null, passport_front_photo: File | null, passport_back_photo: File | null, health_ensurence: File | null, travel_insurance: File | null, applicant_signature: File | null }
 
 const ChangeDocumentCard = React.memo(({ image, name, setFiles,  }: { image: string | File, name: string, setFiles: React.Dispatch<React.SetStateAction<setFileType>>}) => {
     
@@ -12,9 +12,14 @@ const ChangeDocumentCard = React.memo(({ image, name, setFiles,  }: { image: str
                 return { ...prev, user_photo: fileList[0] }
             })
         }
-        if (name == 'Passport' && fileList) {
+        if (name == 'Passport Front' && fileList) {
             setFiles(prev => {
-                return { ...prev, passport_photo: fileList[0] }
+                return { ...prev, passport_front_photo: fileList[0] }
+            })
+        }
+        if (name == 'Passport Back' && fileList) {
+            setFiles(prev => {
+                return { ...prev, passport_back_photo: fileList[0] }
             })
         }
         if (name == 'Health ensurence' && fileList) {

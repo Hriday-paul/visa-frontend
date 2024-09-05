@@ -8,7 +8,8 @@ type userType = {
     id : number | null,
     isAuthonicated: boolean,
     isVerified: boolean,
-    local : string
+    local : string,
+    isAdmin : boolean,
 }
 
 const initState: userType = {
@@ -19,7 +20,8 @@ const initState: userType = {
     id : null,
     isAuthonicated: false,
     isVerified: false,
-    local : 'zh-cn'
+    local : 'zh-cn',
+    isAdmin : false
 }
 
 type addUserDetailsPayload = {
@@ -67,13 +69,24 @@ const UserSlice = createSlice({
             state.id = null
             state.isAuthonicated = false;
             state.isVerified = false;
+            state.isAdmin = false
         },
         editLocal : (state, { payload }: PayloadAction<{local : string}>)=>{
             state.local = payload?.local;
-        }
+        },
+        updateAdminVerified: (state, { payload }: PayloadAction<updateVerified>) => {
+            state.fullName = payload.fullName;
+            state.userName = payload.userName;
+            state.email = payload.email;
+            state.phone = payload.phone;
+            state.id = payload.id
+            state.isAuthonicated = true;
+            state.isVerified = payload.isVerified;
+            state.isAdmin = true;
+        },
     }
 });
 
-export const { addUserDetails, updateUserVerified, resetUser, editLocal } = UserSlice.actions
+export const { addUserDetails, updateUserVerified, resetUser, editLocal, updateAdminVerified } = UserSlice.actions
 export default UserSlice.reducer;
 

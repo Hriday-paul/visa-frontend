@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLoginUserMutation } from "../../Redux/Features/BaseApi";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ImSpinner } from "react-icons/im";
+import { ImSpinner2 } from "react-icons/im";
 import logo from '../../images/logo/btLogo.png'
 import { Link, useNavigate } from "react-router-dom";
 import { MdErrorOutline, MdOutlineDoneAll } from "react-icons/md";
@@ -18,7 +18,7 @@ export default function LoginUser() {
     const [message, setMessage] = useState<message | null>(null);
     const navig = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-    const [, setCookie] = useCookies(['baerer-token']);
+    const [_, setCookie] = useCookies(['baerer-token']);
 
     const {
         register,
@@ -117,7 +117,7 @@ export default function LoginUser() {
 
 
                             <button disabled={isLoading} className="flex w-full justify-center items-center rounded bg-primary disabled:bg-blue-300 disabled:cursor-not-allowed p-3 font-medium text-gray hover:bg-opacity-90">
-                                {isLoading && <ImSpinner className="text-xl text-white animate-spin mr-1.5" />}
+                                {isLoading && <ImSpinner2 className="text-xl text-white animate-spin mr-1.5" />}
                                 <p>Sign In</p>
                             </button>
 

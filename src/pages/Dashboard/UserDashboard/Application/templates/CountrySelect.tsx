@@ -11,6 +11,7 @@ export default function CountrySelect({ control, errors, defaultValue }: { contr
             <div>
                 <label className="mb-3 block text-black dark:text-white">
                     Select Country
+                    <span className="text-red-500 text-base ml-1">*</span>
                 </label>
 
                 <div className="relative z-20 bg-white dark:bg-form-input">
@@ -48,12 +49,13 @@ export default function CountrySelect({ control, errors, defaultValue }: { contr
                     <Controller
                         name="nationality"
                         control={control}
+                        defaultValue='Bangladesh'
                         rules={{ required: "nationality is required" }}
                         render={({ field }) => (
 
                             <select
                                 onChange={(e) => field.onChange(e.target.value)}
-                                defaultValue={defaultValue || 'bangladesh'}
+                                defaultValue={defaultValue || ''}
                                 className={`relative z-20 w-full appearance-none rounded border  bg-transparent py-3 px-12 outline-none transition  dark:bg-form-input ${errors?.nationality ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                             >
                                 <option value="" disabled className="text-body dark:text-bodydark">

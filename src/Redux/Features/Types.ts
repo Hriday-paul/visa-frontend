@@ -16,6 +16,7 @@ export type ApplicationResponseType = {
     state_province: string;
     marital_status: 'Merit' | 'Unmerit' | '';
     educational_background: string;
+    postal_code : number
     gender: 'Male' | 'Female' | 'Others' | '',
     visa_type: 'Tourist' | 'Business' | 'Student' | 'Work' | 'Medical' | 'Family',
     purpose_of_visit: string;
@@ -30,7 +31,8 @@ export type ApplicationResponseType = {
     passport_expiry_date: string;
     country_of_passport_issuance: string;
     user_photo: string;
-    passport_photo: string;
+    passport_front_photo: string;
+    passport_back_photo: string;
     health_ensurence: string;
     travel_insurance: string;
     health_ensurence_url: string;
@@ -70,6 +72,7 @@ export type EditApplicationResponseType = {
     phone_number: string;
     permanent_address: string;
     present_address: string;
+    postal_code  : number;
     city: string;
     nationality: string;
     occupation: string;
@@ -91,7 +94,8 @@ export type EditApplicationResponseType = {
     passport_expiry_date: string;
     country_of_passport_issuance: string;
     user_photo: string | File;
-    passport_photo: string | File;
+    passport_front_photo: string | File;
+    passport_back_photo: string | File;
     health_ensurence: string | File;
     travel_insurance: string | File;
     applicant_signature: string | File;

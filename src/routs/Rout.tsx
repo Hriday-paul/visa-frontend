@@ -22,6 +22,9 @@ import MyApplications from "../pages/Dashboard/MyApplications/MyApplications";
 import MyApplicationDetails from "../pages/Dashboard/MyApplicationDetails/MyApplicationDetails";
 import Settings from "../pages/Admin/Settings/Settings";
 import TimeZone from "../pages/Admin/Settings/TimeZone/TimeZone";
+import LoginAdmin from "../pages/Admin/Login/Login";
+import AdminPrivate from "../components/Shared/AdminPrivate";
+import SuccessApplication from "../pages/Dashboard/SuccessApplication/SuccessApplication";
 
 const Rout = createBrowserRouter([
     {
@@ -79,6 +82,10 @@ const Rout = createBrowserRouter([
                 element: <Private><MyApplicationDetails /></Private>
             },
             {
+                path: '/dashboard/my-applications/:id/success',
+                element: <Private><SuccessApplication /></Private>
+            },
+            {
                 path: '/dashboard/settings',
                 element: <Private><Settings /></Private>,
                 children:
@@ -93,32 +100,36 @@ const Rout = createBrowserRouter([
     },
     {
         path: '/admin',
-        element: <Private><AdminRoot /></Private>,
+        element: <AdminPrivate><AdminRoot /></AdminPrivate>,
         children: [
             {
                 path: '/admin',
-                element: <Private><AdminHome /></Private>
+                element: <AdminPrivate><AdminHome /></AdminPrivate>
             },
             {
                 path: '/admin/applications',
-                element: <Private><AllAppplicatons /></Private>
+                element: <AdminPrivate><AllAppplicatons /></AdminPrivate>
             },
             {
                 path: '/admin/applications/:id',
-                element: <Private><ApplicationDetails /></Private>
+                element: <AdminPrivate><ApplicationDetails /></AdminPrivate>
             },
             {
                 path: '/admin/settings',
-                element: <Private><Settings /></Private>,
+                element: <AdminPrivate><Settings /></AdminPrivate>,
                 children:
                     [
                         {
                             path: '/admin/settings/timezone',
-                            element: <Private><TimeZone /></Private>
+                            element: <AdminPrivate><TimeZone /></AdminPrivate>
                         }
                     ]
             },
         ]
+    },
+    {
+        path: '/admin/login',
+        element: <LoginAdmin />
     },
     {
         path: '/register',

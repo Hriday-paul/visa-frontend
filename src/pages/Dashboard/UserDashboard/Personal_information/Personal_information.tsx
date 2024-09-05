@@ -9,6 +9,7 @@ import { updateStep } from "../../../../Redux/Slices/ApplicationStepSlice";
 import { addPersonalInfo } from "../../../../Redux/Slices/Application_infoSlice";
 import { useEffect } from "react";
 import { IoTransgenderOutline } from "react-icons/io5";
+import { MdErrorOutline } from "react-icons/md";
 
 export type Inputs = {
     full_name: string,
@@ -23,7 +24,8 @@ export type Inputs = {
     state_province: string;
     marital_status: 'Merit' | 'Unmerit';
     educational_background: string;
-    gender: 'Male' | 'Female' | 'Others'
+    gender: 'Male' | 'Female' | 'Others',
+    postal_code : number
 }
 
 export default function Personal_information() {
@@ -53,6 +55,7 @@ export default function Personal_information() {
             marital_status: draft?.marital_status || 'Unmerit',
             educational_background: draft?.educational_background || '',
             gender: draft?.gender || 'Male',
+            postal_code : draft?.postal_code || 0
         }
     });
 
@@ -83,10 +86,10 @@ export default function Personal_information() {
                             <div className="w-full xl:w-1/2">
                                 <label className="mb-2.5 block text-black dark:text-white">
                                     Name
+                                    <span className="text-red-500 text-base ml-1">*</span>
                                 </label>
                                 <input
                                     type="text"
-
                                     {...register("full_name", { required: true })}
                                     placeholder="Enter your name"
                                     className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.full_name ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
@@ -96,14 +99,18 @@ export default function Personal_information() {
                             <div className="w-full xl:w-1/2">
                                 <label className="mb-2.5 block text-black dark:text-white">
                                     Email
+                                    <span className="text-red-500 text-base ml-1">*</span>
                                 </label>
                                 <input
                                     type="email"
-
-                                    {...register("email", { required: true, pattern: /(?=.*?[@])/ })}
+                                    {...register("email", { required: true, pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ })}
                                     placeholder="Enter your Email"
                                     className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.email ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                                 />
+                                {errors.email && <div className='flex items-center mt-0.5'>
+                                    <MdErrorOutline className='text-sm text-orange-500' />
+                                    <p className='text-orange-500 text-sm ml-1'>Invalid email address</p>
+                                </div>}
                             </div>
                         </div>
 
@@ -111,23 +118,27 @@ export default function Personal_information() {
                             <div className="w-full xl:w-1/2">
                                 <label className="mb-2.5 block text-black dark:text-white">
                                     Phone
+                                    <span className="text-red-500 text-base ml-1">*</span>
                                 </label>
                                 <input
                                     type="number"
-
-                                    {...register("phone_number", { required: true, pattern: /(?=.*?[0-9])/ })}
+                                    {...register("phone_number", { required: true, pattern: /^\+?(88)?0(19|14|17|13|18|16|15)\d{8}$/ })}
                                     placeholder="Enter your phone number"
                                     className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.phone_number ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                                 />
+                                {errors.phone_number && <div className='flex items-center mt-0.5'>
+                                    <MdErrorOutline className='text-sm text-orange-500' />
+                                    <p className='text-orange-500 text-sm ml-1'>Invalid phone number</p>
+                                </div>}
                             </div>
 
                             <div className="w-full xl:w-1/2">
                                 <label className="mb-2.5 block text-black dark:text-white">
                                     Permanent Address
+                                    <span className="text-red-500 text-base ml-1">*</span>
                                 </label>
                                 <input
                                     type="text"
-
                                     {...register("permanent_address", { required: true })}
                                     placeholder="Enter your permanent address"
                                     className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.permanent_address ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
@@ -140,6 +151,7 @@ export default function Personal_information() {
                             <div className="w-full xl:w-1/2">
                                 <label className="mb-2.5 block text-black dark:text-white">
                                     Present Address
+                                    <span className="text-red-500 text-base ml-1">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -159,6 +171,7 @@ export default function Personal_information() {
                             <div className="w-full xl:w-1/2">
                                 <label className="mb-2.5 block text-black dark:text-white">
                                     City
+                                    <span className="text-red-500 text-base ml-1">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -171,10 +184,10 @@ export default function Personal_information() {
                             <div className="w-full xl:w-1/2">
                                 <label className="mb-2.5 block text-black dark:text-white">
                                     State province
+                                    <span className="text-red-500 text-base ml-1">*</span>
                                 </label>
                                 <input
                                     type="text"
-
                                     {...register("state_province", { required: true })}
                                     placeholder="Enter your state province"
                                     className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.state_province ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
@@ -187,25 +200,27 @@ export default function Personal_information() {
                             <div className="w-full xl:w-1/2">
                                 <label className="mb-2.5 block text-black dark:text-white">
                                     Educational Background
+                                    <span className="text-red-500 text-base ml-1">*</span>
                                 </label>
                                 <input
                                     type="text"
-
                                     {...register("educational_background", { required: true })}
                                     placeholder="Enter your education"
                                     className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.educational_background ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                                 />
                             </div>
 
+
                             <div className="w-full xl:w-1/2">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                    Occupation
+                                    Postal code
+                                    <span className="text-red-500 text-base ml-1">*</span>
                                 </label>
                                 <input
-                                    type="text"
-                                    {...register("occupation", { required: true })}
+                                    type="number"
+                                    {...register("postal_code", { required: true, min : 1 })}
                                     placeholder="Enter your occupation"
-                                    className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.occupation ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
+                                    className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.postal_code ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                                 />
                             </div>
                         </div>
@@ -216,6 +231,7 @@ export default function Personal_information() {
                                 <div>
                                     <label className="mb-3 block text-black dark:text-white">
                                         Select Gender
+                                        <span className="text-red-500 text-base ml-1">*</span>
                                     </label>
 
                                     <div className="relative z-20 bg-white dark:bg-form-input">
@@ -263,30 +279,40 @@ export default function Personal_information() {
                                         </span>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
 
 
                         <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
 
-
+                            <div className="w-full xl:w-1/2">
+                                <label className="mb-2.5 block text-black dark:text-white">
+                                    Occupation
+                                    <span className="text-red-500 text-base ml-1">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    {...register("occupation", { required: true })}
+                                    placeholder="Enter your occupation"
+                                    className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.occupation ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
+                                />
+                            </div>
 
                             <div className="w-full xl:w-1/2">
                                 <p className="mb-2.5 block text-black dark:text-white">
                                     Merital status
+                                    <span className="text-red-500 text-base ml-1">*</span>
                                 </p>
 
                                 <div>
                                     <div className="flex items-center gap-x-2">
                                         <div className="flex items-center">
                                             <input defaultChecked={draft?.marital_status == 'Merit'} id="marit" type="radio" value="Merit" className="w-5 h-5 text-primary bg-transparent border-gray-300 focus:ring-primary dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" {...register('marital_status', { required: 'Choose your marital_status' })} />
-                                            <label htmlFor="marit" className="ms-1 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-pointer">Marit</label>
+                                            <label htmlFor="marit" className="ms-1 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-pointer">Married</label>
                                         </div>
                                         <div className="flex items-center">
                                             <input defaultChecked={draft?.marital_status == 'Unmerit'} id="unmerit" type="radio" value="Unmerit" className="w-5 h-5 text-primary bg-transparent border-gray-300 focus:ring-primary dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" {...register('marital_status', { required: 'Choose your marital_status' })} />
-                                            <label htmlFor="unmerit" className="ms-1 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-pointer">Unmerit</label>
+                                            <label htmlFor="unmerit" className="ms-1 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-pointer">Unmarried</label>
                                         </div>
                                     </div>
                                     {errors?.marital_status && <p className="text-xs text-red-500 mt-1.5">Choose your marital status</p>}

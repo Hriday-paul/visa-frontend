@@ -1,7 +1,7 @@
 import logo from '../../images/logo/btLogo.png'
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreateUserMutation } from '../../Redux/Features/BaseApi';
-import { ImSpinner } from 'react-icons/im';
+import { ImSpinner2 } from 'react-icons/im';
 import { useEffect, useState } from 'react';
 import { MdErrorOutline, MdOutlineDoneAll } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
@@ -158,7 +158,7 @@ export default function RegisterUser() {
                             </div>
 
                             <button disabled={isLoading} className="flex w-full justify-center items-center rounded bg-primary disabled:bg-blue-300 disabled:cursor-not-allowed p-3 font-medium text-gray hover:bg-opacity-90">
-                                {isLoading && <ImSpinner className="text-xl text-white animate-spin mr-1.5" />}
+                                {isLoading && <ImSpinner2 className="text-xl text-white animate-spin mr-1.5" />}
                                 <p>Sign Up</p>
                             </button>
 

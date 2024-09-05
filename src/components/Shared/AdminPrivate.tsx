@@ -9,14 +9,13 @@ import 'moment/dist/locale/fr';
 import 'moment/dist/locale/de';
 
 
-export default function Private({ children }: { children: React.ReactNode }) {
+export default function AdminPrivate({ children }: { children: React.ReactNode }) {
     const userInfo = useSelector((state: RootState) => state.user);
     const location = useLocation();
-
     moment.locale(userInfo?.local);
 
-    if (userInfo?.email && userInfo?.fullName && userInfo?.isVerified && userInfo?.isAuthonicated) {
+    if (userInfo?.email && userInfo?.fullName && userInfo?.isVerified && userInfo?.isAuthonicated && userInfo?.isAdmin) {
         return children;
     }
-    return <Navigate state={{ from: location.pathname }} to="/login" replace></Navigate>
+    return <Navigate state={{ from: location.pathname }} to="/admin/login" replace></Navigate>
 }

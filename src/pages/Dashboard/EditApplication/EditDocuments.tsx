@@ -17,9 +17,10 @@ const EditDocuments = React.memo(({ setEditApplicationStep }: { setEditApplicati
     const dispatch = useDispatch<AppDispatch>();
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
-    const [files, setFiles] = useState<{ user_photo: File | null, passport_photo: File | null, health_ensurence: File | null, travel_insurance: File | null, applicant_signature: File | null }>({
+    const [files, setFiles] = useState<{ user_photo: File | null, passport_front_photo: File | null, passport_back_photo: File | null, health_ensurence: File | null, travel_insurance: File | null, applicant_signature: File | null }>({
         user_photo: null,
-        passport_photo: null,
+        passport_front_photo: null,
+        passport_back_photo: null,
         health_ensurence: null,
         travel_insurance: null,
         applicant_signature: null
@@ -32,7 +33,7 @@ const EditDocuments = React.memo(({ setEditApplicationStep }: { setEditApplicati
 
     const clickFinish = () => {
         const copyDraft = { ...draft };
-        const keysToDelete = ['id', 'user_photo', 'passport_photo', 'health_ensurence', 'travel_insurance', 'applicant_signature'];
+        const keysToDelete = ['id', 'user_photo', 'passport_front_photo','passport_back_photo', 'health_ensurence', 'travel_insurance', 'applicant_signature'];
 
         keysToDelete.forEach(key => {
             delete (copyDraft as { [key: string]: any })[key];
@@ -41,8 +42,11 @@ const EditDocuments = React.memo(({ setEditApplicationStep }: { setEditApplicati
         if (files?.user_photo) {
             copyDraft.user_photo = files?.user_photo
         }
-        if (files?.passport_photo) {
-            copyDraft.passport_photo = files?.passport_photo
+        if (files?.passport_front_photo) {
+            copyDraft.passport_front_photo = files?.passport_front_photo
+        }
+        if (files?.passport_back_photo) {
+            copyDraft.passport_back_photo = files?.passport_back_photo
         }
         if (files?.health_ensurence) {
             copyDraft.health_ensurence = files?.health_ensurence
@@ -61,8 +65,11 @@ const EditDocuments = React.memo(({ setEditApplicationStep }: { setEditApplicati
                 if (key === 'user_photo') {
                     form.append(key, files.user_photo as File);
                 }
-                else if (key === 'passport_photo') {
-                    form.append(key, files.passport_photo as File);
+                else if (key === 'passport_front_photo') {
+                    form.append(key, files.passport_front_photo as File);
+                }
+                else if (key === 'passport_back_photo') {
+                    form.append(key, files.passport_back_photo as File);
                 }
                 else if (key === 'health_ensurence') {
                     form.append(key, files.health_ensurence as File);
@@ -100,7 +107,8 @@ const EditDocuments = React.memo(({ setEditApplicationStep }: { setEditApplicati
                     </div>
                     <div className="p-3 md:p-4 lg:p-5 flex flex-row items-center gap-5 flex-wrap">
                         <ChangeDocumentCard name={'My photo'} image={files?.user_photo || draft?.user_photo} setFiles={setFiles} />
-                        <ChangeDocumentCard name={'Passport'} image={files?.passport_photo || draft?.passport_photo} setFiles={setFiles} />
+                        <ChangeDocumentCard name={'Passport Front'} image={files?.passport_front_photo || draft?.passport_front_photo} setFiles={setFiles} />
+                        <ChangeDocumentCard name={'Passport Back'} image={files?.passport_back_photo || draft?.passport_back_photo} setFiles={setFiles} />
                         <ChangeDocumentCard name={'Health ensurence'} image={files?.health_ensurence || draft?.health_ensurence} setFiles={setFiles} />
                         <ChangeDocumentCard name={'Travel insurance'} image={files?.travel_insurance || draft?.travel_insurance} setFiles={setFiles} />
                         <ChangeDocumentCard name={'Signature'} image={files?.applicant_signature || draft?.applicant_signature} setFiles={setFiles} />

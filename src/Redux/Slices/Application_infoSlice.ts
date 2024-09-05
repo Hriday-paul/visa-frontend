@@ -16,6 +16,7 @@ type infoType = {
     state_province: string;
     marital_status: 'Merit' | 'Unmerit' | '';
     educational_background: string;
+    postal_code : number;
     gender: 'Male' | 'Female' | 'Others' | '',
     visa_type: 'Tourist' | 'Business' | 'Student' | 'Work' | 'Medical' | 'Family',
     purpose_of_visit: string;
@@ -30,7 +31,8 @@ type infoType = {
     passport_expiry_date: string;
     country_of_passport_issuance: string;
     user_photo: null | string | File,
-    passport_photo: null | string | File,
+    passport_front_photo: null | string | File,
+    passport_back_photo: null | string | File,
     health_ensurence: null | string | File,
     travel_insurance: null | string | File,
     applicant_signature: null | string | File
@@ -46,6 +48,7 @@ const initStep: infoType = {
     nationality: '',
     occupation: '',
     date_of_birth: '',
+    postal_code : 0,
     state_province: '',
     marital_status: '',
     educational_background: '',
@@ -63,7 +66,8 @@ const initStep: infoType = {
     passport_expiry_date: '',
     country_of_passport_issuance: '',
     user_photo: '',
-    passport_photo: '',
+    passport_front_photo: '',
+    passport_back_photo: '',
     health_ensurence: '',
     travel_insurance: '',
     applicant_signature: ''
@@ -88,7 +92,7 @@ const Application_infoSlice = createSlice({
             state.marital_status = payload.marital_status;
             state.educational_background = payload.educational_background;
             state.gender = payload.gender;
-
+            state.postal_code = payload.postal_code
         },
         addTravelInfo: (state, { payload }: PayloadAction<TravelInput_types>) => {
             state.visa_type = payload.visa_type;

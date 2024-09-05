@@ -35,7 +35,8 @@ export type addApplicationType = {
     passport_expiry_date: string;
     country_of_passport_issuance: string;
     user_photo: File | null;
-    passport_photo: File | null;
+    passport_front_photo: File | null;
+    passport_back_photo: File | null;
     health_ensurence: File | null;
     travel_insurance: File | null;
     applicant_signature: File | null;
@@ -81,15 +82,14 @@ const baseApi = createApi({
                 body: { email, password }
             }),
         }),
-        addvisaApplication: builder.mutation({
-            query: (data) => ({
+        addvisaApplication: builder.mutation<ApplicationResponseType, {data : any, token : string}>({
+            query: ({data, token}) => ({
                 url: `/visa/visaapplication/`,
                 method: 'POST',
                 body: data,
                 headers: {
-                    Authorization: `Bearer ${data.get('token')}`,
+                    Authorization: `Bearer ${token}`,
                 },
-
             }),
             invalidatesTags: ['myApplicaions']
         }),
@@ -158,6 +158,19 @@ const baseApi = createApi({
             }),
             invalidatesTags: (_, __, { encodedId }) => [{ type: 'Application', encodedId }, 'booked_date'],
         }),
+        getAplicationWithMutate: builder.query<ApplicationResponseType, { token: string, id: any }>({
+            query: ({ id, token }) => ({
+                url: `/visa/visaapplication/${id}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }),
+            providesTags: (_, __, { id }) => [
+                { type: 'Application', id }
+            ],
+        }),
+
 
         // admin api request
         allApplication: builder.query<{ results: ApplicationResponseType[], count: number }, { token: string, limit: number, currentPage: number, full_name: string, email: string, phone_number: string, visaTypes: string[], submission_date: DatesRangeValue | undefined }>({
@@ -262,10 +275,17 @@ const baseApi = createApi({
             }),
             invalidatesTags: (_, __, { id }) => [{ type: 'Application', id }],
         }),
+        admnLogin: builder.mutation<{ token: { access: string, refresh: string }; email: string; first_name: string; last_name: string; username: string, phone_no: string, message: string, user_id: number }, { email: string; password: string }>({
+            query: ({ email, password }) => ({
+                url: `/account/adminlogin/`,
+                method: 'POST',
+                body: { email, password }
+            }),
+        }),
     })
 })
 
-export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation, useMyallApplicationsQuery, useEditApplicationMutation, useBookedDateListQuery, useSetInterviewDateMutation } = baseApi;
+export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation, useMyallApplicationsQuery, useEditApplicationMutation, useBookedDateListQuery, useSetInterviewDateMutation, useAdmnLoginMutation, useLazyGetAplicationWithMutateQuery } = baseApi;
 
 export const reduxApi = baseApi;
 

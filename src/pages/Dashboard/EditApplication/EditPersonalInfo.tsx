@@ -3,7 +3,6 @@ import { GrFormNextLink } from "react-icons/gr";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IoTransgenderOutline } from "react-icons/io5";
 import CountrySelect from '../UserDashboard/Application/templates/CountrySelect';
-// import DatePicker from '../UserDashboard/Application/templates/DatePicker';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../Redux/Store';
 import "flatpickr/dist/themes/material_green.css";
@@ -11,7 +10,7 @@ import { editPersonalInfoApplication } from '../../../Redux/Slices/EditApplicati
 import { Inputs } from '../UserDashboard/Personal_information/Personal_information';
 
 
-const EditPersonalInfo = React.memo(({setEditApplicationStep} : {setEditApplicationStep : React.Dispatch<React.SetStateAction<number>>}) => {
+const EditPersonalInfo = React.memo(({ setEditApplicationStep }: { setEditApplicationStep: React.Dispatch<React.SetStateAction<number>> }) => {
     const draft = useSelector((state: RootState) => state.editApplication);
     const dispatch = useDispatch<AppDispatch>();
     const {
@@ -34,6 +33,7 @@ const EditPersonalInfo = React.memo(({setEditApplicationStep} : {setEditApplicat
             marital_status: draft?.marital_status || 'Unmerit',
             educational_background: draft?.educational_background || '',
             gender: draft?.gender || 'Male',
+            postal_code: draft?.postal_code
         }
     });
 
@@ -166,11 +166,11 @@ const EditPersonalInfo = React.memo(({setEditApplicationStep} : {setEditApplicat
 
                         <div className="w-full xl:w-1/2">
                             <label className="mb-2.5 block text-black dark:text-white">
-                                Occupation
+                                Postal Code
                             </label>
                             <input
-                                type="text"
-                                {...register("occupation", { required: true })}
+                                type="number"
+                                {...register("postal_code", { required: true })}
                                 placeholder="Enter your occupation"
                                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.occupation ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                             />
@@ -245,7 +245,17 @@ const EditPersonalInfo = React.memo(({setEditApplicationStep} : {setEditApplicat
 
 
                     <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-
+                        <div className="w-full xl:w-1/2">
+                            <label className="mb-2.5 block text-black dark:text-white">
+                                Occupation
+                            </label>
+                            <input
+                                type="text"
+                                {...register("occupation", { required: true })}
+                                placeholder="Enter your occupation"
+                                className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.occupation ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
+                            />
+                        </div>
                         <div className="w-full xl:w-1/2">
                             <p className="mb-2.5 block text-black dark:text-white">
                                 Merital status

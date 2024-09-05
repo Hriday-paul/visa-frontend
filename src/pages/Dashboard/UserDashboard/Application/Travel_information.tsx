@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../Redux/Store";
-import { MdOutlineCategory } from "react-icons/md";
+import { MdErrorOutline, MdOutlineCategory } from "react-icons/md";
 import { GrFormNextLink } from "react-icons/gr";
 import { useCallback, useEffect } from "react";
 import { updateStep } from "../../../../Redux/Slices/ApplicationStepSlice";
@@ -78,6 +78,7 @@ export default function Travel_information() {
                 <div>
                   <label className="mb-3 block text-black dark:text-white">
                     Select visa type
+                    <span className="text-red-500 text-base ml-1">*</span>
                   </label>
 
                   <div className="relative z-20 bg-white dark:bg-form-input">
@@ -131,11 +132,12 @@ export default function Travel_information() {
             <div className="w-full xl:w-1/2">
               <label className="mb-2.5 block text-black dark:text-white">
                 Planed Duration of stay - min ( 7 days )
+                <span className="text-red-500 text-base ml-1">*</span>
               </label>
               <input
                 type="number"
                 {...register("planned_duration_of_stay", { required: true, min: 7 })}
-                placeholder="planned duration of stay / day format"
+                placeholder="Planned duration of stay / day format"
                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.planned_duration_of_stay ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
               />
             </div>
@@ -148,11 +150,12 @@ export default function Travel_information() {
             <div className="w-full xl:w-1/2">
               <label className="mb-2.5 block text-black dark:text-white">
                 Name
+                <span className="text-red-500 text-base ml-1">*</span>
               </label>
               <input
                 type="text"
                 {...register("emergency_contact_name", { required: true })}
-                placeholder="emergency contact name"
+                placeholder="Emergency contact name"
                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.emergency_contact_name ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
               />
             </div>
@@ -160,11 +163,12 @@ export default function Travel_information() {
             <div className="w-full xl:w-1/2">
               <label className="mb-2.5 block text-black dark:text-white">
                 Relation
+                <span className="text-red-500 text-base ml-1">*</span>
               </label>
               <input
                 type="text"
                 {...register("emergency_contact_relationship", { required: true })}
-                placeholder="emergency contact relation"
+                placeholder="Emergency contact relation"
                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.emergency_contact_relationship ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
               />
             </div>
@@ -174,31 +178,42 @@ export default function Travel_information() {
             <div className="w-full xl:w-1/2">
               <label className="mb-2.5 block text-black dark:text-white">
                 Phone
+                <span className="text-red-500 text-base ml-1">*</span>
               </label>
               <input
-                type="text"
-                {...register("emergency_contact_phone", { required: true })}
-                placeholder="emergency contact phone"
+                type="number"
+                {...register("emergency_contact_phone", { required: true, pattern: /^\+?(88)?0(19|14|17|13|18|16|15)\d{8}$/ })}
+                placeholder="Emergency contact phone"
                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.emergency_contact_phone ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
               />
+              {errors.emergency_contact_phone && <div className='flex items-center mt-0.5'>
+                <MdErrorOutline className='text-sm text-orange-500' />
+                <p className='text-orange-500 text-sm ml-1'>Invalid phone number</p>
+              </div>}
             </div>
 
             <div className="w-full xl:w-1/2">
               <label className="mb-2.5 block text-black dark:text-white">
                 Email
+                <span className="text-red-500 text-base ml-1">*</span>
               </label>
               <input
                 type="text"
-                {...register("emergency_contact_email", { required: true })}
-                placeholder="emergency contact email"
+                {...register("emergency_contact_email", { required: true, pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ })}
+                placeholder="Emergency contact email"
                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.emergency_contact_email ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
               />
+              {errors.emergency_contact_email && <div className='flex items-center mt-0.5'>
+                <MdErrorOutline className='text-sm text-orange-500' />
+                <p className='text-orange-500 text-sm ml-1'>Invalid email address</p>
+              </div>}
             </div>
           </div>
           <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
             <div className="w-full xl:w-1/2">
               <label className="mb-2.5 block text-black dark:text-white">
                 Purpose of visit
+                <span className="text-red-500 text-base ml-1">*</span>
               </label>
               <textarea
                 {...register("purpose_of_visit", { required: true })}
@@ -210,10 +225,11 @@ export default function Travel_information() {
             <div className="w-full xl:w-1/2">
               <label className="mb-2.5 block text-black dark:text-white">
                 Accommodation Details
+                <span className="text-red-500 text-base ml-1">*</span>
               </label>
               <input
                 {...register("accommodation_details", { required: true })}
-                placeholder="house, road, place"
+                placeholder="House, road, place"
                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.accommodation_details ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
               />
             </div>

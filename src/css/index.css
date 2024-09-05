@@ -392,3 +392,8 @@ span.flatpickr-weekday,
 .m_2351eeb0:hover, .m_f6645d97:hover, .m_dc6a3c71:hover{
   @apply dark:!bg-boxdark
 }
+
+@font-face {
+  font-family: 'test';
+  src: local('test'), url(./fonts/Gustanlp-Book.otf) format('opentype');
+}

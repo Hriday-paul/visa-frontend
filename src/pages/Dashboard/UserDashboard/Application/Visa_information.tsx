@@ -75,11 +75,12 @@ export default function Visa_information() {
                     <div className="w-full xl:w-1/2">
                         <label className="mb-2.5 block text-black dark:text-white">
                             Passport number
+                            <span className="text-red-500 text-base ml-1">*</span>
                         </label>
                         <input
-                            type="text"
-                            {...register("passport_no", { required: true })}
-                            placeholder="enter your passport no"
+                            type="number"
+                            {...register("passport_no", { required: true, pattern: /(?=.*?[0-9])/, })}
+                            placeholder="Enter your passport no"
                             className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.passport_no ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                         />
                     </div>
@@ -92,15 +93,18 @@ export default function Visa_information() {
                             <Flatpickr
                                 placeholder='YYYY-MM-DD'
                                 defaultValue={draft?.passport_issue_date || ''}
-                                onChange={(date, str) => {
+                                onChange={(_, str) => {
                                     field.onChange(str)
-                                    console.log(date);
+                                }}
+                                options={{
+                                    maxDate : 'today'
                                 }}
                                 render={
                                     ({ defaultValue }, ref) => {
                                         return <div className='w-full xl:w-1/2'>
                                             <label className="mb-2.5 block text-black dark:text-white" >
-                                                Passport Issue Date
+                                                Passport Issued Date
+                                                <span className="text-red-500 text-base ml-1">*</span>
                                             </label>
                                             <input placeholder='YYYY-MM-DD' defaultValue={defaultValue} ref={ref} className={`form-datepicker w-full rounded border-[1.5px] bg-transparent px-5 py-3 font-normal outline-none transition dark:bg-form-input ${errors?.passport_issue_date ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`} />
                                         </div>
@@ -124,15 +128,18 @@ export default function Visa_information() {
                             <Flatpickr
                                 placeholder='YYYY-MM-DD'
                                 defaultValue={draft?.passport_expiry_date || ''}
-                                onChange={(date, str) => {
+                                onChange={(_, str) => {
                                     field.onChange(str)
-                                    console.log(date);
+                                }}
+                                options={{
+                                    minDate: "today",
                                 }}
                                 render={
                                     ({ defaultValue }, ref) => {
                                         return <div className='w-full xl:w-1/2'>
                                             <label className="mb-2.5 block text-black dark:text-white" >
                                                 Passport Expairy Date
+                                                <span className="text-red-500 text-base ml-1">*</span>
                                             </label>
                                             <input placeholder='YYYY-MM-DD' ref={ref} defaultValue={defaultValue} className={`form-datepicker w-full rounded border-[1.5px] bg-transparent px-5 py-3 font-normal outline-none transition dark:bg-form-input ${errors?.passport_expiry_date ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`} />
                                         </div>
@@ -145,6 +152,7 @@ export default function Visa_information() {
                     <div>
                         <label className="mb-3 block text-black dark:text-white">
                             Country of passport issuance
+                            <span className="text-red-500 text-base ml-1">*</span>
                         </label>
 
                         <div className="relative z-20 bg-white dark:bg-form-input">
@@ -187,7 +195,7 @@ export default function Visa_information() {
 
                                     <select
                                         onChange={(e) => field.onChange(e.target.value)}
-                                        defaultValue={draft?.country_of_passport_issuance || 'bangladesh'}
+                                        defaultValue={draft?.country_of_passport_issuance || ''}
                                         className={`relative z-20 w-full appearance-none rounded border  bg-transparent py-3 px-12 outline-none transition  dark:bg-form-input ${errors?.country_of_passport_issuance ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                                     >
                                         <option value="" disabled className="text-body dark:text-bodydark">
@@ -200,7 +208,6 @@ export default function Visa_information() {
                                                 </option>
                                             })
                                         }
-
                                     </select>
 
                                 )}

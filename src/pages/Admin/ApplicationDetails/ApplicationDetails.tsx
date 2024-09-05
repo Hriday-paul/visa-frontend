@@ -327,7 +327,8 @@ export default function ApplicationDetails() {
                                                 <p className="text-base text-graydark dark:text-slate-200 font-medium">Files</p>
                                             </div>
                                             <div className="p-3 md:p-4 lg:p-5 flex flex-row items-center gap-5 flex-wrap">
-                                                <FileCard name={'Passport'} url={applicationDetails?.passport_photo} />
+                                                <FileCard name={'Passport Front'} url={applicationDetails?.passport_front_photo} />
+                                                <FileCard name={'Passport Back'} url={applicationDetails?.passport_back_photo} />
                                                 <FileCard name={'Health ensurence'} url={applicationDetails?.health_ensurence} />
                                                 <FileCard name={'Travel ensurence'} url={applicationDetails?.travel_insurance} />
                                                 <FileCard name={'Signature'} url={applicationDetails?.applicant_signature} />

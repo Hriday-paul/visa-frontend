@@ -33,7 +33,7 @@ export default function TimeZone() {
   return (
     <div>
       <h3 className="text-base text-black dark:text-gray font-medium my-2">Your Time zone</h3>
-      <div className="relative z-20 bg-white dark:bg-form-input w-2/3">
+      <div className="relative z-20 bg-white dark:bg-form-input w-full xl:w-2/3">
         <span className="absolute top-1/2 left-4 z-30 -translate-y-1/2">
           <svg
             width="20"
