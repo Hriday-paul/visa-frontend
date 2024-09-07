@@ -29,7 +29,6 @@ export default function MyApplicationDetails() {
     }
 
     return (
-
         <div className="rounded-xl border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke p-5 md:p-6.5 xl:p-10 dark:border-strokedark">
                 {
@@ -73,7 +72,6 @@ export default function MyApplicationDetails() {
 
                                         <dialog ref={interviewModalRef} className="modal z-10">
                                             <div className="modal-box w-[380px] max-w-4xl">
-                                                <h3 className="text-lg text-black dark:text-gray font-medium">Select Interview date</h3>
                                                 <InterviewDatePicker applicationId={applicationDetails?.id} applicationEncodedId={applicationDetails?.encoded_id} interviewModalRef={interviewModalRef} />
                                             </div>
                                             <form method="dialog" className="modal-backdrop">
@@ -122,46 +120,44 @@ export default function MyApplicationDetails() {
                                         <div className="p-3 md:p-4 lg:p-5">
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Country</span>
-                                                <span className="w-1/2">{applicationDetails?.nationality}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.nationality}</span>
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Permanent Address</span>
-                                                <span className="w-1/2">{applicationDetails?.permanent_address}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.permanent_address}</span>
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Present Address</span>
-                                                <span className="w-1/2">{applicationDetails?.present_address}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.present_address}</span>
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">City</span>
-                                                <span className="w-1/2">{applicationDetails?.city}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.city}</span>
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">State province</span>
-                                                <span className="w-1/2">{applicationDetails?.state_province}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.state_province}</span>
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Educational Background</span>
-                                                <span className="w-1/2">{applicationDetails?.educational_background}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.educational_background}</span>
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Occupation</span>
-                                                <span className="w-1/2">{applicationDetails?.occupation}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.occupation}</span>
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Date of Birth</span>
-                                                <span className="w-1/2">{applicationDetails?.date_of_birth}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.date_of_birth}</span>
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Gender</span>
-                                                <span className="w-1/2">{applicationDetails?.gender}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.gender}</span>
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Merital status</span>
-                                                <span className="w-1/2">{applicationDetails?.marital_status}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.marital_status}</span>
                                             </div>
-
-
                                         </div>
                                     </div>
                                     {/* // visa details  */}
@@ -181,11 +177,11 @@ export default function MyApplicationDetails() {
                                                 </div>
                                                 <div className=" flex flex-row items-center justify-between mb-3.5">
                                                     <span className="w-1/2">Accommodation Details</span>
-                                                    <span className="w-1/2">{applicationDetails?.accommodation_details}</span>
+                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.accommodation_details}</span>
                                                 </div>
                                                 <div className=" flex flex-row items-center justify-between mb-3.5">
                                                     <span className="w-1/2">Purpose of visit</span>
-                                                    <span className="w-1/2">{applicationDetails?.purpose_of_visit}</span>
+                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.purpose_of_visit}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -230,7 +226,7 @@ export default function MyApplicationDetails() {
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Relation</span>
-                                                <span className="w-1/2">{applicationDetails?.emergency_contact_relationship}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.emergency_contact_relationship}</span>
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Phone</span>
@@ -238,7 +234,7 @@ export default function MyApplicationDetails() {
                                             </div>
                                             <div className=" flex flex-row items-center justify-between mb-3.5">
                                                 <span className="w-1/2">Email</span>
-                                                <span className="w-1/2">{applicationDetails?.emergency_contact_email}</span>
+                                                <span className="w-1/2 hyphens-auto">{applicationDetails?.emergency_contact_email}</span>
                                             </div>
 
                                         </div>

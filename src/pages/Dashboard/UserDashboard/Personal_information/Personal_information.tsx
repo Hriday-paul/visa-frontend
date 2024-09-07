@@ -25,7 +25,7 @@ export type Inputs = {
     marital_status: 'Merit' | 'Unmerit';
     educational_background: string;
     gender: 'Male' | 'Female' | 'Others',
-    postal_code : number
+    postal_code: number
 }
 
 export default function Personal_information() {
@@ -55,7 +55,7 @@ export default function Personal_information() {
             marital_status: draft?.marital_status || 'Unmerit',
             educational_background: draft?.educational_background || '',
             gender: draft?.gender || 'Male',
-            postal_code : draft?.postal_code || 0
+            postal_code: draft?.postal_code || 0
         }
     });
 
@@ -126,10 +126,12 @@ export default function Personal_information() {
                                     placeholder="Enter your phone number"
                                     className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.phone_number ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                                 />
-                                {errors.phone_number && <div className='flex items-center mt-0.5'>
-                                    <MdErrorOutline className='text-sm text-orange-500' />
-                                    <p className='text-orange-500 text-sm ml-1'>Invalid phone number</p>
-                                </div>}
+                                {
+                                    errors.phone_number && <div className='flex items-center mt-0.5'>
+                                        <MdErrorOutline className='text-sm text-orange-500' />
+                                        <p className='text-orange-500 text-sm ml-1'>Invalid phone number</p>
+                                    </div>
+                                }
                             </div>
 
                             <div className="w-full xl:w-1/2">
@@ -218,7 +220,7 @@ export default function Personal_information() {
                                 </label>
                                 <input
                                     type="number"
-                                    {...register("postal_code", { required: true, min : 1 })}
+                                    {...register("postal_code", { required: true, min: 1 })}
                                     placeholder="Enter your occupation"
                                     className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.postal_code ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                                 />

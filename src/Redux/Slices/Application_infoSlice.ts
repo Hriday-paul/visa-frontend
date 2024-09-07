@@ -117,6 +117,7 @@ const Application_infoSlice = createSlice({
             state.permanent_address = '';
             state.present_address = '';
             state.city = '';
+            state.postal_code = 0
             state.nationality = '';
             state.occupation = '';
             state.date_of_birth = '';

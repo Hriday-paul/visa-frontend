@@ -8,6 +8,7 @@ import AdminError from "../../../components/Shared/AdminError";
 import { DataTable } from "mantine-datatable";
 import moment from "moment";
 import { addAllInfo } from "../../../Redux/Slices/EditApplicationSlice";
+import PrintApplication from "./PrintApplication";
 
 
 export default function MyApplications() {
@@ -40,7 +41,7 @@ export default function MyApplications() {
                                         },
                                         {
                                             accessor: 'phone_number', resizable: true,
-                                            
+
                                         },
                                         {
                                             accessor: 'submission_date', sortable: true, resizable: true, render: (record) => {
@@ -60,7 +61,7 @@ export default function MyApplications() {
                                             title: 'Actions',
                                             render: (application) => (
                                                 <div className="flex items-center space-x-3.5">
-                                                    <Link onClick={()=>dispatch(addAllInfo(application))} to={`/dashboard/my-applications/${application?.encoded_id}`} className=" bg-primary text-white p-3 hover:opacity-80">
+                                                    <Link onClick={() => dispatch(addAllInfo(application))} to={`/dashboard/my-applications/${application?.encoded_id}`} className=" bg-primary text-white p-3 hover:opacity-80">
                                                         <svg
                                                             className="fill-current"
                                                             width="18"
@@ -79,6 +80,8 @@ export default function MyApplications() {
                                                             />
                                                         </svg>
                                                     </Link>
+                                                    <PrintApplication application={application}/>
+                                                   
                                                     {/* <DeleteApplication id={application?.id} /> */}
                                                 </div>
                                             ),

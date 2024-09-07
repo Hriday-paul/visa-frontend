@@ -50,7 +50,7 @@ const UserSlice = createSlice({
             state.userName = payload.userName;
             state.email = payload.email;
             state.phone = payload.phone;
-            state.id = payload.id
+            state.id = payload.id;
         },
         updateUserVerified: (state, { payload }: PayloadAction<updateVerified>) => {
             state.fullName = payload.fullName;

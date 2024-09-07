@@ -85,6 +85,7 @@ const EditApplicationSlice = createSlice({
                 state.phone_number = payload.phone_number,
                 state.permanent_address = payload.permanent_address,
                 state.present_address = payload.present_address,
+                state.postal_code = payload?.postal_code
                 state.city = payload.city,
                 state.nationality = payload.nationality,
                 state.occupation = payload.occupation,

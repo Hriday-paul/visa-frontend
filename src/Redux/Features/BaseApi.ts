@@ -4,7 +4,7 @@ import { userSupportType } from '../../pages/Dashboard/UserSupport/UserSupport';
 import { adminDashboardChartType, adminDashboardCountType, adminDashboardVisaPaiChartType, ApplicationResponseType, EditApplicationResponseType } from './Types';
 import { type DatesRangeValue } from '@mantine/dates';
 import moment from 'moment'
-import { useNavigate } from 'react-router-dom';
+import Rout from '../../routs/Rout';
 
 const apiUrl = import.meta.env.VITE_API_URL as string;
 
@@ -55,8 +55,7 @@ const baseApi = createApi({
         const result = await baseQueryWithInterceptors(args, api, extraOptions);
 
         if (result.error && result.error.status === 401) {
-            const navig = useNavigate();
-            navig('/login')
+            Rout.navigate('/login')
         }
         return result;
     },
@@ -147,14 +146,14 @@ const baseApi = createApi({
             }),
             providesTags: ['booked_date'],
         }),
-        setInterviewDate: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date: string; id: string | number }, encodedId: string }>({
+        setInterviewDate: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date: string; interview_time : string, id: string | number }, encodedId: string }>({
             query: ({ token, data }) => ({
                 url: `/interview/appointment/`,
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
-                body: { visa_application: data?.id, interview_date: data?.interview_date }
+                body: { visa_application: data?.id, interview_date: data?.interview_date, interview_time : data?.interview_time }
             }),
             invalidatesTags: (_, __, { encodedId }) => [{ type: 'Application', encodedId }, 'booked_date'],
         }),
