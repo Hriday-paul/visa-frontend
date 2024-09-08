@@ -12,6 +12,7 @@
   "proxy": "https://evisa-z93n.onrender.com",
   "dependencies": {
     "@mantine/dates": "^7.12.1",
+    "@react-pdf/renderer": "^3.4.4",
     "@reduxjs/toolkit": "^2.2.6",
     "antd": "^5.19.1",
     "apexcharts": "^3.52.0",

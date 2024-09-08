@@ -11,9 +11,9 @@ import { useAdminDashboardChartQuery, useAdminDashboardCountQuery, useAdminDashb
 export default function AdminHome() {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
-    const { isLoading: countLoading, isError: countIsErr, isSuccess: countSuccess, data: countData } = useAdminDashboardCountQuery({ token });
-    const { isLoading: chartLoading, isError: chartIsErr, isSuccess: chartSuccess, data: chartData } = useAdminDashboardChartQuery({ token })
-    const { isLoading: paiChartLoading, isError: paiChartIsErr, isSuccess: paiChartSuccess, data: paiChartData } = useAdminDashboardVisaPaiChartQuery({ token })
+    const { isLoading: countLoading, isError: countIsErr, isSuccess: countSuccess, data: countData } = useAdminDashboardCountQuery({ token }, {refetchOnMountOrArgChange : true});
+    const { isLoading: chartLoading, isError: chartIsErr, isSuccess: chartSuccess, data: chartData } = useAdminDashboardChartQuery({ token }, {refetchOnMountOrArgChange : true})
+    const { isLoading: paiChartLoading, isError: paiChartIsErr, isSuccess: paiChartSuccess, data: paiChartData } = useAdminDashboardVisaPaiChartQuery({ token }, {refetchOnMountOrArgChange : true})
 
     return (
         <div>

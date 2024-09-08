@@ -80,7 +80,7 @@ const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: pr
                                             Select visa type
                                         </option>
                                         {
-                                            ['Pending', 'AdminApprove', 'PoliceVerification', 'Approved'].map((type, indx) => {
+                                            ['Pending', 'AdminApprove', 'Schedule', 'PoliceVerification', 'Approved'].map((type, indx) => {
                                                 return <option value={type} key={indx + type} className="text-body dark:text-bodydark">
                                                     {type}
                                                 </option>

@@ -44,7 +44,7 @@ export type addApplicationType = {
 
 const baseApi = createApi({
     reducerPath: 'api',
-    tagTypes: ['Application', 'allApplication', 'myApplicaions', 'booked_date'],
+    tagTypes: ['Application', 'allApplication', 'myApplicaions', 'interView_times'],
     baseQuery: async (args, api, extraOptions) => {
         // Fetch base query with interceptors
         const baseQueryWithInterceptors = fetchBaseQuery({
@@ -136,26 +136,38 @@ const baseApi = createApi({
             }),
             invalidatesTags: (_, __, { id }) => [{ type: 'Application', id }],
         }),
-        bookedDateList: builder.query<{ fully_booked_dates: string[] }, { token: string }>({
+        interviewAvailableDates: builder.query<{ start_date: string, end_date : string, fully_booked_dates : string[] }, { token: string }>({
             query: ({ token }) => ({
-                url: `/interview/booked_dates/`,
+                url: `/interview/get_date/`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+        }),
+
+        interviewAvailableTimes: builder.query<{ slots: {id : number, start_time : string, is_booked : boolean}[]}, { token: string, date : string }>({
+            query: ({ token, date }) => ({
+                url: `/interview/slot/?date=${date}`,
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             }),
-            providesTags: ['booked_date'],
+            providesTags: (_, __, { date }) => [
+                { type: 'interView_times', date }
+            ],
         }),
-        setInterviewDate: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date: string; interview_time : string, id: string | number }, encodedId: string }>({
+        setInterviewDate: builder.mutation<EditApplicationResponseType, { token: string, data: { userId: number | null; slotId : number, applicationId: string | number }, encodedId: string }>({
             query: ({ token, data }) => ({
                 url: `/interview/appointment/`,
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
-                body: { visa_application: data?.id, interview_date: data?.interview_date, interview_time : data?.interview_time }
+                body: { visa_application: data?.applicationId, user: data?.userId, schedule_slot : data?.slotId }
             }),
-            invalidatesTags: (_, __, { encodedId }) => [{ type: 'Application', encodedId }, 'booked_date'],
+            invalidatesTags: (_, __, { encodedId }) => [{ type: 'Application', encodedId }],
         }),
         getAplicationWithMutate: builder.query<ApplicationResponseType, { token: string, id: any }>({
             query: ({ id, token }) => ({
@@ -169,7 +181,6 @@ const baseApi = createApi({
                 { type: 'Application', id }
             ],
         }),
-
 
         // admin api request
         allApplication: builder.query<{ results: ApplicationResponseType[], count: number }, { token: string, limit: number, currentPage: number, full_name: string, email: string, phone_number: string, visaTypes: string[], submission_date: DatesRangeValue | undefined }>({
@@ -284,7 +295,7 @@ const baseApi = createApi({
     })
 })
 
-export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation, useMyallApplicationsQuery, useEditApplicationMutation, useBookedDateListQuery, useSetInterviewDateMutation, useAdmnLoginMutation, useLazyGetAplicationWithMutateQuery } = baseApi;
+export const { useCreateUserMutation, useLoginUserMutation, useVerifyUserMutation, useAddvisaApplicationMutation, useNotificationQuery, useSendSupportMessageMutation, useVisaStatusMutation, useAllApplicationQuery, useApplicationDetailsQuery, useUpdateAccessToModifyApplicationMutation, useApproveApplicationMutation, useRejectApplicationMutation, useDeleteOneApplicationMutation, useAdminDashboardCountQuery, useAdminDashboardChartQuery, useAdminDashboardVisaPaiChartQuery, useEditVisaStepMutation, useMyallApplicationsQuery, useEditApplicationMutation, useInterviewAvailableDatesQuery, useInterviewAvailableTimesQuery, useSetInterviewDateMutation, useAdmnLoginMutation, useLazyGetAplicationWithMutateQuery } = baseApi;
 
 export const reduxApi = baseApi;
 

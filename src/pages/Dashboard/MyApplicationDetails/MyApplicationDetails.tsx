@@ -63,7 +63,7 @@ export default function MyApplicationDetails() {
                                 <div className="flex flex-row gap-y-3 md:gap-y-0 gap-x-5 md:gap-x-3 lg:gap-x-10 items-center flex-wrap">
                                     <div className="flex flex-row gap-x-3 items-center">
                                         {
-                                            applicationDetails?.appointment.length <= 0 &&
+                                            (applicationDetails?.visa_statuses[0].visa_status == 'Schedule' && applicationDetails?.appointment.length <= 0) &&
                                             <button onClick={openInterviewModal} className="inline-flex items-center justify-center gap-x-1 rounded bg-primary py-2 px-3 text-center font-medium text-white hover:bg-opacity-90 lg:px-5 m-1 cursor-pointer border-0 outline-none">
                                                 <IoCalendarNumberSharp className="mr-1" />
                                                 Interview Date

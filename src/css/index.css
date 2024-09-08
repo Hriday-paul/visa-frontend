@@ -178,7 +178,7 @@ span.flatpickr-weekday,
   @apply !bg-primary
 }
 .flatpickr-weekdays, .flatpickr-weekdaycontainer .flatpickr-weekday{
-  @apply !bg-primary !text-white
+  @apply !bg-primary dark:!text-white
 }
 
 .flatpickr-month, .flatpickr-monthDropdown-months, .flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {

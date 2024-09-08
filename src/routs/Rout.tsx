@@ -25,6 +25,7 @@ import TimeZone from "../pages/Admin/Settings/TimeZone/TimeZone";
 import LoginAdmin from "../pages/Admin/Login/Login";
 import AdminPrivate from "../components/Shared/AdminPrivate";
 import SuccessApplication from "../pages/Dashboard/SuccessApplication/SuccessApplication";
+import Print from "../pages/Print/Print";
 
 const Rout = createBrowserRouter([
     {
@@ -143,6 +144,10 @@ const Rout = createBrowserRouter([
         path: '/verify',
         element: <Verify />
     },
+    {
+        path: '/print',
+        element: <Print />
+    }
 ]);
 
 export default Rout;
