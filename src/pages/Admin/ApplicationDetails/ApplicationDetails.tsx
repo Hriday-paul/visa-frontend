@@ -99,9 +99,10 @@ export default function ApplicationDetails() {
                                                     <p className="text-base text-graydark dark:text-slate-200">{applicationDetails?.phone_number}</p>
                                                 </li>
                                                 {
-                                                    applicationDetails?.appointment.length > 0 && <li className="flex items-center gap-x-2 mt-1">
+                                                    applicationDetails?.interview_date && <li className="flex items-center gap-x-2 mt-1">
                                                         <IoCalendarNumberSharp className="text-lg text-graydark  dark:text-slate-200" />
-                                                        <p className="text-base text-graydark dark:text-slate-200">{moment(applicationDetails?.appointment[0]?.interview_date).format('L')}</p>
+                                                        <p className="text-base text-graydark dark:text-slate-200">{moment(applicationDetails?.interview_date).format('L')}</p>
+                                                        <p className="text-base text-graydark dark:text-slate-200">{applicationDetails?.interview_start_time}</p>
                                                     </li>
                                                 }
                                             </ul>

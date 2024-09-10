@@ -185,27 +185,30 @@ span.flatpickr-weekday,
   @apply !bg-primary !text-white
 }
 
+.flatpickr-calendar{
+  @apply z-99999
+}
+
 /* // interview date chooser  */
-.modal .flatpickr-month, .modal .flatpickr-monthDropdown-months, .modal .flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month{
+.normal-date-picker .flatpickr-month, .normal-date-picker .flatpickr-monthDropdown-months, .normal-date-picker .flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month{
   @apply !bg-transparent dark:text-white
 }
-.modal .flatpickr-weekdays, .modal .flatpickr-weekdaycontainer .flatpickr-weekday{
+.normal-date-picker .flatpickr-weekdays, .normal-date-picker .flatpickr-weekdaycontainer .flatpickr-weekday{
   @apply !bg-white dark:!bg-boxdark 
 }
 
-.modal .flatpickr-month, .modal .flatpickr-monthDropdown-months, .modal .flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+.normal-date-picker .flatpickr-month, .normal-date-picker .flatpickr-monthDropdown-months, .normal-date-picker .flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
   @apply !bg-transparent !text-black dark:!text-white dark:!bg-boxdark
 }
-.modal .flatpickr-calendar.inline{
+.normal-date-picker .flatpickr-calendar.inline{
   @apply shadow-none
 }
-.modal .flatpickr-innerContainer{
+.normal-date-picker .flatpickr-innerContainer{
   @apply border-b-0
 }
-.modal .flatpickr-days{
-  @apply border-l-0
+.normal-date-picker .flatpickr-days{
+  @apply border-0
 }
-
 
 
 

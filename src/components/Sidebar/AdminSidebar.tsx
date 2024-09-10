@@ -4,7 +4,7 @@ import Logo from '../../images/logo/logo.svg';
 import { FiUsers } from 'react-icons/fi';
 import { FaWpforms } from 'react-icons/fa';
 import { LuLayoutDashboard } from 'react-icons/lu';
-import { IoSettingsOutline } from 'react-icons/io5';
+import { IoCalendarNumberSharp, IoSettingsOutline } from 'react-icons/io5';
 
 interface SidebarProps {
     sidebarOpen: boolean;
@@ -128,7 +128,7 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                         }`}
                                 >
                                     <FaWpforms className='text-white h-4 w-4' />
-                                    Aplication's
+                                    Application's
                                 </NavLink>
                             </li>
 
@@ -144,6 +144,17 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                     Support
                                 </NavLink>
                             </li> */}
+                            <li>
+                                <NavLink
+                                    to="/admin/interview_schedules"
+                                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname == '/admin/interview_schedules' &&
+                                        'bg-graydark dark:bg-meta-4'
+                                        }`}
+                                >
+                                    <IoCalendarNumberSharp className='text-white h-4 w-4' />
+                                    Interview Schedules
+                                </NavLink>
+                            </li>
                             <li>
                                 <NavLink
                                     to="/admin/users"

@@ -15,19 +15,26 @@ type propTypes = {
     selectedDateTime: { date: string, time: string, slotId: number } | null;
     interviewModalRef: React.MutableRefObject<HTMLDialogElement | null>,
     applicationId: string | number,
-    applicationEncodedId: string
+    applicationEncodedId: string,
+    isEditComponent ?: boolean
 }
 
-const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setSelectedDateTime, interviewModalRef, applicationEncodedId, applicationId }: propTypes) => {
+const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setSelectedDateTime, interviewModalRef, applicationEncodedId, applicationId, isEditComponent = false }: propTypes) => {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
     const { id: userId } = useSelector((state: RootState) => state?.user)
     const { isLoading, isError, isSuccess, data } = useInterviewAvailableTimesQuery({ token, date: selectedDateTime?.date || '' });
     const [postInterviewDate, { isLoading: postLoading, isError: postIsErr, isSuccess: postSuccess, error: postErr }] = useSetInterviewDateMutation();
+    // const [postEditInterviewDate, { isLoading: postEditLoading, isError: postEditIsErr, isSuccess: postEditSuccess, error: postEditErr }] = useEditUserInterviewScheduleMutation();
 
     const handleSubmit = useCallback(() => {
-        if (selectedDateTime?.date && selectedDateTime?.time) {
-            postInterviewDate({ token, data: { applicationId: applicationId, slotId: selectedDateTime?.slotId, userId }, encodedId: applicationEncodedId })
+        if (isEditComponent) {
+            // postEditInterviewDate({token, encodedId, data : {applicationId, interview_date : selectedDateTime?.date, start_time : selectedDateTime?.time}})
+        }
+        else {
+            if (selectedDateTime?.date && selectedDateTime?.time) {
+                postInterviewDate({ token, data: { applicationId: applicationId, slotId: selectedDateTime?.slotId, userId }, encodedId: applicationEncodedId })
+            }
         }
     }, [selectedDateTime])
 
@@ -39,7 +46,7 @@ const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setS
             setCurrentPage(1)
         }
         if (postIsErr) {
-            const error = postErr as { data : {message: string} };
+            const error = postErr as { data: { message: string } };
             toast.error(error?.data?.message || 'Interview date added failed, try again')
         }
     }, [postSuccess, postIsErr]);

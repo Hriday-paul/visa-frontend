@@ -114,7 +114,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     }`}
                 >
                   <FaWpforms className='text-white h-4 w-4' />
-                  Aplication
+                  Application
                 </NavLink>
               </li>
 

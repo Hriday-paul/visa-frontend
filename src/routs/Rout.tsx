@@ -26,6 +26,7 @@ import LoginAdmin from "../pages/Admin/Login/Login";
 import AdminPrivate from "../components/Shared/AdminPrivate";
 import SuccessApplication from "../pages/Dashboard/SuccessApplication/SuccessApplication";
 import Print from "../pages/Print/Print";
+import InterViewSchedules from "../pages/Admin/InterViewSchedules/InterViewSchedules";
 
 const Rout = createBrowserRouter([
     {
@@ -114,6 +115,10 @@ const Rout = createBrowserRouter([
             {
                 path: '/admin/applications/:id',
                 element: <AdminPrivate><ApplicationDetails /></AdminPrivate>
+            },
+            {
+                path: '/admin/interview_schedules',
+                element: <AdminPrivate><InterViewSchedules /></AdminPrivate>
             },
             {
                 path: '/admin/settings',

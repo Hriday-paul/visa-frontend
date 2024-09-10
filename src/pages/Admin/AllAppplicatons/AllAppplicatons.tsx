@@ -69,11 +69,13 @@ export default function AllAppplicatons() {
                     : bDate.getTime() - aDate.getTime();
             }
 
-            if (aValue < bValue) {
-                return sortStatus.direction === 'asc' ? -1 : 1;
-            }
-            if (aValue > bValue) {
-                return sortStatus.direction === 'asc' ? 1 : -1;
+            if(aValue && bValue){
+                if (aValue < bValue) {
+                    return sortStatus.direction === 'asc' ? -1 : 1;
+                }
+                if (aValue > bValue) {
+                    return sortStatus.direction === 'asc' ? 1 : -1;
+                }
             }
             return 0;
         });
