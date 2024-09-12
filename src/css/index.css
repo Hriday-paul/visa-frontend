@@ -400,3 +400,7 @@ span.flatpickr-weekday,
   font-family: 'test';
   src: local('test'), url(./fonts/Gustanlp-Book.otf) format('opentype');
 }
+
+.ant-popover .ant-popover-inner{
+  @apply rounded-sm p-1
+}

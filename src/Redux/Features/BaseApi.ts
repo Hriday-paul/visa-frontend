@@ -304,9 +304,9 @@ const baseApi = createApi({
             }),
             invalidatesTags: ['interView_dates'],
         }),
-        allInterviewSchedule: builder.query<ApplicationResponseType[], { token: string, selectedDate: string | null }>({
-            query: ({ token, selectedDate }) => ({
-                url: `/interview/all_interview/${selectedDate != null ? '?interview_date=' + selectedDate : ''}`,
+        allInterviewSchedule: builder.query<ApplicationResponseType[], { token: string}>({
+            query: ({ token }) => ({
+                url: `/interview/all_interview/`,
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
