@@ -404,3 +404,11 @@ span.flatpickr-weekday,
 .ant-popover .ant-popover-inner{
   @apply rounded-sm p-1
 }
+
+.PhoneInputInput{
+  @apply border-none outline-none bg-white dark:bg-form-input
+}
+
+.PhoneInputCountrySelect{
+  @apply bg-white dark:bg-boxdark
+}

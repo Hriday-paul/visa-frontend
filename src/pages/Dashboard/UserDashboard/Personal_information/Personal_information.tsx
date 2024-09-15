@@ -4,12 +4,14 @@ import { GrFormNextLink } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../../../Redux/Store";
 import { useDispatch, useSelector } from "react-redux";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { updateStep } from "../../../../Redux/Slices/ApplicationStepSlice";
 import { addPersonalInfo } from "../../../../Redux/Slices/Application_infoSlice";
 import { useEffect } from "react";
 import { IoTransgenderOutline } from "react-icons/io5";
 import { MdErrorOutline } from "react-icons/md";
+import 'react-phone-number-input/style.css'
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
 
 export type Inputs = {
     full_name: string,
@@ -120,12 +122,27 @@ export default function Personal_information() {
                                     Phone
                                     <span className="text-red-500 text-base ml-1">*</span>
                                 </label>
-                                <input
-                                    type="number"
-                                    {...register("phone_number", { required: true, pattern: /^\+?(88)?0(19|14|17|13|18|16|15)\d{8}$/ })}
-                                    placeholder="Enter your phone number"
-                                    className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.phone_number ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
-                                />
+
+                                <div className={`bg-white dark:bg-form-input border w-full px-4 py-3 rounded ${errors?.phone_number ? 'border-red-500' : 'border-stroke dark:border-strokedark'}`}>
+                                    <Controller
+                                        name="phone_number"
+                                        control={control}
+                                        rules={{
+                                            required: 'Phone number is required',
+                                            validate: (value) => isValidPhoneNumber(value) || 'Invalid phone number'
+                                        }}
+                                        render={({ field }) => (
+                                            <PhoneInput
+                                                {...field}
+                                                defaultCountry="BD"
+                                                international
+                                                withCountryCallingCode
+                                                onChange={field.onChange}
+                                                value={field.value}
+                                            />
+                                        )}
+                                    />
+                                </div>
                                 {
                                     errors.phone_number && <div className='flex items-center mt-0.5'>
                                         <MdErrorOutline className='text-sm text-orange-500' />
