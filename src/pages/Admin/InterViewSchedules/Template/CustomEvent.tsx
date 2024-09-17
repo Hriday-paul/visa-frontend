@@ -8,7 +8,7 @@ import { MdDeleteOutline } from 'react-icons/md'
 import EditApplicationSchedule from './EditApplicationSchedule'
 
 const CustomEvent = React.memo(({ event }: EventProps) => {
-    const resource = event?.resource as { encodedId: string, id : number }
+    const resource = event?.resource as { encodedId: string, applicationId : number }
 
     return <div>
         <Popover
@@ -20,7 +20,7 @@ const CustomEvent = React.memo(({ event }: EventProps) => {
                             <span>View Application</span>
                         </p>
                     </li>
-                    <EditApplicationSchedule applicationId={resource?.id} applicationEncodedId={resource?.encodedId}/>
+                    <EditApplicationSchedule applicationId={resource?.applicationId} applicationEncodedId={resource?.encodedId}/>
                     
                     <li className={`p-0.5 pl-2 hover:bg-[#3174AD] dark:hover:bg-boxdark duration-200 rounded cursor-pointer hover:text-white`}>
                         <p className='flex items-center gap-x-1'>
@@ -33,7 +33,6 @@ const CustomEvent = React.memo(({ event }: EventProps) => {
             trigger="click">
             <div className='flex flex-row items-center justify-between'>
                 {event?.title}
-                {/* <BiDotsVerticalRounded className='text-white text-lg' /> */}
             </div>
         </Popover>
     </div>

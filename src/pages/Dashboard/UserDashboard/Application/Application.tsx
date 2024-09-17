@@ -8,9 +8,9 @@ export default function Application() {
     const { stepList, step } = useSelector((state: RootState) => state.applicationStep);
 
     return (
-        <div className="flex flex-col-reverse xl:flex-row gap-y-10 xl:gap-y-0 xl:gap-x-10 justify-between">
+        <div className="flex flex-col-reverse 2xl:flex-row gap-y-10 xl:gap-y-0 xl:gap-x-10 justify-between">
 
-            <div className="xl:max-w-270 w-full">
+            <div className="2xl:max-w-270 w-full">
                 <Steps
                     direction="horizontal"
                     current={step}
@@ -22,7 +22,7 @@ export default function Application() {
 
             </div>
 
-            <div className="w-full xl:w-[calc(100vw-1080px)] mt-6">
+            <div className="w-full 2xl:w-[calc(100vw-1080px)] mt-6">
                 <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark my-8 p-8">
                     <h6 className="text-lg text-black dark:text-gray font-medium">Application Guide</h6>
                     <ul className="mt-3">

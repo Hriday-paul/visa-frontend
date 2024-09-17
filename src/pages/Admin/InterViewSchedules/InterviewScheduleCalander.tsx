@@ -27,7 +27,7 @@ export default function InterviewScheduleCalander() {
                 isError ? <AdminError /> :
                     !isSuccess ? <></> :
                         <Fragment>
-                            <div className="height600">
+                            <div className="">
                                 <Calendar
                                     components={{
                                         event: CustomEvent
@@ -42,7 +42,8 @@ export default function InterviewScheduleCalander() {
                                             start: new Date(schedule?.interview_date + 'T' + schedule?.interview_start_time),
                                             end: new Date(schedule?.interview_date + 'T' + timeWithMoment.format('HH:mm:ss')),
                                             resource: {
-                                                encodedId: schedule?.encoded_id
+                                                encodedId: schedule?.encoded_id,
+                                                applicationId : schedule?.id,
                                             }
                                         }
                                     })}

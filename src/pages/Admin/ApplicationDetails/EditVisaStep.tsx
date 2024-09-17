@@ -15,7 +15,7 @@ type formType = {
     message: string;
 }
 
-const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: proptype, applicationId : string }) => {
+const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: proptype, applicationId: string }) => {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
 
@@ -34,22 +34,22 @@ const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: pr
     });
 
     const handleEdit: SubmitHandler<formType> = (data) => {
-        postEdit({...data, token, tracking_id : visaStatus?.tracking_id, id : applicationId})
+        postEdit({ ...data, token, tracking_id: visaStatus?.tracking_id, id: applicationId })
     }
 
     const openModal = () => {
         modalRef?.current?.showModal()
     }
 
-    useEffect(()=>{
-        if(isSuccess){
+    useEffect(() => {
+        if (isSuccess) {
             modalRef?.current?.close();
             toast.success('Edit successfully')
         }
-        if(isError){
+        if (isError) {
             toast.error('Something went wrong, try again')
         }
-    },[isSuccess, isError])
+    }, [isSuccess, isError])
 
 
     return (
@@ -86,7 +86,6 @@ const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: pr
                                                 </option>
                                             })
                                         }
-
                                     </select>
 
                                     <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
@@ -123,7 +122,7 @@ const EditVisaStep = React.memo(({ visaStatus, applicationId }: { visaStatus: pr
                             </div>
                             <div className="w-full mt-3 flex justify-end">
                                 <button className="bg-primary text-white p-3 hover:opacity-80 cursor-pointer border-none outline-0 rounded text-sm flex gap-x-2 items-center">
-                                    {isLoading && < ImSpinner2 className="text-lg text-white animate-spin"/>}
+                                    {isLoading && < ImSpinner2 className="text-lg text-white animate-spin" />}
                                     <span>Update</span>
                                 </button>
 

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect } from 'react'
 import toast from 'react-hot-toast';
 import { GrFormPreviousLink } from 'react-icons/gr';
 import { ImSpinner8 } from 'react-icons/im';
-import { useInterviewAvailableTimesQuery, useSetInterviewDateMutation } from '../../../../Redux/Features/BaseApi';
+import { useEditUserInterviewScheduleMutation, useInterviewAvailableTimesQuery, useSetInterviewDateMutation } from '../../../../Redux/Features/BaseApi';
 import { useCookies } from 'react-cookie';
 import AdminError from '../../../../components/Shared/AdminError';
 import { useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ type propTypes = {
     interviewModalRef: React.MutableRefObject<HTMLDialogElement | null>,
     applicationId: string | number,
     applicationEncodedId: string,
-    isEditComponent ?: boolean
+    isEditComponent?: boolean
 }
 
 const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setSelectedDateTime, interviewModalRef, applicationEncodedId, applicationId, isEditComponent = false }: propTypes) => {
@@ -25,11 +25,11 @@ const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setS
     const { id: userId } = useSelector((state: RootState) => state?.user)
     const { isLoading, isError, isSuccess, data } = useInterviewAvailableTimesQuery({ token, date: selectedDateTime?.date || '' });
     const [postInterviewDate, { isLoading: postLoading, isError: postIsErr, isSuccess: postSuccess, error: postErr }] = useSetInterviewDateMutation();
-    // const [postEditInterviewDate, { isLoading: postEditLoading, isError: postEditIsErr, isSuccess: postEditSuccess, error: postEditErr }] = useEditUserInterviewScheduleMutation();
+    const [postEditInterviewDate, { isLoading: postEditLoading, isError: postEditIsErr, isSuccess: postEditSuccess, error: postEditErr }] = useEditUserInterviewScheduleMutation();
 
     const handleSubmit = useCallback(() => {
         if (isEditComponent) {
-            // postEditInterviewDate({token, encodedId, data : {applicationId, interview_date : selectedDateTime?.date, start_time : selectedDateTime?.time}})
+            postEditInterviewDate({ token, encodedId: applicationEncodedId, data: { applicationId, interview_date: selectedDateTime?.date, start_time: selectedDateTime?.time } })
         }
         else {
             if (selectedDateTime?.date && selectedDateTime?.time) {
@@ -38,10 +38,11 @@ const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setS
         }
     }, [selectedDateTime])
 
+    // add new shedule effect
     useEffect(() => {
         if (postSuccess) {
             interviewModalRef?.current?.close();
-            toast.success('Interview date added successfully');
+            toast.success('Interview date added successfully', {position: 'top-right'});
             setSelectedDateTime(null)
             setCurrentPage(1)
         }
@@ -51,8 +52,22 @@ const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setS
         }
     }, [postSuccess, postIsErr]);
 
+    //edit schedule effect
+    useEffect(() => {
+        if (postEditSuccess) {
+            interviewModalRef?.current?.close();
+            toast.success('Reshedule successfully');
+            setSelectedDateTime(null)
+            setCurrentPage(1)
+        }
+        if (postEditIsErr) {
+            const error = postEditErr as { data: { detail: string } };
+            toast.error(error?.data?.detail || 'Interview date added failed, try again')
+        }
+    }, [postEditSuccess, postEditIsErr]);
+
     return (
-        <Spin spinning={postLoading} size="default" indicator={<ImSpinner8 className="text-xl text-primary animate-spin" />}>
+        <Spin spinning={postLoading || postEditLoading} size="default" indicator={<ImSpinner8 className="text-xl text-primary animate-spin" />}>
             {
                 isLoading ?
                     <div className="min-h-80 flex justify-center items-center">

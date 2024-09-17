@@ -312,10 +312,10 @@ const baseApi = createApi({
                 }
             }),
         }),
-        editUserInterviewSchedule: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date: string | null; start_time: string | null, applicationId: string | number }, encodedId: string }>({
+        editUserInterviewSchedule: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date: string | undefined; start_time: string | undefined, applicationId: string | number }, encodedId: string }>({
             query: ({ token, data }) => ({
                 url: `/interview/all_interview/${data?.applicationId}/`,
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${token}`
                 },

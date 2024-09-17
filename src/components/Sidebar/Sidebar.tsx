@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import Logo from '../../images/logo/logo.svg';
+import Logo from '/e-visa-logo.png';
 import { FaWpforms } from 'react-icons/fa';
 import { BiSupport } from 'react-icons/bi';
 import { PiStepsDuotone } from 'react-icons/pi';
@@ -64,9 +64,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
-      <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
+      <div className="flex items-center justify-between lg:justify-center gap-2 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/">
-          <img src={Logo} loading='lazy' alt="Logo" />
+          <img src={Logo} loading='lazy' className='h-16 w-auto' alt="Logo" />
           {/* <IoLogoReact className='text-white text-xl'/> */}
         </NavLink>
 
