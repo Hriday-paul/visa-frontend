@@ -14,6 +14,7 @@ import { DatePicker, type DatesRangeValue } from '@mantine/dates';
 import '@mantine/dates/styles.css';
 import { useDebouncedValue } from '@mantine/hooks';
 import PrintApplication from "../../Dashboard/MyApplications/PrintApplication";
+import DownloadPdf from "../../Print/DownloadPdf";
 
 export default function AllAppplicatons() {
     const [cookies] = useCookies(['baerer-token']);
@@ -219,6 +220,7 @@ export default function AllAppplicatons() {
                                                         </svg>
                                                     </Link>
                                                     <PrintApplication application={application}/>
+                                                    <DownloadPdf applicationDetails={application}/>
                                                     <DeleteApplication id={application?.id} />
                                                 </div>
                                             ),

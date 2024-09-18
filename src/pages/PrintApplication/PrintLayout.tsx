@@ -21,7 +21,7 @@ const PrintLayout = React.memo(({ contentToPrintRef, data }: { contentToPrintRef
                                 </div>
 
                                 <div className="border-l border-stroke dark:border-strokedark pl-0 lg:pl-3 mb-3 md:mb-0 absolute top-5 left-0">
-                                    <img src={'https://seeklogo.com/images/B/bangladesh-govt-logo-A2C7688845-seeklogo.com.png'} loading="lazy" alt="republic photo" className="h-24 w-auto object-cover" />
+                                    <img src={'https://res.cloudinary.com/devlj6p7h/image/upload/v1726641755/test/kxk7wjh12clybphmfl1s.png'} loading="lazy" alt="republic photo" className="h-24 w-auto object-cover" />
                                 </div>
                                 <div className="border-l border-stroke dark:border-strokedark pl-0 lg:pl-3 mb-3 md:mb-0 absolute top-5 right-0">
                                     <img src={data?.user_photo} loading="lazy" alt="user photo" className="h-24 w-auto object-cover" />

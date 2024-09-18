@@ -8,7 +8,7 @@ import AdminError from "../../../components/Shared/AdminError";
 import { DataTable } from "mantine-datatable";
 import moment from "moment";
 import { addAllInfo } from "../../../Redux/Slices/EditApplicationSlice";
-import PrintApplication from "./PrintApplication";
+import DownloadPdf from "../../Print/DownloadPdf";
 
 
 export default function MyApplications() {
@@ -80,9 +80,9 @@ export default function MyApplications() {
                                                             />
                                                         </svg>
                                                     </Link>
-                                                    <PrintApplication application={application}/>
-                                                   
-                                                    {/* <DeleteApplication id={application?.id} /> */}
+                                                    
+                                                    <DownloadPdf applicationDetails={application}/>
+
                                                 </div>
                                             ),
                                             resizable: true

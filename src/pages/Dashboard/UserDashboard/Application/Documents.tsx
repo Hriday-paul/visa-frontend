@@ -69,7 +69,6 @@ export default function Documents() {
         for (const key in applicationData) {
             const value = applicationData[key as keyof addApplicationType];
             if (value !== undefined && value !== null) {
-                console.log(key)
                 if (key === 'user_photo') {
                     console.log(files.user_photo)
                     form.append(key, files.user_photo as File);
