@@ -14,6 +14,10 @@ import EditVisaStep from "./EditVisaStep";
 import CopyTrackId from "./Template/CopyTrackId";
 import { IoCalendarNumberSharp } from "react-icons/io5";
 import moment from "moment";
+import PersonalInfo from "../../../components/Shared/ApplicantDetails/PersonalInfo";
+import VisaInfo from "../../../components/Shared/ApplicantDetails/VisaInfo";
+import PassportInfo from "../../../components/Shared/ApplicantDetails/PassportInfo";
+import ImergencyInfo from "../../../components/Shared/ApplicantDetails/ImergencyInfo";
 
 export default function ApplicationDetails() {
 
@@ -164,81 +168,9 @@ export default function ApplicationDetails() {
                                     {/* // left side section  */}
                                     <div>
                                         {/* //personal details */}
-                                        <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4">
-                                            <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
-                                                <p className="text-base text-graydark dark:text-slate-200 font-medium">Personal Details</p>
-                                            </div>
-                                            <div className="p-3 md:p-4 lg:p-5">
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Country</span>
-                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.nationality}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Permanent Address</span>
-                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.permanent_address}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Present Address</span>
-                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.present_address}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">City</span>
-                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.city}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">State province</span>
-                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.state_province}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Educational Background</span>
-                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.educational_background}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Occupation</span>
-                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.occupation}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Date of Birth</span>
-                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.date_of_birth}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Gender</span>
-                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.gender}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Merital status</span>
-                                                    <span className="w-1/2 hyphens-auto">{applicationDetails?.marital_status}</span>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
+                                        <PersonalInfo applicationDetails={applicationDetails}/>
                                         {/* // visa details  */}
-                                        <div className="w-full mt-8">
-                                            <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4">
-                                                <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
-                                                    <p className="text-base text-graydark dark:text-slate-200 font-medium">Visa Details</p>
-                                                </div>
-                                                <div className="p-3 md:p-4 lg:p-5">
-                                                    <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                        <span className="w-1/2">Visa Type</span>
-                                                        <span className="w-1/2">{applicationDetails?.visa_type}</span>
-                                                    </div>
-                                                    <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                        <span className="w-1/2">Planed Duration of stay</span>
-                                                        <span className="w-1/2">{applicationDetails?.planned_duration_of_stay} days</span>
-                                                    </div>
-                                                    <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                        <span className="w-1/2">Accommodation Details</span>
-                                                        <span className="w-1/2 hyphens-auto">{applicationDetails?.accommodation_details}</span>
-                                                    </div>
-                                                    <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                        <span className="w-1/2">Purpose of visit</span>
-                                                        <span className="w-1/2 hyphens-auto">{applicationDetails?.purpose_of_visit}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <VisaInfo applicationDetails={applicationDetails}/>
                                         {/* // visa status  */}
                                         <div className="w-full mt-8">
                                             <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4">
@@ -274,54 +206,9 @@ export default function ApplicationDetails() {
                                     {/* // right side section */}
                                     <div>
                                         {/* // passport information  */}
-                                        <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4">
-                                            <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
-                                                <p className="text-base text-graydark dark:text-slate-200 font-medium">Passport Information</p>
-                                            </div>
-                                            <div className="p-3 md:p-4 lg:p-5">
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Passport number</span>
-                                                    <span className="w-1/2">{applicationDetails?.passport_no}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Passport Issue Date</span>
-                                                    <span className="w-1/2">{applicationDetails?.passport_issue_date}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Passport Expairy Date</span>
-                                                    <span className="w-1/2">{applicationDetails?.passport_expiry_date}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Country of passport issuance</span>
-                                                    <span className="w-1/2">{applicationDetails?.country_of_passport_issuance}</span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <PassportInfo applicationDetails={applicationDetails}/>
                                         {/* // imargency contact  */}
-                                        <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4 mt-8">
-                                            <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">
-                                                <p className="text-base text-graydark dark:text-slate-200 font-medium">Emergency Contact</p>
-                                            </div>
-                                            <div className="p-3 md:p-4 lg:p-5">
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Name</span>
-                                                    <span className="w-1/2">{applicationDetails?.emergency_contact_name}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Relation</span>
-                                                    <span className="w-1/2">{applicationDetails?.emergency_contact_relationship}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Phone</span>
-                                                    <span className="w-1/2">{applicationDetails?.emergency_contact_phone}</span>
-                                                </div>
-                                                <div className=" flex flex-row items-center justify-between mb-3.5">
-                                                    <span className="w-1/2">Email</span>
-                                                    <span className="w-1/2">{applicationDetails?.emergency_contact_email}</span>
-                                                </div>
-
-                                            </div>
-                                        </div>
+                                        <ImergencyInfo applicationDetails={applicationDetails}/>
                                         {/* files  */}
                                         <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4 mt-8">
                                             <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">

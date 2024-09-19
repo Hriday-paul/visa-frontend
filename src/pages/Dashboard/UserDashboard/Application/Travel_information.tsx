@@ -230,10 +230,9 @@ export default function Travel_information() {
             <div className="w-full xl:w-1/2">
               <label className="mb-2.5 block text-black dark:text-white">
                 Purpose of visit
-                <span className="text-red-500 text-base ml-1">*</span>
               </label>
               <textarea
-                {...register("purpose_of_visit", { required: true })}
+                {...register("purpose_of_visit")}
                 placeholder="Write why you visit"
                 rows={5}
                 className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.purpose_of_visit ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}

@@ -11,7 +11,7 @@ export type userSupportType = {
 }
 
 export default function UserSupport() {
-  const [postMessage, { isLoading, isError, isSuccess, data }] = useSendSupportMessageMutation();
+  const [postMessage, { isLoading, isError, isSuccess }] = useSendSupportMessageMutation();
   const {
     register,
     handleSubmit,
@@ -27,13 +27,13 @@ export default function UserSupport() {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(data);
       toast.success('Your message send successfully');
     }
     if (isError) {
       toast.error('Message send failed')
     }
   }, [isSuccess, isError]);
+
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">

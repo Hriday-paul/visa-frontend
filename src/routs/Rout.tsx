@@ -27,6 +27,7 @@ import AdminPrivate from "../components/Shared/AdminPrivate";
 import SuccessApplication from "../pages/Dashboard/SuccessApplication/SuccessApplication";
 // import InterViewSchedules from "../pages/Admin/InterViewSchedules/InterViewSchedules";
 import InterviewScheduleCalander from "../pages/Admin/InterViewSchedules/InterviewScheduleCalander";
+import ReviewApplication from "../pages/Dashboard/UserDashboard/Application/ReviewApplication";
 
 const Rout = createBrowserRouter([
     {
@@ -60,6 +61,10 @@ const Rout = createBrowserRouter([
                     {
                         path: '/dashboard/application/4',
                         element: <Private><Documents /></Private>
+                    },
+                    {
+                        path: '/dashboard/application/5',
+                        element: <Private><ReviewApplication /></Private>
                     },
                 ]
             },

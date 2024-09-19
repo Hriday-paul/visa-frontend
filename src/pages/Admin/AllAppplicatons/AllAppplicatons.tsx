@@ -38,7 +38,7 @@ export default function AllAppplicatons() {
         email: debouncedEmail,
         phone_number: debouncedPhoneNumber,
         visaTypes: selectedDepartments,
-        submission_date : birthdaySearchRange
+        submission_date: birthdaySearchRange
     });
 
     const [selectedRecords, setSelectedRecords] = useState<ApplicationResponseType[]>([]);
@@ -47,7 +47,7 @@ export default function AllAppplicatons() {
         columnAccessor: 'full_name',
         direction: 'asc',
     });
-    
+
     const handleSortStatusChange = (newSortStatus: DataTableSortStatus<ApplicationResponseType>) => {
         setSortStatus(newSortStatus);
     };
@@ -70,7 +70,7 @@ export default function AllAppplicatons() {
                     : bDate.getTime() - aDate.getTime();
             }
 
-            if(aValue && bValue){
+            if (aValue && bValue) {
                 if (aValue < bValue) {
                     return sortStatus.direction === 'asc' ? -1 : 1;
                 }
@@ -115,7 +115,7 @@ export default function AllAppplicatons() {
                                                         </ActionIcon>
                                                     }
                                                     value={query?.full_name}
-                                                    onChange={(e) => {setQuery({ ...query, full_name: e.currentTarget.value })}}
+                                                    onChange={(e) => { setQuery({ ...query, full_name: e.currentTarget.value }) }}
                                                 />
                                             ),
                                             filtering: query?.full_name !== '',
@@ -178,7 +178,7 @@ export default function AllAppplicatons() {
                                             filter: (
                                                 <MultiSelect
                                                     label="Visa types"
-                                                    
+
                                                     data={['Student', 'Work', 'Family', "Tourist", "Business", 'Medical']}
                                                     value={selectedDepartments}
                                                     placeholder="Search departments…"
@@ -191,10 +191,16 @@ export default function AllAppplicatons() {
                                             filtering: selectedDepartments.length > 0,
                                         },
                                         {
-                                            accessor: 'is_approved', render: (record) => record?.is_approved ? <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success">Approved</p> : <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-danger text-danger">Not Approved</p>,
-                                            title: 'Approved',
+                                            accessor: 'visa_statuses', render: (record) => <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium">{record?.visa_statuses[0]?.visa_status}</p>,
+                                            title: 'Application Step',
                                             resizable: true,
                                         },
+                                        {
+                                            accessor: 'is_approved', render: (record) => record?.is_approved ? <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-success text-success">Approved</p> : <p className="inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium bg-danger text-danger">Not Approved</p>,
+                                            title: 'Status',
+                                            resizable: true,
+                                        },
+
                                         {
                                             accessor: 'actions',
                                             title: 'Actions',
@@ -219,8 +225,8 @@ export default function AllAppplicatons() {
                                                             />
                                                         </svg>
                                                     </Link>
-                                                    <PrintApplication application={application}/>
-                                                    <DownloadPdf applicationDetails={application}/>
+                                                    <PrintApplication application={application} />
+                                                    <DownloadPdf applicationDetails={application} />
                                                     <DeleteApplication id={application?.id} />
                                                 </div>
                                             ),

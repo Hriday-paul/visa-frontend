@@ -1,7 +1,7 @@
 import { Page, Text, View, Document, StyleSheet, PDFDownloadLink, Image } from '@react-pdf/renderer';
 import { ApplicationResponseType } from '../../Redux/Features/Types';
 import { FaDownload } from 'react-icons/fa';
-import { ImSpinner2 } from 'react-icons/im';
+import React from 'react';
 
 
 const styles = StyleSheet.create({
@@ -292,14 +292,14 @@ const MyDocument = ({ data }: { data: ApplicationResponseType }) => (
     </Document>
 );
 
-const DownloadPdf = ({ applicationDetails }: { applicationDetails: ApplicationResponseType }) => {
+const DownloadPdf = React.memo(({ applicationDetails }: { applicationDetails: ApplicationResponseType }) => {
     return (
         <div>
             <PDFDownloadLink document={<MyDocument data={applicationDetails} />} fileName="e-visa.pdf">
                 {({ loading }) =>
                     loading ?
                         <button className=" bg-primary text-white p-3 hover:opacity-80">
-                            <ImSpinner2 className='text-lg text-white animate-spin' />
+                            <FaDownload className='text-lg text-white' />
                         </button>
                         :
                         <button className=" bg-primary text-white p-3 hover:opacity-80">
@@ -309,6 +309,6 @@ const DownloadPdf = ({ applicationDetails }: { applicationDetails: ApplicationRe
             </PDFDownloadLink>
         </div>
     );
-};
+});
 
 export default DownloadPdf;

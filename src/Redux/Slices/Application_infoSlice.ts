@@ -16,7 +16,7 @@ type infoType = {
     state_province: string;
     marital_status: 'Merit' | 'Unmerit' | '';
     educational_background: string;
-    postal_code : number;
+    postal_code: number;
     gender: 'Male' | 'Female' | 'Others' | '',
     visa_type: 'Tourist' | 'Business' | 'Student' | 'Work' | 'Medical' | 'Family',
     purpose_of_visit: string;
@@ -30,12 +30,12 @@ type infoType = {
     passport_issue_date: string;
     passport_expiry_date: string;
     country_of_passport_issuance: string;
-    user_photo: null | string | File,
-    passport_front_photo: null | string | File,
-    passport_back_photo: null | string | File,
-    health_ensurence: null | string | File,
-    travel_insurance: null | string | File,
-    applicant_signature: null | string | File
+    user_photo: null | string ,
+    passport_front_photo: null | string,
+    passport_back_photo: null | string,
+    health_ensurence: null | string,
+    travel_insurance: null | string ,
+    applicant_signature: null | string
 };
 
 const initStep: infoType = {
@@ -48,7 +48,7 @@ const initStep: infoType = {
     nationality: '',
     occupation: '',
     date_of_birth: '',
-    postal_code : 0,
+    postal_code: 0,
     state_province: '',
     marital_status: '',
     educational_background: '',
@@ -72,7 +72,6 @@ const initStep: infoType = {
     travel_insurance: '',
     applicant_signature: ''
 };
-
 
 const Application_infoSlice = createSlice({
     name: 'steps',
@@ -137,9 +136,24 @@ const Application_infoSlice = createSlice({
             state.passport_issue_date = '';
             state.passport_expiry_date = '';
             state.country_of_passport_issuance = '';
+            state.user_photo = null;
+            state.passport_front_photo = null;
+            state.passport_back_photo = null;
+            state.health_ensurence = null;
+            state.travel_insurance = null;
+            state.applicant_signature = null;
         },
+        addDocument: (
+            state,
+            { payload }: PayloadAction<{
+                key: 'user_photo' | 'passport_front_photo' | 'passport_back_photo' | 'health_ensurence' | 'travel_insurance' | 'applicant_signature';
+                value: string;
+            }>
+        ) => {
+            state[payload.key] = payload.value;
+        }
     }
 });
 
-export const { addPersonalInfo, addTravelInfo, addVisaInfo, resetApplication } = Application_infoSlice.actions
+export const { addPersonalInfo, addTravelInfo, addVisaInfo, resetApplication, addDocument } = Application_infoSlice.actions;
 export default Application_infoSlice.reducer;

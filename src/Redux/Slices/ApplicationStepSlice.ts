@@ -20,6 +20,9 @@ const initStep: stepType = {
         {
             title: 'Documents',
         },
+        {
+            title: 'Review',
+        },
     ]
 };
 
