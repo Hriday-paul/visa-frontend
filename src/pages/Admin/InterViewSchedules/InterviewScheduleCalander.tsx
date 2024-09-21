@@ -34,26 +34,35 @@ export default function InterviewScheduleCalander() {
                                     }}
                                     defaultDate={new Date()}
                                     events={schedules?.map(schedule => {
-                                        const timeWithMoment = moment(schedule?.interview_start_time, 'HH:mm:ss');
-                                        timeWithMoment.add(30, 'minutes');
+                                        const timeWithMoment = moment(schedule?.appointment[0]?.start_time, 'HH:mm:ss');
+                                        timeWithMoment.add(schedule?.appointment[0]?.slot_duration, 'minutes');
                                         return {
                                             id: schedule?.id,
                                             title: schedule?.full_name,
-                                            start: new Date(schedule?.interview_date + 'T' + schedule?.interview_start_time),
-                                            end: new Date(schedule?.interview_date + 'T' + timeWithMoment.format('HH:mm:ss')),
+                                            start: new Date(schedule?.appointment[0]?.interview_date + 'T' + schedule?.appointment[0]?.start_time),
+                                            end: new Date(schedule?.appointment[0]?.interview_date + 'T' + timeWithMoment.format('HH:mm:ss')),
                                             resource: {
                                                 encodedId: schedule?.encoded_id,
-                                                applicationId : schedule?.id,
+                                                applicationId: schedule?.id,
+                                                appointment: schedule?.appointment
                                             }
                                         }
                                     })}
                                     localizer={mLocalizer}
                                     showMultiDayTimes
-                                    step={15}
+                                    step={30}
                                     defaultView="month"
                                     style={{ height: 750, width: '100%' }}
                                     popup
                                     views={['month', 'week', 'day']}
+                                    eventPropGetter={(event) => {
+                                        const resource = event?.resource as { encodedId: string, applicationId: number, appointment : {id: number, interview_date: string | null; start_time: string | null; slot_duration: string; interview_status: 'Cancel' | 'Done' | 'Reschedule', visa_application: number; user: number, schedule_slot: number}[] };
+
+                                        const bg = resource?.appointment?.length > 0 ? (resource?.appointment[0]?.interview_status === 'Cancel' ? { style: { backgroundColor: '#ef4444' } } : resource?.appointment[0]?.interview_status === 'Reschedule' ? { style: { backgroundColor: '#f59e0b' } } : { style: { backgroundColor: 'green' } })
+                                        : 
+                                        { style: { backgroundColor: 'green' } }
+                                        return bg;
+                                    }}
                                 />
                             </div>
                         </Fragment>

@@ -9,8 +9,7 @@ export type ApplicationResponseType = {
     present_address: string;
     city: string;
     visa_statuses: { id: number, tracking_id: string; visa_status: string; message: string }[];
-    interview_date : string | null;
-    interview_start_time : string | null;
+    appointment : {id : number, interview_date : string | null; start_time : string | null; slot_duration : string; interview_status : 'Cancel' | 'Done' | 'Reschedule', visa_application : number; user : number, schedule_slot : number}[]
     nationality: string;
     occupation: string;
     date_of_birth: string;

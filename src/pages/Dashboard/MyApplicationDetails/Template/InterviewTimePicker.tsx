@@ -16,10 +16,11 @@ type propTypes = {
     interviewModalRef: React.MutableRefObject<HTMLDialogElement | null>,
     applicationId: string | number,
     applicationEncodedId: string,
-    isEditComponent?: boolean
+    isEditComponent?: boolean;
+    appoinmentId ?: number;
 }
 
-const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setSelectedDateTime, interviewModalRef, applicationEncodedId, applicationId, isEditComponent = false }: propTypes) => {
+const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setSelectedDateTime, interviewModalRef, applicationEncodedId, applicationId, appoinmentId, isEditComponent = false}: propTypes) => {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
     const { id: userId } = useSelector((state: RootState) => state?.user)
@@ -29,7 +30,7 @@ const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setS
 
     const handleSubmit = useCallback(() => {
         if (isEditComponent) {
-            postEditInterviewDate({ token, encodedId: applicationEncodedId, data: { applicationId, interview_date: selectedDateTime?.date, start_time: selectedDateTime?.time } })
+            postEditInterviewDate({ token, encodedId: applicationEncodedId, data: { appoinmentId, interview_date: selectedDateTime?.date, start_time: selectedDateTime?.time, status : 'Reschedule' } })
         }
         else {
             if (selectedDateTime?.date && selectedDateTime?.time) {

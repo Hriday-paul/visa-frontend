@@ -7,7 +7,7 @@ import { useCookies } from 'react-cookie';
 import { ImSpinner8 } from 'react-icons/im';
 import AdminError from '../../../../components/Shared/AdminError';
 
-const InterviewDatePicker = React.memo(({ applicationId, applicationEncodedId, interviewModalRef, isEditComponent = false }: { applicationId: string | number, applicationEncodedId: string; interviewModalRef: React.MutableRefObject<HTMLDialogElement | null>, isEditComponent ?: boolean }) => {
+const InterviewDatePicker = React.memo(({ applicationId, applicationEncodedId, interviewModalRef, isEditComponent = false, appoinmentId }: { applicationId: string | number, applicationEncodedId: string; interviewModalRef: React.MutableRefObject<HTMLDialogElement | null>, isEditComponent ?: boolean; appoinmentId ?: number; }) => {
 
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
@@ -47,7 +47,7 @@ const InterviewDatePicker = React.memo(({ applicationId, applicationEncodedId, i
 
                     </div>
                     :
-                    <InterviewTimePicker setCurrentPage={setCurrentPage} selectedDateTime={selectedDateTime} setSelectedDateTime={setSelectedDateTime} interviewModalRef={interviewModalRef} applicationId={applicationId} applicationEncodedId={applicationEncodedId} isEditComponent={isEditComponent}/>
+                    <InterviewTimePicker setCurrentPage={setCurrentPage} selectedDateTime={selectedDateTime} setSelectedDateTime={setSelectedDateTime} interviewModalRef={interviewModalRef} applicationId={applicationId} applicationEncodedId={applicationEncodedId} isEditComponent={isEditComponent} appoinmentId={appoinmentId}/>
             }
         </div>
     )

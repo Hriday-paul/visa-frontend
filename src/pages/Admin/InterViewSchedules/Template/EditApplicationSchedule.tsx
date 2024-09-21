@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import InterviewDatePicker from '../../../Dashboard/MyApplicationDetails/Template/InterviewDatePicker';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
 
-const EditApplicationSchedule = React.memo(({ applicationId, applicationEncodedId }: { applicationId: number, applicationEncodedId: string }) => {
+const EditApplicationSchedule = React.memo(({ applicationId, applicationEncodedId, appoinmentId }: { applicationId: number, applicationEncodedId: string; appoinmentId ?: number ;}) => {
     const interviewModalRef = useRef<HTMLDialogElement | null>(null);
     const openInterviewModal = () => {
         interviewModalRef?.current?.showModal()
@@ -17,7 +17,7 @@ const EditApplicationSchedule = React.memo(({ applicationId, applicationEncodedI
             </li>
             <dialog ref={interviewModalRef} className="modal z-10">
                 <div className="modal-box w-[380px] max-w-4xl">
-                    <InterviewDatePicker applicationId={applicationId} applicationEncodedId={applicationEncodedId} interviewModalRef={interviewModalRef} isEditComponent={true} />
+                    <InterviewDatePicker applicationId={applicationId} applicationEncodedId={applicationEncodedId} interviewModalRef={interviewModalRef} isEditComponent={true} appoinmentId={appoinmentId}/>
                 </div>
                 <form method="dialog" className="modal-backdrop">
                     <button>close</button>

@@ -44,7 +44,7 @@ export type addApplicationType = {
 
 const baseApi = createApi({
     reducerPath: 'api',
-    tagTypes: ['Application', 'allApplication', 'myApplicaions', 'interView_dates', 'interView_times'],
+    tagTypes: ['Application', 'allApplication', 'myApplicaions', 'interView_dates', 'interView_times', 'interview_schedules'],
     baseQuery: async (args, api, extraOptions) => {
         // Fetch base query with interceptors
         const baseQueryWithInterceptors = fetchBaseQuery({
@@ -311,17 +311,18 @@ const baseApi = createApi({
                     Authorization: `Bearer ${token}`
                 }
             }),
+            providesTags : ['interview_schedules']
         }),
-        editUserInterviewSchedule: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date: string | undefined; start_time: string | undefined, applicationId: string | number }, encodedId: string }>({
+        editUserInterviewSchedule: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date ?: string | undefined; start_time ?: string | undefined, appoinmentId ?: number, status : 'Reschedule' | 'Done' | 'Cancel' }, encodedId: string }>({
             query: ({ token, data }) => ({
-                url: `/interview/all_interview/${data?.applicationId}/`,
+                url: `/interview/all_interview/${data?.appoinmentId}/`,
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
-                body: { interview_date : data?.interview_date, start_time : data?.start_time }
+                body: { interview_date : data?.interview_date, start_time : data?.start_time, interview_status : data?.status }
             }),
-            // invalidatesTags: (_, __, { encodedId }) => [{ type: 'Application', encodedId }],
+            invalidatesTags: ['interview_schedules'],
         }),
     })
 })
