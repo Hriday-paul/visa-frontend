@@ -158,7 +158,7 @@ const baseApi = createApi({
                 { type: 'interView_times', date }
             ],
         }),
-        setInterviewDate: builder.mutation<EditApplicationResponseType, { token: string, data: { userId: number | null; slotId: number, applicationId: string | number }, encodedId: string }>({
+        setInterviewDate: builder.mutation<EditApplicationResponseType, { token: string, data: { userId: number | null; slotId: number, applicationId: string | number, interview_date : string | undefined }, encodedId: string }>({
             query: ({ token, data }) => ({
                 url: `/interview/appointment/`,
                 method: 'POST',
@@ -167,7 +167,8 @@ const baseApi = createApi({
                 },
                 body: { visa_application: data?.applicationId, user: data?.userId, schedule_slot: data?.slotId }
             }),
-            invalidatesTags: (_, __, { encodedId }) => [{ type: 'Application', encodedId }],
+            // invalidatesTags: (_, __, { encodedId }) => [{ type: 'Application', encodedId }],
+            invalidatesTags: (_, __, { data, encodedId }) => [{ type: 'interView_times', date: data?.interview_date }, { type: 'Application', encodedId }]
         }),
         getAplicationWithMutate: builder.query<ApplicationResponseType, { token: string, id: any }>({
             query: ({ id, token }) => ({
@@ -304,25 +305,26 @@ const baseApi = createApi({
             }),
             invalidatesTags: ['interView_dates'],
         }),
-        allInterviewSchedule: builder.query<ApplicationResponseType[], { token: string}>({
+        allInterviewSchedule: builder.query<ApplicationResponseType[], { token: string }>({
             query: ({ token }) => ({
                 url: `/interview/all_interview/`,
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             }),
-            providesTags : ['interview_schedules']
+            providesTags: ['interview_schedules']
         }),
-        editUserInterviewSchedule: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date ?: string | undefined; start_time ?: string | undefined, appoinmentId ?: number, status : 'Reschedule' | 'Done' | 'Cancel' }, encodedId: string }>({
+        editUserInterviewSchedule: builder.mutation<EditApplicationResponseType, { token: string, data: { interview_date?: string | undefined; start_time?: string | undefined, appoinmentId?: number, status: 'Reschedule' | 'Done' | 'Cancel' }, encodedId: string }>({
             query: ({ token, data }) => ({
                 url: `/interview/all_interview/${data?.appoinmentId}/`,
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
-                body: { interview_date : data?.interview_date, start_time : data?.start_time, interview_status : data?.status }
+                body: { interview_date: data?.interview_date, start_time: data?.start_time, interview_status: data?.status }
             }),
-            invalidatesTags: ['interview_schedules'],
+            // invalidatesTags: ['interview_schedules'],
+            invalidatesTags: (_, __, { data }) => [{ type: 'interView_times', date: data?.interview_date }, 'interview_schedules']
         }),
     })
 })

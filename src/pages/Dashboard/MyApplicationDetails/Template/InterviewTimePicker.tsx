@@ -34,7 +34,7 @@ const InterviewTimePicker = React.memo(({ setCurrentPage, selectedDateTime, setS
         }
         else {
             if (selectedDateTime?.date && selectedDateTime?.time) {
-                postInterviewDate({ token, data: { applicationId: applicationId, slotId: selectedDateTime?.slotId, userId }, encodedId: applicationEncodedId })
+                postInterviewDate({ token, data: { applicationId: applicationId, slotId: selectedDateTime?.slotId, interview_date : selectedDateTime?.date,  userId }, encodedId: applicationEncodedId })
             }
         }
     }, [selectedDateTime])

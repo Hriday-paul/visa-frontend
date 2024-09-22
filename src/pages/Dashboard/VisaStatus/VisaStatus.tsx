@@ -8,6 +8,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ImSpinner8 } from "react-icons/im";
 import StatusError from "./Template/StatusError";
 import { useCookies } from "react-cookie";
+import { GrSchedule } from "react-icons/gr";
 
 type Inputs = { id: string; };
 
@@ -24,7 +25,7 @@ export default function VisaStatus() {
 
     const handleTracking: SubmitHandler<Inputs> = (data) => {
         // console.log(data)
-        getStatus({...data, token})
+        getStatus({ ...data, token })
     };
 
     return (
@@ -83,20 +84,29 @@ export default function VisaStatus() {
                                                         <p className="mt-2 text-center dark:text-slate-300">Step 2 </p>
                                                         <h3 className="text-xl font-medium text-black -mt-1 text-center dark:text-slate-100">Admin approve</h3>
                                                     </li>
+                                                    <li className="z-10 ">
+                                                        <div className="mx-auto flex justify-center items-center">
+                                                            <div className={`h-24 w-24 border-2 border-primary hover:bg-primary dark:hover:bg-primary hover:border-transparent hover:border-white group rounded-full flex justify-center items-center ${data?.visa_status === 'Schedule' ? 'bg-primary dark:bg-primary' : 'bg-white dark:bg-form-input'}`}>
+                                                                <GrSchedule className={`text-4xl ${data?.visa_status === 'Schedule' ? 'text-white' : 'text-primary group-hover:text-white dark:text-slate-100'}`} />
+                                                            </div>
+                                                        </div>
+                                                        <p className="mt-2 text-center dark:text-slate-300">Step 3 </p>
+                                                        <h3 className="text-xl font-medium text-black -mt-1 text-center dark:text-slate-100">Schedule</h3>
+                                                    </li>
                                                     <li className="z-10">
                                                         <div className="mx-auto flex justify-center items-center">
                                                             <div className={`h-24 w-24 border-2 border-primary hover:bg-primary dark:hover:bg-primary hover:border-transparent hover:border-white group rounded-full flex justify-center items-center ${data?.visa_status === 'PoliceVerification' ? 'bg-primary dark:bg-primary' : 'bg-white dark:bg-form-input '}`}>
                                                                 <MdOutlineLocalPolice className={`text-4xl ${data?.visa_status === 'PoliceVerification' ? 'text-white' : 'text-primary group-hover:text-white dark:text-slate-100'}`} />
                                                             </div>
                                                         </div>
-                                                        <p className="mt-2 text-center dark:text-slate-300">Step 3 </p>
+                                                        <p className="mt-2 text-center dark:text-slate-300">Step 4 </p>
                                                         <h3 className="text-xl font-medium text-black -mt-1 text-center dark:text-slate-100">Police verification</h3>
                                                     </li>
                                                     <li className="z-10 ">
                                                         <div className={`h-24 w-24 border-2 border-primary hover:bg-primary dark:hover:bg-primary hover:border-transparent hover:border-white group rounded-full flex justify-center items-center ${data?.visa_status === 'Approved' ? 'bg-primary dark:bg-primary' : 'bg-white dark:bg-form-input '}`}>
                                                             <SiTicktick className={`text-4xl ${data?.visa_status === 'Approved' ? 'text-white' : 'text-primary group-hover:text-white dark:text-slate-100'}`} />
                                                         </div>
-                                                        <p className="mt-2 text-center dark:text-slate-300">Step 4 </p>
+                                                        <p className="mt-2 text-center dark:text-slate-300">Step 5 </p>
                                                         <h3 className="text-xl font-medium text-black -mt-1 text-center dark:text-slate-100">Approved</h3>
                                                     </li>
                                                 </ul>
