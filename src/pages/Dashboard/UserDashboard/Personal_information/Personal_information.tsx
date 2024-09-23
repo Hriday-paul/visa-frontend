@@ -24,7 +24,7 @@ export type Inputs = {
     occupation: string;
     date_of_birth: string;
     state_province: string;
-    marital_status: 'Merit' | 'Unmerit';
+    marital_status: 'Single' | 'Married';
     educational_background: string;
     gender: 'Male' | 'Female' | 'Others',
     postal_code: number
@@ -54,7 +54,7 @@ export default function Personal_information() {
             occupation: draft?.occupation || '',
             date_of_birth: draft?.date_of_birth || '',
             state_province: draft?.state_province || '',
-            marital_status: draft?.marital_status || 'Unmerit',
+            marital_status: draft?.marital_status || 'Single',
             educational_background: draft?.educational_background || '',
             gender: draft?.gender || 'Male',
             postal_code: draft?.postal_code || 0

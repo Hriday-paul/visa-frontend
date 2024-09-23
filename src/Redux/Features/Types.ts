@@ -14,7 +14,7 @@ export type ApplicationResponseType = {
     occupation: string;
     date_of_birth: string;
     state_province: string;
-    marital_status: 'Merit' | 'Unmerit' | '';
+    marital_status: 'Married' | 'Single' | '';
     educational_background: string;
     postal_code : number
     gender: 'Male' | 'Female' | 'Others' | '',
@@ -78,7 +78,7 @@ export type EditApplicationResponseType = {
     occupation: string;
     date_of_birth: string;
     state_province: string;
-    marital_status: 'Merit' | 'Unmerit' | '';
+    marital_status: 'Married' | 'Single' | '';
     educational_background: string;
     gender: 'Male' | 'Female' | 'Others' | '',
     visa_type: 'Tourist' | 'Business' | 'Student' | 'Work' | 'Medical' | 'Family',
