@@ -113,13 +113,9 @@ export default function Visa_information() {
                             />
                         )}
                     />
-
-
                 </div>
 
-
                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-
                     <Controller
                         name="passport_expiry_date"
                         control={control}

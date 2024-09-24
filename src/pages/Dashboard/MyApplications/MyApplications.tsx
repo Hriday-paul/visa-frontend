@@ -1,13 +1,12 @@
 import { useCookies } from "react-cookie";
 import { useMyallApplicationsQuery } from "../../../Redux/Features/BaseApi"
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../Redux/Store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Redux/Store";
 import { Link } from "react-router-dom";
 import AdminLoading from "../../../components/Shared/AdminLoading";
 import AdminError from "../../../components/Shared/AdminError";
 import { DataTable } from "mantine-datatable";
 import moment from "moment";
-import { addAllInfo } from "../../../Redux/Slices/EditApplicationSlice";
 import DownloadPdf from "../../Print/DownloadPdf";
 
 
@@ -16,7 +15,7 @@ export default function MyApplications() {
     const token = cookies["baerer-token"];
     const user = useSelector((state: RootState) => state?.user);
     const { isLoading, isError, isSuccess, data: applications } = useMyallApplicationsQuery({ token, userId: user?.id })
-    const dispatch = useDispatch<AppDispatch>();
+   
 
     return (
         <div>
@@ -61,7 +60,7 @@ export default function MyApplications() {
                                             title: 'Actions',
                                             render: (application) => (
                                                 <div className="flex items-center space-x-3.5">
-                                                    <Link onClick={() => dispatch(addAllInfo(application))} to={`/dashboard/my-applications/${application?.encoded_id}`} className=" bg-primary text-white p-3 hover:opacity-80">
+                                                    <Link to={`/dashboard/my-applications/${application?.encoded_id}`} className=" bg-primary text-white p-3 hover:opacity-80">
                                                         <svg
                                                             className="fill-current"
                                                             width="18"

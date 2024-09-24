@@ -326,11 +326,11 @@ export default function Personal_information() {
                                 <div>
                                     <div className="flex items-center gap-x-2">
                                         <div className="flex items-center">
-                                            <input defaultChecked={draft?.marital_status == 'Merit'} id="marit" type="radio" value="Merit" className="w-5 h-5 text-primary bg-transparent border-gray-300 focus:ring-primary dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" {...register('marital_status', { required: 'Choose your marital_status' })} />
+                                            <input defaultChecked={draft?.marital_status == 'Married'} id="marit" type="radio" value="Married" className="w-5 h-5 text-primary bg-transparent border-gray-300 focus:ring-primary dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" {...register('marital_status', { required: 'Choose your marital_status' })} />
                                             <label htmlFor="marit" className="ms-1 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-pointer">Married</label>
                                         </div>
                                         <div className="flex items-center">
-                                            <input defaultChecked={draft?.marital_status == 'Unmerit'} id="unmerit" type="radio" value="Unmerit" className="w-5 h-5 text-primary bg-transparent border-gray-300 focus:ring-primary dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" {...register('marital_status', { required: 'Choose your marital_status' })} />
+                                            <input defaultChecked={draft?.marital_status == 'Single'} id="unmerit" type="radio" value="Single" className="w-5 h-5 text-primary bg-transparent border-gray-300 focus:ring-primary dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" {...register('marital_status', { required: 'Choose your marital_status' })} />
                                             <label htmlFor="unmerit" className="ms-1 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-pointer">Unmarried</label>
                                         </div>
                                     </div>

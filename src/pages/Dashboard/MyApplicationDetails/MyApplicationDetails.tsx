@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { useApplicationDetailsQuery } from "../../../Redux/Features/BaseApi";
 import { useCookies } from "react-cookie";
 import AdminError from "../../../components/Shared/AdminError";
@@ -7,7 +7,6 @@ import { MdEmail, MdPhoneInTalk } from "react-icons/md";
 import FileCard from "../../Admin/ApplicationDetails/FileCard";
 import { CiEdit } from "react-icons/ci";
 import { useRef } from "react";
-import EditApplication from "../EditApplication/EditApplication";
 import { IoCalendarNumberSharp } from "react-icons/io5";
 import InterviewDatePicker from "./Template/InterviewDatePicker";
 import moment from "moment";
@@ -15,17 +14,23 @@ import PersonalInfo from "../../../components/Shared/ApplicantDetails/PersonalIn
 import VisaInfo from "../../../components/Shared/ApplicantDetails/VisaInfo";
 import PassportInfo from "../../../components/Shared/ApplicantDetails/PassportInfo";
 import ImergencyInfo from "../../../components/Shared/ApplicantDetails/ImergencyInfo";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../Redux/Store";
+import { addAllInfo } from "../../../Redux/Slices/EditApplicationSlice";
 
 export default function MyApplicationDetails() {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
     const params = useParams();
     const { isLoading, isError, isSuccess, data: applicationDetails } = useApplicationDetailsQuery({ id: params?.id || 0, token });
-    const modalRef = useRef<HTMLDialogElement | null>(null);
     const interviewModalRef = useRef<HTMLDialogElement | null>(null);
+    const navig = useNavigate();
+    const location = useLocation();
+    const dispatch = useDispatch<AppDispatch>();
 
-    const openModal = () => {
-        modalRef?.current?.showModal()
+    const handleEdit = () => {
+        if(applicationDetails) dispatch(addAllInfo(applicationDetails))
+        navig('/applications/' + params?.id + '/edit?back='+location?.pathname)
     }
 
     const openInterviewModal = () => {
@@ -53,7 +58,7 @@ export default function MyApplicationDetails() {
                                                 <p className="text-base text-graydark dark:text-slate-200">{applicationDetails?.phone_number}</p>
                                             </li>
                                             {
-                                                applicationDetails?.appointment.length > 0  && <li className="flex items-center gap-x-2 mt-1">
+                                                applicationDetails?.appointment.length > 0 && <li className="flex items-center gap-x-2 mt-1">
                                                     <IoCalendarNumberSharp className="text-lg text-graydark  dark:text-slate-200" />
                                                     <p className="text-base text-graydark dark:text-slate-200">{moment(applicationDetails?.appointment[0]?.interview_date).format('L')}</p>
                                                     <p className="text-base text-graydark dark:text-slate-200">{applicationDetails?.appointment[0]?.start_time}</p>
@@ -95,20 +100,10 @@ export default function MyApplicationDetails() {
                                         }
                                     </div>
                                     <div className={applicationDetails?.is_modified ? 'block' : 'hidden'}>
-                                        <button onClick={openModal} disabled={!applicationDetails?.is_modified} className="inline-flex items-center justify-center gap-x-1 rounded bg-primary py-2 px-3 text-center font-medium text-white hover:bg-opacity-90 lg:px-5 m-1 cursor-pointer border-0 outline-none">
+                                        <button onClick={handleEdit} disabled={!applicationDetails?.is_modified} className="inline-flex items-center justify-center gap-x-1 rounded bg-primary py-2 px-3 text-center font-medium text-white hover:bg-opacity-90 lg:px-5 m-1 cursor-pointer border-0 outline-none">
                                             Edit
                                             <CiEdit />
                                         </button>
-
-                                        <dialog ref={modalRef} id="my_modal_2" className="modal z-10">
-                                            <div className="modal-box w-11/12 lg:w-8/12 xl:w-11/12 max-w-4xl">
-                                                <h3 className="text-lg mb-5">Edit application</h3>
-                                                <EditApplication />
-                                            </div>
-                                            <form method="dialog" className="modal-backdrop">
-                                                <button>close</button>
-                                            </form>
-                                        </dialog>
                                     </div>
                                 </div>
                             </div>
@@ -118,17 +113,17 @@ export default function MyApplicationDetails() {
                                 {/* // left side section  */}
                                 <div>
                                     {/* //personal details */}
-                                    <PersonalInfo applicationDetails={applicationDetails}/>
+                                    <PersonalInfo applicationDetails={applicationDetails} />
                                     {/* // visa details  */}
-                                    <VisaInfo applicationDetails={applicationDetails}/>
+                                    <VisaInfo applicationDetails={applicationDetails} />
                                 </div>
 
                                 {/* // right side section */}
                                 <div>
                                     {/* // passport information  */}
-                                    <PassportInfo applicationDetails={applicationDetails}/>
+                                    <PassportInfo applicationDetails={applicationDetails} />
                                     {/* // imargency contact  */}
-                                    <ImergencyInfo applicationDetails={applicationDetails}/>
+                                    <ImergencyInfo applicationDetails={applicationDetails} />
                                     {/* files  */}
                                     <div className="rounded-md border border-stroke bg-white dark:border-strokedark dark:bg-boxdark my-4 mt-8">
                                         <div className="border-b border-stroke p-3 dark:border-strokedark bg-slate-50 dark:bg-boxdark">

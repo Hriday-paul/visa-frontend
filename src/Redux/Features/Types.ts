@@ -93,10 +93,10 @@ export type EditApplicationResponseType = {
     passport_issue_date: string;
     passport_expiry_date: string;
     country_of_passport_issuance: string;
-    user_photo: string | File;
-    passport_front_photo: string | File;
-    passport_back_photo: string | File;
-    health_ensurence: string | File;
-    travel_insurance: string | File;
-    applicant_signature: string | File;
+    user_photo: string;
+    passport_front_photo: string;
+    passport_back_photo: string;
+    health_ensurence: string;
+    travel_insurance: string;
+    applicant_signature: string;
 }

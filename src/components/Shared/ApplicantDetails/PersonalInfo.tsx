@@ -11,7 +11,7 @@ interface personInfoTypes {
     occupation: string;
     date_of_birth: string;
     state_province: string;
-    marital_status: 'Merit' | 'Unmerit' | '';
+    marital_status: 'Single' | 'Married' | '';
     educational_background: string;
     postal_code: number;
     gender: 'Male' | 'Female' | 'Others' | '',

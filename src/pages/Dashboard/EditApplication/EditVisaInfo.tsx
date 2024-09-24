@@ -7,6 +7,8 @@ import { GrFormNextLink } from 'react-icons/gr';
 import countryList from 'react-select-country-list';
 import "flatpickr/dist/themes/material_green.css";
 import { editVisaInfoApplication } from '../../../Redux/Slices/EditApplicationSlice';
+import "flatpickr/dist/themes/material_green.css";
+import Flatpickr from "react-flatpickr";
 
 const EditVisaInfo = React.memo(({ setEditApplicationStep }: { setEditApplicationStep: React.Dispatch<React.SetStateAction<number>> }) => {
     const dispatch = useDispatch<AppDispatch>();
@@ -38,45 +40,96 @@ const EditVisaInfo = React.memo(({ setEditApplicationStep }: { setEditApplicatio
 
     return (
         <div>
-            <form className="p-3 md:p-4 xl:p-6.5 " onSubmit={handleSubmit(handleEditVisaInfo)}>
-
+            <form className="p-3 md:p-4 xl:p-6.5 rounded-sm border border-stroke" onSubmit={handleSubmit(handleEditVisaInfo)}>
                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                     <div className="w-full xl:w-1/2">
                         <label className="mb-2.5 block text-black dark:text-white">
                             Passport number
+                            <span className="text-red-500 text-base ml-1">*</span>
                         </label>
                         <input
-                            type="text"
-                            {...register("passport_no", { required: true })}
-                            placeholder="enter your passport no"
+                            type="number"
+                            {...register("passport_no", { required: true, pattern: /(?=.*?[0-9])/, })}
+                            placeholder="Enter your passport no"
                             className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.passport_no ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
                         />
                     </div>
 
-
-                    <div className="w-full xl:w-1/2">
+                    {/* <div className="w-full xl:w-1/2">
                         <label className="mb-2.5 block text-black dark:text-white">
                             Passport Issue Date
+                            <span className="text-red-500 text-base ml-1">*</span>
                         </label>
                         <input {...register("passport_issue_date", { required: true })} defaultValue={draft?.passport_issue_date} type="date" className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.passport_issue_date ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`} />
-                    </div>
+                    </div> */}
 
+                    <Controller
+                        name="passport_issue_date"
+                        control={control}
+                        rules={{ required: "passport_issue_date is required" }}
+                        render={({ field }) => (
+                            <Flatpickr
+                                placeholder='YYYY-MM-DD'
+                                defaultValue={draft?.passport_issue_date || ''}
+                                onChange={(_, str) => {
+                                    field.onChange(str)
+                                }}
+                                options={{
+                                    maxDate: 'today'
+                                }}
+                                render={
+                                    ({ defaultValue }, ref) => {
+                                        return <div className='w-full xl:w-1/2'>
+                                            <label className="mb-2.5 block text-black dark:text-white" >
+                                                Passport Issued Date
+                                                <span className="text-red-500 text-base ml-1">*</span>
+                                            </label>
+                                            <input placeholder='YYYY-MM-DD' defaultValue={defaultValue} ref={ref} className={`form-datepicker w-full rounded border-[1.5px] bg-transparent px-5 py-3 font-normal outline-none transition dark:bg-form-input ${errors?.passport_issue_date ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`} />
+                                        </div>
+                                    }
+                                }
+                            />
+                        )}
+                    />
 
                 </div>
 
 
                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
 
-                    <div className="w-full xl:w-1/2">
-                        <label className="mb-2.5 block text-black dark:text-white">
-                            Passport Expiry Date
-                        </label>
-                        <input {...register("passport_expiry_date", { required: true })} defaultValue={draft?.passport_expiry_date} type="date" className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.passport_expiry_date ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`} />
-                    </div>
+                    <Controller
+                        name="passport_expiry_date"
+                        control={control}
+                        rules={{ required: "passport_expiry_date is required" }}
+                        render={({ field }) => (
+                            <Flatpickr
+                                placeholder='YYYY-MM-DD'
+                                defaultValue={draft?.passport_expiry_date || ''}
+                                onChange={(_, str) => {
+                                    field.onChange(str)
+                                }}
+                                options={{
+                                    minDate: "today",
+                                }}
+                                render={
+                                    ({ defaultValue }, ref) => {
+                                        return <div className='w-full xl:w-1/2'>
+                                            <label className="mb-2.5 block text-black dark:text-white" >
+                                                Passport Expairy Date
+                                                <span className="text-red-500 text-base ml-1">*</span>
+                                            </label>
+                                            <input placeholder='YYYY-MM-DD' ref={ref} defaultValue={defaultValue} className={`form-datepicker w-full rounded border-[1.5px] bg-transparent px-5 py-3 font-normal outline-none transition dark:bg-form-input ${errors?.passport_expiry_date ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`} />
+                                        </div>
+                                    }
+                                }
+                            />
+                        )}
+                    />
 
                     <div>
                         <label className="mb-3 block text-black dark:text-white">
                             Country of passport issuance
+                            <span className="text-red-500 text-base ml-1">*</span>
                         </label>
 
                         <div className="relative z-20 bg-white dark:bg-form-input">
@@ -163,9 +216,6 @@ const EditVisaInfo = React.memo(({ setEditApplicationStep }: { setEditApplicatio
                     </div>
 
                 </div>
-
-
-
 
                 <div className="flex flex-row items-center gap-x-5 justify-end">
                     <span

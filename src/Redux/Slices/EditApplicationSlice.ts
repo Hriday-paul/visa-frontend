@@ -111,8 +111,17 @@ const EditApplicationSlice = createSlice({
             state.passport_expiry_date = payload.passport_expiry_date;
             state.country_of_passport_issuance = payload.country_of_passport_issuance;
         },
+        editDocument: (
+            state,
+            { payload }: PayloadAction<{
+                key: 'user_photo' | 'passport_front_photo' | 'passport_back_photo' | 'health_ensurence' | 'travel_insurance' | 'applicant_signature';
+                value: string;
+            }>
+        ) => {
+            state[payload.key] = payload.value;
+        }
     }
 });
 
-export const { addAllInfo, editPersonalInfoApplication, editTravelInfoApplication, editVisaInfoApplication } = EditApplicationSlice.actions
+export const { addAllInfo, editPersonalInfoApplication, editTravelInfoApplication, editVisaInfoApplication, editDocument } = EditApplicationSlice.actions
 export default EditApplicationSlice.reducer;

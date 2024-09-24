@@ -48,7 +48,7 @@ const EditPersonalInfo = React.memo(({ setEditApplicationStep }: { setEditApplic
     return (
         <div>
             <form onSubmit={handleSubmit(handleEditPersonalInfo)}>
-                <div className="p-3 md:p-4 xl:p-6.5 z-1">
+                <div className="p-3 md:p-4 xl:p-6.5 z-1 rounded-sm border border-stroke">
 
                     <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                         <div className="w-full xl:w-1/2">
@@ -210,15 +210,32 @@ const EditPersonalInfo = React.memo(({ setEditApplicationStep }: { setEditApplic
                     </div>
 
                     <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                        {/* <DatePicker control={control} defaultValue={draft?.date_of_birth} title="Date of Birth" errors={errors} /> */}
 
-                        <div className="w-full xl:w-1/2">
-                            <label className="mb-2.5 block text-black dark:text-white">
-                                Date of Birth
-                                <span className="text-red-500 text-base ml-1">*</span>
-                            </label>
-                            <input {...register("date_of_birth", { required: true })} defaultValue={draft?.date_of_birth} type="date" className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.date_of_birth ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`} />
-                        </div>
+                        <Controller
+                            name="date_of_birth"
+                            control={control}
+                            rules={{ required: "date_of_birth is required" }}
+                            render={({ field }) => (
+                                <Flatpickr
+                                    placeholder='YYYY-MM-DD'
+                                    defaultValue={draft?.date_of_birth}
+                                    onChange={(_, str) => {
+                                        field.onChange(str)
+                                    }}
+                                    render={
+                                        ({ defaultValue }, ref) => {
+                                            return <div className='w-full xl:w-1/2'>
+                                                <label className="mb-2.5 block text-black dark:text-white" >
+                                                    Date Of Birth
+                                                    <span className="text-red-500 text-base ml-1">*</span>
+                                                </label>
+                                                <input placeholder='YYYY-MM-DD' defaultValue={defaultValue} ref={ref} className={`form-datepicker w-full rounded border-[1.5px] bg-transparent px-5 py-3 font-normal outline-none transition dark:bg-form-input ${errors?.date_of_birth ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`} />
+                                            </div>
+                                        }
+                                    }
+                                />
+                            )}
+                        />
 
                         <div className="w-full xl:w-1/2">
                             <div>
@@ -281,6 +298,7 @@ const EditPersonalInfo = React.memo(({ setEditApplicationStep }: { setEditApplic
                         <div className="w-full xl:w-1/2">
                             <label className="mb-2.5 block text-black dark:text-white">
                                 Occupation
+                                <span className="text-red-500 text-base ml-1">*</span>
                             </label>
                             <input
                                 type="text"
@@ -292,17 +310,18 @@ const EditPersonalInfo = React.memo(({ setEditApplicationStep }: { setEditApplic
                         <div className="w-full xl:w-1/2">
                             <p className="mb-2.5 block text-black dark:text-white">
                                 Merital status
+                                <span className="text-red-500 text-base ml-1">*</span>
                             </p>
 
                             <div>
                                 <div className="flex items-center gap-x-2">
                                     <div className="flex items-center">
                                         <input defaultChecked={draft?.marital_status == 'Married'} id="marit" type="radio" value="Married" className="w-5 h-5 text-primary bg-transparent border-gray-300 focus:ring-primary dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" {...register('marital_status', { required: 'Choose your marital_status' })} />
-                                        <label htmlFor="marit" className="ms-1 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-pointer">Marit</label>
+                                        <label htmlFor="marit" className="ms-1 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-pointer">Married</label>
                                     </div>
                                     <div className="flex items-center">
                                         <input defaultChecked={draft?.marital_status == 'Single'} id="unmerit" type="radio" value="Single" className="w-5 h-5 text-primary bg-transparent border-gray-300 focus:ring-primary dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 cursor-pointer" {...register('marital_status', { required: 'Choose your marital_status' })} />
-                                        <label htmlFor="unmerit" className="ms-1 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-pointer">Unmerit</label>
+                                        <label htmlFor="unmerit" className="ms-1 text-sm font-medium text-gray-400 dark:text-gray-500 cursor-pointer">Single</label>
                                     </div>
                                 </div>
                                 {errors?.marital_status && <p className="text-xs text-red-500 mt-1.5">Choose your marital status</p>}
