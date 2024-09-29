@@ -15,6 +15,7 @@ import '@mantine/dates/styles.css';
 import { useDebouncedValue } from '@mantine/hooks';
 import PrintApplication from "../../Dashboard/MyApplications/PrintApplication";
 import DownloadPdf from "../../Print/DownloadPdf";
+import { FaDownload } from "react-icons/fa";
 
 export default function AllAppplicatons() {
     const [cookies] = useCookies(['baerer-token']);
@@ -226,7 +227,11 @@ export default function AllAppplicatons() {
                                                         </svg>
                                                     </Link>
                                                     <PrintApplication application={application} />
-                                                    <DownloadPdf applicationDetails={application} />
+                                                    <DownloadPdf applicationDetails={application}>
+                                                        <button className=" bg-primary text-white p-3 hover:opacity-80">
+                                                            <FaDownload className='text-lg text-white' />
+                                                        </button>
+                                                    </DownloadPdf>
                                                     <DeleteApplication id={application?.id} />
                                                 </div>
                                             ),

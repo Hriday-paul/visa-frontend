@@ -294,14 +294,14 @@ const baseApi = createApi({
                 body: { email, password }
             }),
         }),
-        addNewInterviewSchedule: builder.mutation<{ message: string }, { start_date: string, end_date: string, total_interview: string, token: string }>({
-            query: ({ token, start_date, end_date, total_interview }) => ({
+        addNewInterviewSchedule: builder.mutation<{ message: string }, { start_date: string, start_time : string; end_time : string; end_date: string, total_interview: string, token: string }>({
+            query: ({ token, start_date, end_date, total_interview, start_time, end_time }) => ({
                 url: `/interview/interview_admin/`,
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
-                body: { start_date, end_date, total_interview: parseInt(total_interview) }
+                body: { start_date, end_date, total_interview: parseInt(total_interview), start_time, end_time }
             }),
             invalidatesTags: ['interView_dates'],
         }),

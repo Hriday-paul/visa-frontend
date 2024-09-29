@@ -8,6 +8,7 @@ import AdminError from "../../../components/Shared/AdminError";
 import { DataTable } from "mantine-datatable";
 import moment from "moment";
 import DownloadPdf from "../../Print/DownloadPdf";
+import { FaDownload } from "react-icons/fa";
 
 
 export default function MyApplications() {
@@ -15,7 +16,7 @@ export default function MyApplications() {
     const token = cookies["baerer-token"];
     const user = useSelector((state: RootState) => state?.user);
     const { isLoading, isError, isSuccess, data: applications } = useMyallApplicationsQuery({ token, userId: user?.id })
-   
+
 
     return (
         <div>
@@ -79,8 +80,12 @@ export default function MyApplications() {
                                                             />
                                                         </svg>
                                                     </Link>
-                                                    
-                                                    <DownloadPdf applicationDetails={application}/>
+
+                                                    <DownloadPdf applicationDetails={application}>
+                                                        <button className=" bg-primary text-white p-3 hover:opacity-80">
+                                                            <FaDownload className='text-lg text-white' />
+                                                        </button>
+                                                    </DownloadPdf>
 
                                                 </div>
                                             ),

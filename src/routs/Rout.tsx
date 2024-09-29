@@ -29,6 +29,7 @@ import SuccessApplication from "../pages/Dashboard/SuccessApplication/SuccessApp
 import InterviewScheduleCalander from "../pages/Admin/InterViewSchedules/InterviewScheduleCalander";
 import ReviewApplication from "../pages/Dashboard/UserDashboard/Application/ReviewApplication";
 import EditApplication from "../pages/Dashboard/EditApplication/EditApplication";
+import CreateSchedule from "../pages/Admin/CreateSchedule/CreateSchedule";
 
 const Rout = createBrowserRouter([
     {
@@ -129,6 +130,10 @@ const Rout = createBrowserRouter([
             {
                 path: '/admin/interview_schedules',
                 element: <AdminPrivate><InterviewScheduleCalander /></AdminPrivate>
+            },
+            {
+                path: '/admin/creat-schedule',
+                element: <AdminPrivate><CreateSchedule /></AdminPrivate>
             },
             {
                 path: '/admin/settings',

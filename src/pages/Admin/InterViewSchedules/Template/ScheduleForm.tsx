@@ -12,12 +12,14 @@ export type Inputs = {
     start_date: string,
     end_date: string;
     total_interview: string;
+    start_time: string;
+    end_time: string;
 }
 
 const ScheduleForm = React.memo(() => {
     const [cookies] = useCookies(['baerer-token']);
     const token = cookies["baerer-token"];
-    const [postSchedule, { isLoading, isError, isSuccess, error }] = useAddNewInterviewScheduleMutation();
+    const [postSchedule, { isLoading, isError, isSuccess }] = useAddNewInterviewScheduleMutation();
     const {
         register,
         handleSubmit,
@@ -32,11 +34,10 @@ const ScheduleForm = React.memo(() => {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success('Schedule added successfully');
+            toast.success('New schedule created successfully');
             reset()
         }
         if (isError) {
-            console.log(error)
             toast.error('Schedule added, try again')
         }
     }, [isSuccess, isError]);
@@ -101,7 +102,7 @@ const ScheduleForm = React.memo(() => {
                                             End Date
                                             <span className="text-red-500 text-base ml-1">*</span>
                                         </label>
-                                        <input placeholder='YYYY-MM-DD' defaultValue={defaultValue} ref={ref} className={`form-datepicker w-full rounded border-[1.5px] bg-transparent px-5 py-3 font-normal outline-none transition dark:bg-form-input dark:text-gray ${errors?.start_date ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`} />
+                                        <input placeholder='YYYY-MM-DD' defaultValue={defaultValue} ref={ref} className={`form-datepicker w-full rounded border-[1.5px] bg-transparent px-5 py-3 font-normal outline-none transition dark:bg-form-input dark:text-gray ${errors?.end_date ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`} />
                                     </div>
                                 }
                             }
@@ -111,12 +112,38 @@ const ScheduleForm = React.memo(() => {
 
                 <div className="w-full mb-4.5">
                     <label className="mb-2.5 block text-black dark:text-white">
+                        Interview Start Time
+                        <span className="text-red-500 text-base ml-1">*</span>
+                    </label>
+                    <input
+                        type="time"
+                        {...register("start_time", { required: true, min: 1 })}
+                        placeholder="Enter Daily Total InterView"
+                        className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.start_time ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
+                    />
+                </div>
+
+                <div className="w-full mb-4.5">
+                    <label className="mb-2.5 block text-black dark:text-white">
+                        Interview End Time
+                        <span className="text-red-500 text-base ml-1">*</span>
+                    </label>
+                    <input
+                        type="time"
+                        {...register("end_time", { required: true, min: 1 })}
+                        placeholder="Enter Daily Total InterView"
+                        className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.end_time ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
+                    />
+                </div>
+
+                <div className="w-full mb-4.5">
+                    <label className="mb-2.5 block text-black dark:text-white">
                         Daily Total Interview
                         <span className="text-red-500 text-base ml-1">*</span>
                     </label>
                     <input
                         type="number"
-                        defaultValue={20}
+                        defaultValue={10}
                         {...register("total_interview", { required: true, min: 1 })}
                         placeholder="Enter Daily Total InterView"
                         className={`w-full rounded border-[1.5px] bg-transparent py-3 px-5 text-black outline-none transition disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white ${errors?.total_interview ? 'border-red-500' : 'border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary'}`}
@@ -125,7 +152,7 @@ const ScheduleForm = React.memo(() => {
                 </div>
 
 
-                <button className="bg-primary border-none outline-none px-6 py-3 text-white rounded-full hover:bg-opacity-80 duration-200 cursor-pointer float-end">Create</button>
+                <button className="bg-primary border-none outline-none px-6 py-3 text-white rounded-full hover:bg-opacity-80 duration-200 cursor-pointer">Create</button>
 
 
             </form>

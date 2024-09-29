@@ -40,7 +40,6 @@ export default function ReviewApplication() {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success('Your application successfully');
             dispatch(resetApplication());
             dispatch(updateStep(0))
             navig(`/dashboard/my-applications/${data?.encoded_id}/success`)
@@ -52,10 +51,7 @@ export default function ReviewApplication() {
 
     useEffect(() => {
         if (step !== 4) {
-            if (step == 0) {
-                navig(`/dashboard/application`)
-            }
-            else {
+            if (step == 3) {
                 navig(`/dashboard/application/${step + 1}`)
             }
         }

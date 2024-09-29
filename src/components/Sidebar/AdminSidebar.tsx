@@ -1,10 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '/e-visa-logo.png';
-import { FiUsers } from 'react-icons/fi';
 import { FaWpforms } from 'react-icons/fa';
 import { LuLayoutDashboard } from 'react-icons/lu';
-import { IoCalendarNumberSharp, IoSettingsOutline } from 'react-icons/io5';
+import { IoCalendarNumberSharp, IoCreate, IoSettingsOutline } from 'react-icons/io5';
 
 interface SidebarProps {
     sidebarOpen: boolean;
@@ -13,7 +12,7 @@ interface SidebarProps {
 
 const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     const location = useLocation();
-    
+
     const { pathname } = location;
 
     const trigger = useRef<any>(null);
@@ -132,18 +131,19 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 </NavLink>
                             </li>
 
-                            {/* <!-- Menu Item Calendar --> */}
-                            {/* <li>
+                            <li>
                                 <NavLink
-                                    to="/dashboard/support"
-                                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname == '/dashboard/support' &&
+                                    to="/admin/creat-schedule"
+                                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname == '/admin/creat-schedule' &&
                                         'bg-graydark dark:bg-meta-4'
                                         }`}
                                 >
-                                    <BiSupport className='text-white h-4 w-4' />
-                                    Support
+                                    <IoCreate className='text-white h-4 w-4' />
+                                    Create Schedules
                                 </NavLink>
-                            </li> */}
+                            </li>
+
+
                             <li>
                                 <NavLink
                                     to="/admin/interview_schedules"
@@ -155,18 +155,6 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                     Interview Schedules
                                 </NavLink>
                             </li>
-                            <li>
-                                <NavLink
-                                    to="/admin/users"
-                                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname == '/admin/users' &&
-                                        'bg-graydark dark:bg-meta-4'
-                                        }`}
-                                >
-                                    <FiUsers className='text-white h-4 w-4' />
-                                    Users
-                                </NavLink>
-                            </li>
-
 
                         </ul>
                     </div>

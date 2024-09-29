@@ -1,6 +1,5 @@
 import { Page, Text, View, Document, StyleSheet, PDFDownloadLink, Image } from '@react-pdf/renderer';
 import { ApplicationResponseType } from '../../Redux/Features/Types';
-import { FaDownload } from 'react-icons/fa';
 import React from 'react';
 
 
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
 });
 
 // Create a Document component
-const MyDocument = ({ data }: { data: ApplicationResponseType }) => (
+const MyDocument = ({ data }: { data: ApplicationResponseType}) => (
     <Document>
         <Page style={styles.page}>
             <View style={styles.container}>
@@ -292,19 +291,15 @@ const MyDocument = ({ data }: { data: ApplicationResponseType }) => (
     </Document>
 );
 
-const DownloadPdf = React.memo(({ applicationDetails }: { applicationDetails: ApplicationResponseType }) => {
+const DownloadPdf = React.memo(({ applicationDetails, children }: { applicationDetails: ApplicationResponseType, children : React.ReactNode  }) => {
     return (
         <div>
             <PDFDownloadLink document={<MyDocument data={applicationDetails} />} fileName="e-visa.pdf">
                 {({ loading }) =>
                     loading ?
-                        <button className=" bg-primary text-white p-3 hover:opacity-80">
-                            <FaDownload className='text-lg text-white' />
-                        </button>
+                        children
                         :
-                        <button className=" bg-primary text-white p-3 hover:opacity-80">
-                            <FaDownload className='text-lg text-white' />
-                        </button>
+                        children
                 }
             </PDFDownloadLink>
         </div>
