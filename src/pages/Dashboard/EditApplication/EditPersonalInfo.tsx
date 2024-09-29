@@ -100,7 +100,6 @@ const EditPersonalInfo = React.memo(({ setEditApplicationStep }: { setEditApplic
                                     render={({ field }) => (
                                         <PhoneInput
                                             {...field}
-                                            defaultCountry="BD"
                                             international
                                             withCountryCallingCode
                                             onChange={field.onChange}

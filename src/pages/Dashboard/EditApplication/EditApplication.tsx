@@ -38,8 +38,8 @@ const EditApplication = React.memo(() => {
 
   return (
     <div className=''>
-      <div className='w-full bg-white dark:bg-graydark py-5 shadow'>
-        <div className=' max-w-7xl mx-auto px-4 flex flex-row justify-between items-center'>
+      <div className='w-full bg-white dark:bg-graydark py-5 shadow  sticky top-0 left-0 z-1'>
+        <div className='max-w-7xl mx-auto px-4 flex flex-row justify-between items-center'>
           <h4 className='text-lg lg:text-xl text-graydark dark:text-stroke font-medium'>Edit Your Application</h4>
           <button
             onClick={handleCencel}
